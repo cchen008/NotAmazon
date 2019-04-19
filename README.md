@@ -1,4 +1,4 @@
-# Software-Engineering
+# NotAmazon
 #
 # Changelog (4/15/19)
 # -Discussed design constraints, images, main page display, and user-specific pages.
