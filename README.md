@@ -1,8 +1,5 @@
 # Software-Engineering
 #
-#
-#
-#
 # Changelog (4/15/19)
 # -Discussed design constraints, images, main page display, and user-specific pages.
 # -Evaluate the GUI for any needed changes.
