@@ -1,5 +1,9 @@
 # NotAmazon
-  Changelog(4/19/19)
+  Changelog (4/29/29)
+  ```
+  -Added FirstScene,SecondScene, and ThirdScene as shown prototypes.
+  ```
+  Changelog (4/19/19)
   ```
   -Changes to design goal, if an admin sends a warning, the user will recieve a dialog 
   and the warning can be read in messages.
