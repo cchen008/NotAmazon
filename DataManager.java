@@ -20,10 +20,17 @@ public class DataManager{
             //database & tables
             
             String createUserTable = "CREATE TABLE IF NOT EXISTS User("
-            + "username VARCHAR(128) PRIMARY KEY NOT NULL,"
-            + "password VARCHAR(128),"
+            + "user_id INT PRIMARY KEY NOT NULL,"
             + "name VARCHAR(128),"
+            + "password VARCHAR(128),"
+            + "phone_num INT,"
+            + "card_num INT,"
             + "address VARCHAR(128));";
+            
+            String createSUTable = "CREATE TABLE IF NOT EXISTS SuperUser("
+            + "username VARCHAR(128) PRIMARY KEY NOT NULL,"
+            + "name VARCHAR(128),"
+            + "password VARCHAR(128));";
             
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -34,6 +41,7 @@ public class DataManager{
             statement = connection.createStatement();
             
             statement.executeUpdate(createUserTable);
+            statement.executeUpdate(createSUTable);
         }
         catch(Exception e){
             e.printStackTrace();
