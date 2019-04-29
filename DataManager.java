@@ -19,12 +19,12 @@ public class DataManager{
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
             String createUserTable = "CREATE TABLE IF NOT EXISTS User("
-                    + "username VARCHAR(128) PRIMARY KEY NOT NULL,"
-                    + "password VARCHAR(128),"
-                    + "name VARCHAR(128),"
-                    + "address VARCHAR(128)"
-                    + "phonenum INT,"
-                    + "credcard INT);";
+                + "user_id VARCHAR(30) PRIMARY KEY NOT NULL,"
+                + "first_name VARCHAR(30),"
+                + "last_name VARCHAR(30),"
+                + "address VARCHAR(30),"
+                + "phone_num VARCHAR(30),"
+                + "card_num VARCHAR (30));";
 
             String createAdminTable = "CREATE TABLE IF NOT EXISTS Admin("
                     + "username VARCHAR(128) PRIMARY KEY NOT NULL,"
@@ -78,15 +78,13 @@ public class DataManager{
     }
 
     //create new user
-    public static void createNewUser(String username, String password, String name, String address, String phonenum,
-                                     String credcard){
+    public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum, String creditNum){
         if(username.equals(""))
             return;
         try{
-            String insertNewUser = "INSERT IGNORE INTO User VALUES(\"" + username + "\",\"" + password + "\",\""
-                    + name + "\",\"" + address + "\",\"" + phonenum + "\",\"" + credcard + "\");";
+            String insertNewUser = "INSERT IGNORE INTO User VALUES(\"" + username + "\",\"" + firstName + "\",\"" + lastName + "\",\"" + address + "\",\"" + phoneNum + "\",\"" + creditNum + "\");";
             statement.executeUpdate(insertNewUser);
-
+            
         }catch(Exception expt){
             expt.printStackTrace();
         }
