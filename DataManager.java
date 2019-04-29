@@ -20,12 +20,12 @@ public class DataManager{
             //database & tables
             
             String createUserTable = "CREATE TABLE IF NOT EXISTS User("
-            + "user_id INT PRIMARY KEY NOT NULL,"
-            + "name VARCHAR(128),"
-            + "password VARCHAR(128),"
-            + "phone_num INT,"
-            + "card_num INT,"
-            + "address VARCHAR(128));";
+            + "user_id VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "first_name VARCHAR(30),"
+            + "last_name VARCHAR(30),"
+            + "address VARCHAR(30),"
+            + "phone_num VARCHAR(30),"
+            + "card_num VARCHAR (30));";
             
             String createSUTable = "CREATE TABLE IF NOT EXISTS SuperUser("
             + "username VARCHAR(128) PRIMARY KEY NOT NULL,"
@@ -46,5 +46,19 @@ public class DataManager{
         catch(Exception e){
             e.printStackTrace();
         }
+        
     }
+    
+    public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum, String creditNum){
+        if(username.equals(""))
+            return;
+        try{
+            String insertNewUser = "INSERT IGNORE INTO User VALUES(\"" + username + "\",\"" + firstName + "\",\"" + lastName + "\",\"" + address + "\",\"" + phoneNum + "\",\"" + creditNum + "\");";
+            statement.executeUpdate(insertNewUser);
+            
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+    
 }
