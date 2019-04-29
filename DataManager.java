@@ -43,6 +43,7 @@ public class DataManager{
 
             statement.executeUpdate(createUserTable);
             statement.executeUpdate(createAdminTable);
+            statement.executeUpdate(insertAdmin);
         }
 
         catch(Exception e){
