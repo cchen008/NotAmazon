@@ -210,8 +210,7 @@ public class NotAmazon extends Application{
             layout.add(address, 0, 4);
             layout.add(phonenum, 0, 5);
             layout.add(ccnum, 0, 6);
-            
-            
+
             layout.add(usr_TextField, 1, 1);
             layout.add(first_TextField, 1, 2);
             layout.add(last_TextField, 1, 3);
