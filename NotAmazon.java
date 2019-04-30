@@ -18,9 +18,9 @@ import javafx.scene.control.*;
 public class NotAmazon extends Application{
     
     private Stage window;
-    private FirstScene firstScene;
-    private SecondScene secondScene;
-    private ThirdScene thirdScene;
+    private MainPage mainPage;
+    private LoginPage loginScene;
+    private SignupPage signupScene;
     
     public static void main(String[]args){
         launch(args);
@@ -31,24 +31,24 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(firstScene);
+        window.setScene(mainPage);
         window.show();
     }
     
     public void initialize(){
         //sets up values for variables
         //N/A to be filled in later
-        firstScene = new FirstScene();
-        secondScene = new SecondScene();
-        thirdScene = new ThirdScene();
+        mainPage = new MainPage();
+        loginScene = new LoginPage();
+        signupScene = new SignupPage();
     }
-    /*
-     @Override
-     public void stop() {
-     DataManager.shutdown();
-     }
-     */
-    class FirstScene extends Scene{
+    
+    @Override
+    public void stop() {
+        DataManager.shutdown();
+    }
+    
+    class MainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
         MenuButton menu;
@@ -56,7 +56,7 @@ public class NotAmazon extends Application{
         MenuItem signup;
         
         
-        public FirstScene() {
+        public MainPage() {
             super(new GridPane(),400,400);
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
@@ -69,13 +69,13 @@ public class NotAmazon extends Application{
             menu.getItems().addAll(login, signup);
             
             login.setOnAction(event -> {
-                secondScene = new SecondScene();
-                window.setScene(secondScene);
+                loginScene = new LoginPage();
+                window.setScene(loginScene);
             });
             
             signup.setOnAction(event -> {
-                thirdScene = new ThirdScene();
-                window.setScene(thirdScene);
+                signupScene = new SignupPage();
+                window.setScene(signupScene);
             });
             //dropdown menu
             
@@ -89,7 +89,7 @@ public class NotAmazon extends Application{
         }
     }
     
-    class SecondScene extends Scene{
+    class LoginPage extends Scene{
         GridPane layout;
         Label login;
         Label user;
@@ -101,7 +101,7 @@ public class NotAmazon extends Application{
         HBox aBtn;
         HBox cBtn;
         
-        public SecondScene() {
+        public LoginPage() {
             super(new GridPane(),320,200);
             layout = (GridPane)this.getRoot();
             
@@ -124,7 +124,7 @@ public class NotAmazon extends Application{
             
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
-            cancelBtn.setOnAction(e -> window.setScene(firstScene));
+            cancelBtn.setOnAction(e -> window.setScene(mainPage));
             
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
@@ -144,7 +144,7 @@ public class NotAmazon extends Application{
         }
     }
     
-    class ThirdScene extends Scene{
+    class SignupPage extends Scene{
         GridPane layout;
         Label signup;
         Label user;
@@ -164,7 +164,7 @@ public class NotAmazon extends Application{
         HBox aBtn;
         HBox cBtn;
         
-        public ThirdScene() {
+        public SignupPage() {
             super(new GridPane(),400,400);
             layout = (GridPane)this.getRoot();
             
@@ -196,7 +196,7 @@ public class NotAmazon extends Application{
             
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
-            cancelBtn.setOnAction(e -> window.setScene(firstScene));
+            cancelBtn.setOnAction(e -> window.setScene(mainPage));
             
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
@@ -225,4 +225,3 @@ public class NotAmazon extends Application{
         }
     }
 }
-
