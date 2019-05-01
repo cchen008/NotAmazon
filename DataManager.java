@@ -32,9 +32,17 @@ public class DataManager{
             + "card_num VARCHAR (30));";
             
             String createAdminTable = "CREATE TABLE IF NOT EXISTS Super_User("
-            + "username VARCHAR(128) PRIMARY KEY NOT NULL,"
-            + "password VARCHAR(128),"
-            + "name VARCHAR(128));";
+            + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "password VARCHAR(30),"
+            + "name VARCHAR(30));";
+            
+            String createItemAppTable = "CREATE TABLE IF NOT EXISTS Item_Application("
+            + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "price DECIMAL(10,2));";
+            
+            String createItemTable = "CREATE TABLE IF NOT EXISTS Item("
+            + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "price DECIMAL(10,2));";
             
             String insertAdmin = "INSERT IGNORE INTO Super_User VALUES(\"admin\",\"password\", \"Super User\");";
             
@@ -49,6 +57,8 @@ public class DataManager{
             statement.executeUpdate(createUserAppTable);
             statement.executeUpdate(createUserTable);
             statement.executeUpdate(createAdminTable);
+            statement.executeUpdate(createItemAppTable);
+            statement.executeUpdate(createItemTable);
             statement.executeUpdate(insertAdmin);
         }
         
