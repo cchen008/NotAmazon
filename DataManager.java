@@ -9,13 +9,10 @@ public class DataManager{
     static{
         //connects to the database when loaded
         try{
-            //credentials
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
             String password = "3821";
-            //credentials
 
-            //database & tables
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
             String createUserTable = "CREATE TABLE IF NOT EXISTS User("
@@ -78,11 +75,13 @@ public class DataManager{
     }
 
     //create new user
-    public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum, String creditNum){
+    public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum,
+                                     String creditNum){
         if(username.equals(""))
             return;
         try{
-            String insertNewUser = "INSERT IGNORE INTO User VALUES(\"" + username + "\",\"" + firstName + "\",\"" + lastName + "\",\"" + address + "\",\"" + phoneNum + "\",\"" + creditNum + "\");";
+            String insertNewUser = "INSERT IGNORE INTO User VALUES(\"" + username + "\",\"" + firstName + "\",\""
+                    + lastName + "\",\"" + address + "\",\"" + phoneNum + "\",\"" + creditNum + "\");";
             statement.executeUpdate(insertNewUser);
             
         }catch(Exception expt){
@@ -91,7 +90,6 @@ public class DataManager{
     }
 
     //checks if username exists
-
     public static boolean isValidAdmin(String username, String password){
         try{
             int numberOfAdmins = 0;
