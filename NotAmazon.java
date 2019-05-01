@@ -187,36 +187,36 @@ public class NotAmazon extends Application{
             cancelBtn = new Button("Cancel");
             aBtn = new HBox(5);
             cBtn = new HBox(5);
-
-			applyBtn.setOnAction(e -> {
-				String tempUserName = usr_TextField.getText();
-				String tempFName = first_TextField.getText();
-				String tempLName = last_TextField.getText();
-				String tempAddress = addr_TextField.getText();
-				String tempPhone = phone_TextField.getText();
-				String tempCard = cc_TextField.getText();
-				if(!tempUserName.equals("") && !DataManager.isValidUsername(tempUserName)){
-					DataManager.createNewUser(tempUserName, tempFName, tempLName, tempAddress,
-							tempPhone, tempCard);
-					usr_TextField.setText("");
-					first_TextField.setText("");
-					last_TextField.setText("");
-					addr_TextField.setText("");
-					cc_TextField.setText("");
-					window.setScene(loginScene);
-				}
-			});
-
-			cancelBtn.setOnAction(e -> {
-				usr_TextField.setText("");
-				first_TextField.setText("");
-				last_TextField.setText("");
-				addr_TextField.setText("");
-				phone_TextField.setText("");
-				cc_TextField.setText("");
-				window.setScene(mainPage);
-			});
-
+            
+            applyBtn.setOnAction(e -> {
+                String tempUserName = usr_TextField.getText();
+                String tempFName = first_TextField.getText();
+                String tempLName = last_TextField.getText();
+                String tempAddress = addr_TextField.getText();
+                String tempPhone = phone_TextField.getText();
+                String tempCard = cc_TextField.getText();
+                if(!tempUserName.equals("") && !DataManager.isValidUsername(tempUserName)){
+                    DataManager.createNewUser(tempUserName, tempFName, tempLName, tempAddress,
+                                              tempPhone, tempCard);
+                    usr_TextField.setText("");
+                    first_TextField.setText("");
+                    last_TextField.setText("");
+                    addr_TextField.setText("");
+                    cc_TextField.setText("");
+                    window.setScene(loginScene);
+                }
+            });
+            
+            cancelBtn.setOnAction(e -> {
+                usr_TextField.setText("");
+                first_TextField.setText("");
+                last_TextField.setText("");
+                addr_TextField.setText("");
+                phone_TextField.setText("");
+                cc_TextField.setText("");
+                window.setScene(mainPage);
+            });
+            
             signup.setFont(Font.font("Segoe UI Bold",25));
             
             aBtn.setAlignment(Pos.BOTTOM_RIGHT);
