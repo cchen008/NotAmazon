@@ -58,6 +58,8 @@ public class NotAmazon extends Application{
     class GUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
+        Text recItemTitle;
+        Text popItemTitle;
         MenuButton menu;
         MenuItem login;
         MenuItem signup;
@@ -71,7 +73,12 @@ public class NotAmazon extends Application{
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            recItemTitle = new Text("Recommended");
+            popItemTitle = new Text("Popular");
             searchBar = new TextField();
+            
+            recItemTitle.setFont(Font.font("Segoe UI Bold",25));
+            popItemTitle.setFont(Font.font("Segoe UI Bold",25));
             
             searchBtn = new Button("Search");
             
@@ -101,6 +108,8 @@ public class NotAmazon extends Application{
             layout.add(menu, 4, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(recItemTitle, 0, 3, 2, 1);
+            layout.add(popItemTitle, 0, 26, 2, 1);
         }
     }
     
