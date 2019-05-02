@@ -54,13 +54,19 @@ public class NotAmazon extends Application{
         MenuButton menu;
         MenuItem login;
         MenuItem signup;
+        TextField searchBar;
+        Button searchBtn;
+        HBox sBtn;
         
         
         public MainPage() {
-            super(new GridPane(),400,400);
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            searchBar = new TextField();
+            
+            searchBtn = new Button("Search");
             
             //dropdown menu
             menu = new MenuButton("Select Action");
@@ -85,7 +91,9 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 0, 1, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
         }
     }
     
