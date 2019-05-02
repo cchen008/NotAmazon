@@ -65,7 +65,7 @@ public class NotAmazon extends Application{
         MenuItem signup;
         TextField searchBar;
         Button searchBtn;
-        HBox sBtn;
+        
         
         
         public GUMainPage() {
@@ -327,19 +327,57 @@ public class NotAmazon extends Application{
     
     class TransactionPage extends Scene{
         GridPane layout;
+        Text transTitle;
+        Button backBtn;
         
         public TransactionPage() {
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            transTitle = new Text("Transaction History");
+            backBtn = new Button("Back");
+            
+            transTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            backBtn.setOnAction(event -> {
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
+            });
+            
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            
+            layout.add(transTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 9, 26, 2, 1);
         }
     }
     
     class MyProfilePage extends Scene{
         GridPane layout;
+        Text myProfileTitle;
+        Button backBtn;
         
         public MyProfilePage(){
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            myProfileTitle = new Text("Temp Title");
+            backBtn = new Button("Back");
+            
+            myProfileTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            backBtn.setOnAction(event -> {
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
+            });
+            
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            
+            layout.add(myProfileTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 9, 26, 2, 1);
         }
     }
     
