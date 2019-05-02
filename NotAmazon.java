@@ -18,9 +18,13 @@ import javafx.scene.control.*;
 public class NotAmazon extends Application{
     
     private Stage window;
-    private MainPage mainPage;
+    private GUMainPage guMainScene;
     private LoginPage loginScene;
     private SignupPage signupScene;
+    private OUMainPage ouMainScene;
+    private TransactionPage transScene;
+    private MyProfilePage myProfileScene;
+    
     
     public static void main(String[]args){
         launch(args);
@@ -31,16 +35,19 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(mainPage);
+        window.setScene(guMainScene);
         window.show();
     }
     
     public void initialize(){
         //sets up values for variables
         //N/A to be filled in later
-        mainPage = new MainPage();
+        guMainScene = new GUMainPage();
         loginScene = new LoginPage();
         signupScene = new SignupPage();
+        ouMainScene = new OUMainPage();
+        transScene = new TransactionPage();
+        myProfileScene = new MyProfilePage();
     }
     
     @Override
@@ -48,7 +55,7 @@ public class NotAmazon extends Application{
         DataManager.shutdown();
     }
     
-    class MainPage extends Scene{
+    class GUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
         MenuButton menu;
@@ -59,7 +66,7 @@ public class NotAmazon extends Application{
         HBox sBtn;
         
         
-        public MainPage() {
+        public GUMainPage() {
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
@@ -132,7 +139,7 @@ public class NotAmazon extends Application{
             
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
-            cancelBtn.setOnAction(e -> window.setScene(mainPage));
+            cancelBtn.setOnAction(e -> window.setScene(guMainScene));
             
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
@@ -222,7 +229,7 @@ public class NotAmazon extends Application{
                 addr_TextField.setText("");
                 phone_TextField.setText("");
                 cc_TextField.setText("");
-                window.setScene(mainPage);
+                window.setScene(guMainScene);
             });
             
             signup.setFont(Font.font("Segoe UI Bold",25));
@@ -232,7 +239,7 @@ public class NotAmazon extends Application{
             
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
-            cancelBtn.setOnAction(e -> window.setScene(mainPage));
+            cancelBtn.setOnAction(e -> window.setScene(guMainScene));
             
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
@@ -259,4 +266,72 @@ public class NotAmazon extends Application{
             
         }
     }
+    
+    class OUMainPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        TextField searchBar;
+        Button searchBtn;
+        HBox sBtn;
+        
+        
+        public OUMainPage() {
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            window.setTitle("Not Amazon");
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            searchBar = new TextField();
+            
+            searchBtn = new Button("Search");
+            
+            //dropdown menu
+            menu = new MenuButton("Select Action");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            menu.getItems().addAll(profile, myTranHist);
+            
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+            
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+            //dropdown menu
+            
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+        }
+    }
+    
+    class TransactionPage extends Scene{
+        GridPane layout;
+        
+        public TransactionPage() {
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+        }
+    }
+    
+    class MyProfilePage extends Scene{
+        GridPane layout;
+        
+        public MyProfilePage(){
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+        }
+    }
+    
 }
