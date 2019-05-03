@@ -35,7 +35,7 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(guMainScene);
+        window.setScene(ouMainScene);
         window.show();
     }
     
@@ -145,6 +145,9 @@ public class NotAmazon extends Application{
             
             aBtn.setAlignment(Pos.BOTTOM_RIGHT);
             aBtn.getChildren().add(loginBtn);
+            loginBtn.setOnAction(event ->{
+                
+            });
             
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
@@ -279,9 +282,12 @@ public class NotAmazon extends Application{
     class OUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
+        Text recItemTitle;
+        Text popItemTitle;
         MenuButton menu;
         MenuItem profile;
         MenuItem myTranHist;
+        MenuItem signOut;
         TextField searchBar;
         Button searchBtn;
         HBox sBtn;
@@ -292,15 +298,23 @@ public class NotAmazon extends Application{
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            recItemTitle = new Text("Recommended");
+            popItemTitle = new Text("Popular");
+            
             searchBar = new TextField();
             
             searchBtn = new Button("Search");
+            
+            recItemTitle.setFont(Font.font("Segoe UI Bold",25));
+            popItemTitle.setFont(Font.font("Segoe UI Bold",25));
             
             //dropdown menu
             menu = new MenuButton("Select Action");
             profile = new MenuItem("Profile");
             myTranHist = new MenuItem("My Transaction History");
-            menu.getItems().addAll(profile, myTranHist);
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, signOut);
+            
             
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
@@ -311,7 +325,16 @@ public class NotAmazon extends Application{
                 transScene = new TransactionPage();
                 window.setScene(transScene);
             });
+            
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
             //dropdown menu
+            
+            searchBtn.setOnAction(event -> {
+                
+            });
             
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
@@ -322,6 +345,8 @@ public class NotAmazon extends Application{
             layout.add(menu, 4, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(recItemTitle, 0, 3, 2, 1);
+            layout.add(popItemTitle, 0, 26, 2, 1);
         }
     }
     
@@ -334,6 +359,7 @@ public class NotAmazon extends Application{
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             transTitle = new Text("Transaction History");
+            
             backBtn = new Button("Back");
             
             transTitle.setFont(Font.font("Segoe UI Bold",25));
