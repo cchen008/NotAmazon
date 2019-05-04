@@ -24,6 +24,8 @@ public class NotAmazon extends Application{
     private OUMainPage ouMainScene;
     private TransactionPage transScene;
     private MyProfilePage myProfileScene;
+    private GUSearchItemPage guSearchItemScene;
+    private OUSearchItemPage ouSearchItemScene;
     
     
     public static void main(String[]args){
@@ -48,6 +50,8 @@ public class NotAmazon extends Application{
         ouMainScene = new OUMainPage();
         transScene = new TransactionPage();
         myProfileScene = new MyProfilePage();
+        guSearchItemScene = new GUSearchItemPage();
+        ouSearchItemScene = new OUSearchItemPage();
     }
     
     @Override
@@ -81,6 +85,11 @@ public class NotAmazon extends Application{
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
             
             searchBtn = new Button("Search");
+            
+            searchBtn.setOnAction(event ->{
+            	guSearchItemScene = new GUSearchItemPage();
+            	window.setScene(guSearchItemScene);
+            });
             
             //dropdown menu
             menu = new MenuButton("Select Action");
@@ -290,7 +299,6 @@ public class NotAmazon extends Application{
         MenuItem signOut;
         TextField searchBar;
         Button searchBtn;
-        HBox sBtn;
         
         
         public OUMainPage() {
@@ -303,10 +311,15 @@ public class NotAmazon extends Application{
             
             searchBar = new TextField();
             
-            searchBtn = new Button("Search");
-            
             recItemTitle.setFont(Font.font("Segoe UI Bold",25));
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            searchBtn = new Button("Search");
+
+            searchBtn.setOnAction(event -> {
+            	ouSearchItemScene = new OUSearchItemPage();
+            	window.setScene(ouSearchItemScene);
+            });
             
             //dropdown menu
             menu = new MenuButton("Select Action");
@@ -332,9 +345,6 @@ public class NotAmazon extends Application{
             });
             //dropdown menu
             
-            searchBtn.setOnAction(event -> {
-                
-            });
             
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
@@ -407,4 +417,118 @@ public class NotAmazon extends Application{
         }
     }
     
+    class GUSearchItemPage extends Scene{
+    	GridPane layout;
+    	Text sceneTitle;
+    	Text searchResultTitle;
+    	MenuButton menu;
+        MenuItem login;
+        MenuItem signup;
+        TextField searchBar;
+        Button searchBtn;
+         
+    	public GUSearchItemPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            searchResultTitle = new Text("Search Results:");
+            searchBar = new TextField();
+            
+            searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            searchBtn = new Button("Search");
+            
+            
+            //dropdown menu
+            menu = new MenuButton("Select Action");
+            login = new MenuItem("Login");
+            signup = new MenuItem("Sign Up");
+            menu.getItems().addAll(login, signup);
+            
+            login.setOnAction(event -> {
+                loginScene = new LoginPage();
+                window.setScene(loginScene);
+            });
+            
+            signup.setOnAction(event -> {
+                signupScene = new SignupPage();
+                window.setScene(signupScene);
+            });
+            //dropdown menu
+            
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchResultTitle, 0, 3, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+    		
+    	}
+    }
+    
+    class OUSearchItemPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text searchResultTitle;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem signOut;
+        TextField searchBar;
+        Button searchBtn;
+         
+    	public OUSearchItemPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            searchResultTitle = new Text("Search Results:");
+            searchBar = new TextField();
+            
+            searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            searchBtn = new Button("Search");
+            
+          //dropdown menu
+            menu = new MenuButton("Select Action");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, signOut);
+            
+            
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+            
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+            
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+            //dropdown menu
+            
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchResultTitle, 0, 3, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+    		
+    	}
+    }
 }
