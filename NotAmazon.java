@@ -26,6 +26,7 @@ public class NotAmazon extends Application{
     private MyProfilePage myProfileScene;
     private GUSearchItemPage guSearchItemScene;
     private OUSearchItemPage ouSearchItemScene;
+    private SUMainPage suMainScene;
     
     
     public static void main(String[]args){
@@ -52,6 +53,7 @@ public class NotAmazon extends Application{
         myProfileScene = new MyProfilePage();
         guSearchItemScene = new GUSearchItemPage();
         ouSearchItemScene = new OUSearchItemPage();
+        suMainScene = new SUMainPage();
     }
     
     @Override
@@ -293,6 +295,9 @@ public class NotAmazon extends Application{
         Text sceneTitle;
         Text recItemTitle;
         Text popItemTitle;
+        Text sellTitle;
+        Text bidTitle;
+        Text friendTitle;
         MenuButton menu;
         MenuItem profile;
         MenuItem myTranHist;
@@ -308,11 +313,17 @@ public class NotAmazon extends Application{
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
             recItemTitle = new Text("Recommended");
             popItemTitle = new Text("Popular");
+            sellTitle = new Text("Sell");
+            bidTitle = new Text("Bid");
+            friendTitle = new Text("Friend");
             
             searchBar = new TextField();
             
             recItemTitle.setFont(Font.font("Segoe UI Bold",25));
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
+            sellTitle.setFont(Font.font("Segoe UI Bold",25));
+            bidTitle.setFont(Font.font("Segoe UI Bold",25));
+            friendTitle.setFont(Font.font("Segoe UI Bold",25));
             
             searchBtn = new Button("Search");
 
@@ -357,6 +368,9 @@ public class NotAmazon extends Application{
             layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(recItemTitle, 0, 3, 2, 1);
             layout.add(popItemTitle, 0, 26, 2, 1);
+            layout.add(sellTitle, 2, 3, 2, 1);
+            layout.add(bidTitle, 2, 17, 2, 1);
+            layout.add(friendTitle, 2, 30, 2, 1);
         }
     }
     
@@ -529,6 +543,84 @@ public class NotAmazon extends Application{
             layout.add(searchResultTitle, 0, 3, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
     		
+    	}
+    }
+
+    class SUMainPage extends Scene{
+    	GridPane layout;
+        Text sceneTitle;
+        Text pendAppTitle;
+        Text pendItemAppTitle;
+        Text reportTitle;
+        Text blackListTitle;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem signOut;
+        TextField searchBar;
+        Button searchBtn;
+        
+    	public SUMainPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            pendAppTitle = new Text("Pending Apps");
+            reportTitle = new Text("Report/Warnings");
+            pendItemAppTitle = new Text("Pending Items Apps");
+            blackListTitle = new Text("BlackListed Item");
+            
+            searchBar = new TextField();
+            
+            pendAppTitle.setFont(Font.font("Segoe UI Bold",25));
+            reportTitle.setFont(Font.font("Segoe UI Bold",25));
+            pendItemAppTitle.setFont(Font.font("Segoe UI Bold",25));
+            blackListTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            searchBtn = new Button("Search");
+
+            searchBtn.setOnAction(event -> {
+            	ouSearchItemScene = new OUSearchItemPage();
+            	window.setScene(ouSearchItemScene);
+            });
+            
+            //dropdown menu
+            menu = new MenuButton("Select Action");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, signOut);
+            
+            
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+            
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+            
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+            //dropdown menu
+            
+            
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(pendAppTitle, 0, 3, 2, 1);
+            layout.add(pendItemAppTitle, 2, 3, 2, 1);
+            layout.add(reportTitle, 0, 26, 2, 1);
+            layout.add(blackListTitle, 2, 26, 2, 1);
     	}
     }
 }
