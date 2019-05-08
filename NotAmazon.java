@@ -176,7 +176,7 @@ public class NotAmazon extends Application{
 
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
-            cancelBtn.setOnAction(e -> window.setScene(mainPage));
+            cancelBtn.setOnAction(e -> window.setScene(guMainScene));
 
             // action event
             EventHandler<ActionEvent> pressEnter = new EventHandler<ActionEvent>(){
@@ -184,7 +184,7 @@ public class NotAmazon extends Application{
                 {
                     String tempUsername = usr_TextField.getText();
                     String tempPassword = pass_TextField.getText();
-                    if(DataManager.isValidUsername(tempUsername,tempPassword)){
+                    if(DataManager.isValidUser(tempUsername,tempPassword)){
                         thisUser = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");

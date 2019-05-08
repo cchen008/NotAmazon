@@ -128,6 +128,26 @@ public class DataManager{
         return false;
     }
 
+    public static boolean isValidAdminName(String username){
+        if(username.equals(""))
+            return false;
+        try{
+            int numberOfUsernames = 0;
+            String countUsernames = "SELECT COUNT(1) FROM Admin WHERE username=\"" + username + "\";";
+            ResultSet countInfo = statement.executeQuery(countUsernames);
+
+            if(countInfo.next()){
+                numberOfUsernames = countInfo.getInt("COUNT(1)");
+            }
+
+            return numberOfUsernames > 0;
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return false;
+    }
+
     public static boolean isValidUsername(String username){
         if(isValidAdminName(username))
             return true;
