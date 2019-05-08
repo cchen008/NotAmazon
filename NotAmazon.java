@@ -89,8 +89,8 @@ public class NotAmazon extends Application{
             searchBtn = new Button("Search");
             
             searchBtn.setOnAction(event ->{
-            	guSearchItemScene = new GUSearchItemPage();
-            	window.setScene(guSearchItemScene);
+                guSearchItemScene = new GUSearchItemPage();
+                window.setScene(guSearchItemScene);
             });
             
             //dropdown menu
@@ -157,6 +157,15 @@ public class NotAmazon extends Application{
             aBtn.setAlignment(Pos.BOTTOM_RIGHT);
             aBtn.getChildren().add(loginBtn);
             loginBtn.setOnAction(event ->{
+                String tempUsername = usr_TextField.getText();
+                String tempPassword = pass_TextField.getText();
+                if(DataManager.isValidAdmin(tempUsername,tempPassword)){
+                    usr_TextField.setText("");
+                    pass_TextField.setText("");
+                    suMainScene = new SUMainPage();
+                    window.setScene(suMainScene);
+                }
+                
                 
             });
             
@@ -326,10 +335,10 @@ public class NotAmazon extends Application{
             friendTitle.setFont(Font.font("Segoe UI Bold",25));
             
             searchBtn = new Button("Search");
-
+            
             searchBtn.setOnAction(event -> {
-            	ouSearchItemScene = new OUSearchItemPage();
-            	window.setScene(ouSearchItemScene);
+                ouSearchItemScene = new OUSearchItemPage();
+                window.setScene(ouSearchItemScene);
             });
             
             //dropdown menu
@@ -432,17 +441,17 @@ public class NotAmazon extends Application{
     }
     
     class GUSearchItemPage extends Scene{
-    	GridPane layout;
-    	Text sceneTitle;
-    	Text searchResultTitle;
-    	MenuButton menu;
+        GridPane layout;
+        Text sceneTitle;
+        Text searchResultTitle;
+        MenuButton menu;
         MenuItem login;
         MenuItem signup;
         TextField searchBar;
         Button searchBtn;
-         
-    	public GUSearchItemPage() {
-    		super(new GridPane(),700,700);
+        
+        public GUSearchItemPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
@@ -481,8 +490,8 @@ public class NotAmazon extends Application{
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchResultTitle, 0, 3, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
-    		
-    	}
+            
+        }
     }
     
     class OUSearchItemPage extends Scene{
@@ -495,9 +504,9 @@ public class NotAmazon extends Application{
         MenuItem signOut;
         TextField searchBar;
         Button searchBtn;
-         
-    	public OUSearchItemPage() {
-    		super(new GridPane(),700,700);
+        
+        public OUSearchItemPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
@@ -508,7 +517,7 @@ public class NotAmazon extends Application{
             
             searchBtn = new Button("Search");
             
-          //dropdown menu
+            //dropdown menu
             menu = new MenuButton("Select Action");
             profile = new MenuItem("Profile");
             myTranHist = new MenuItem("My Transaction History");
@@ -542,12 +551,12 @@ public class NotAmazon extends Application{
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchResultTitle, 0, 3, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
-    		
-    	}
+            
+        }
     }
-
+    
     class SUMainPage extends Scene{
-    	GridPane layout;
+        GridPane layout;
         Text sceneTitle;
         Text pendAppTitle;
         Text pendItemAppTitle;
@@ -560,8 +569,8 @@ public class NotAmazon extends Application{
         TextField searchBar;
         Button searchBtn;
         
-    	public SUMainPage() {
-    		super(new GridPane(),700,700);
+        public SUMainPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
             pendAppTitle = new Text("Pending Apps");
@@ -577,10 +586,10 @@ public class NotAmazon extends Application{
             blackListTitle.setFont(Font.font("Segoe UI Bold",25));
             
             searchBtn = new Button("Search");
-
+            
             searchBtn.setOnAction(event -> {
-            	ouSearchItemScene = new OUSearchItemPage();
-            	window.setScene(ouSearchItemScene);
+                ouSearchItemScene = new OUSearchItemPage();
+                window.setScene(ouSearchItemScene);
             });
             
             //dropdown menu
@@ -621,6 +630,6 @@ public class NotAmazon extends Application{
             layout.add(pendItemAppTitle, 2, 3, 2, 1);
             layout.add(reportTitle, 0, 26, 2, 1);
             layout.add(blackListTitle, 2, 26, 2, 1);
-    	}
+        }
     }
 }
