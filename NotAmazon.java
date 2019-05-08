@@ -12,7 +12,8 @@ import javafx.scene.text.Font;
 import javafx.scene.paint.*;
 import javafx.collections.*;
 import javafx.scene.control.*;
-
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 
 
 public class NotAmazon extends Application{
@@ -21,6 +22,9 @@ public class NotAmazon extends Application{
     private MainPage mainPage;
     private LoginPage loginScene;
     private SignupPage signupScene;
+
+    private String thisUser;
+    private String thisAdmin;
     
     public static void main(String[]args){
         launch(args);
@@ -37,7 +41,8 @@ public class NotAmazon extends Application{
     
     public void initialize(){
         //sets up values for variables
-        //N/A to be filled in later
+        thisUser = "";
+        thisAdmin = "";
         mainPage = new MainPage();
         loginScene = new LoginPage();
         signupScene = new SignupPage();
@@ -95,7 +100,7 @@ public class NotAmazon extends Application{
         Label user;
         Label pass;
         TextField usr_TextField;
-        TextField pass_TextField;
+        PasswordField pass_TextField;
         Button loginBtn;
         Button cancelBtn;
         HBox aBtn;
@@ -110,7 +115,7 @@ public class NotAmazon extends Application{
             pass = new Label("Password:");
             
             usr_TextField = new TextField();
-            pass_TextField = new TextField();
+            pass_TextField = new PasswordField();
             
             loginBtn = new Button("Login");
             cancelBtn = new Button("Cancel");
@@ -125,7 +130,32 @@ public class NotAmazon extends Application{
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
             cancelBtn.setOnAction(e -> window.setScene(mainPage));
-            
+
+            // action event
+            EventHandler<ActionEvent> pressEnter = new EventHandler<ActionEvent>(){
+                public void handle(ActionEvent e)
+                {
+                    String tempUsername = usr_TextField.getText();
+                    String tempPassword = pass_TextField.getText();
+                    if(DataManager.isValidUsername(tempUsername,tempPassword)){
+                        thisUser = tempUsername;
+                        usr_TextField.setText("");
+                        pass_TextField.setText("");
+                        // = new ();
+                        //window.setScene();
+                    }
+                    if(DataManager.isValidAdmin(tempUsername,tempPassword)){
+                        usr_TextField.setText("");
+                        pass_TextField.setText("");
+                        // = new ();
+                        //window.setScene();
+                    }
+                }
+            };
+
+            // when enter is pressed
+            loginBtn.setOnAction(pressEnter);
+
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
             layout.setVgap(10);

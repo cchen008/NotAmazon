@@ -128,14 +128,15 @@ public class DataManager{
         return false;
     }
 
-    public static boolean isValidUsername(String username){
+    public static boolean isValidUsername(String username, String password){
         if(isValidAdminName(username))
             return true;
         if(username.equals(""))
             return false;
         try{
             int numberOfUsernames = 0;
-            String countUsernames = "SELECT COUNT(1) FROM User WHERE username=\"" + username + "\";";
+            String countUsernames = "SELECT COUNT(1) FROM User WHERE username=\"" +username+ "\" " +
+                    "AND password= \"" +password+ "\";";
             ResultSet countInfo = statement.executeQuery(countUsernames);
 
             if(countInfo.next()){
