@@ -3,7 +3,7 @@ import java.util.*;
 
 public class DataManager{
 
-	private static Connection connection;
+    private static Connection connection;
     private static Statement statement;
     
     static{
@@ -15,20 +15,37 @@ public class DataManager{
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
+            String createUserAppTable = "CREATE TABLE IF NOT EXISTS User_Application("
+            + "user_id VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "first_name VARCHAR(30),"
+            + "last_name VARCHAR(30),"
+            + "address VARCHAR(30),"
+            + "phone_num VARCHAR(30),"
+            + "card_num VARCHAR (30));";
+
             String createUserTable = "CREATE TABLE IF NOT EXISTS User("
-                + "user_id VARCHAR(30) PRIMARY KEY NOT NULL,"
-                + "first_name VARCHAR(30),"
-                + "last_name VARCHAR(30),"
-                + "address VARCHAR(30),"
-                + "phone_num VARCHAR(30),"
-                + "card_num VARCHAR (30));";
+            + "user_id VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "first_name VARCHAR(30),"
+            + "last_name VARCHAR(30),"
+            + "address VARCHAR(30),"
+            + "phone_num VARCHAR(30),"
+            + "card_num VARCHAR (30));";
 
-            String createAdminTable = "CREATE TABLE IF NOT EXISTS Admin("
-                    + "username VARCHAR(128) PRIMARY KEY NOT NULL,"
-                    + "password VARCHAR(128),"
-                    + "name VARCHAR(128));";
+            String createAdminTable = "CREATE TABLE IF NOT EXISTS Super_User("
+            + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "password VARCHAR(30),"
+            + "name VARCHAR(30));";
 
-            String insertAdmin = "INSERT IGNORE INTO Admin VALUES(\"admin\",\"password\", \"Super User\");";
+            String createItemAppTable = "CREATE TABLE IF NOT EXISTS Item_Application("
+            + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "seller VARCHAR(30) REFERENCES User(user_id),"
+            + "price DECIMAL(10,2));";
+
+            String createItemTable = "CREATE TABLE IF NOT EXISTS Item("
+            + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "price DECIMAL(10,2));";
+
+            String insertAdmin = "INSERT IGNORE INTO Super_User VALUES(\"admin\",\"password\", \"Super User\");";
 
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -38,8 +55,11 @@ public class DataManager{
             connection = DriverManager.getConnection(hostLoc+"NAServer",user,password);
             statement = connection.createStatement();
 
+            statement.executeUpdate(createUserAppTable);
             statement.executeUpdate(createUserTable);
             statement.executeUpdate(createAdminTable);
+            statement.executeUpdate(createItemAppTable);
+            statement.executeUpdate(createItemTable);
             statement.executeUpdate(insertAdmin);
         }
 
@@ -80,8 +100,8 @@ public class DataManager{
         if(username.equals(""))
             return;
         try{
-            String insertNewUser = "INSERT IGNORE INTO User VALUES(\"" + username + "\",\"" + firstName + "\",\""
-                    + lastName + "\",\"" + address + "\",\"" + phoneNum + "\",\"" + creditNum + "\");";
+            String insertNewUser = "INSERT IGNORE INTO User_Application VALUES(\"" + username + "\",\"" + firstName + "\",\""
+            + lastName + "\",\"" + address + "\",\"" + phoneNum + "\",\"" + creditNum + "\");";
             statement.executeUpdate(insertNewUser);
             
         }catch(Exception expt){
@@ -93,7 +113,7 @@ public class DataManager{
     public static boolean isValidAdmin(String username, String password){
         try{
             int numberOfAdmins = 0;
-            String countAdminQuery = "SELECT COUNT(1) FROM Admin WHERE username=\"" +username+ "\" AND password=\"" +password+ "\";";
+            String countAdminQuery = "SELECT COUNT(1) FROM Super_User WHERE username=\"" +username+ "\" AND password=\"" +password+ "\";";
             ResultSet countInfo = statement.executeQuery(countAdminQuery);
 
             if(countInfo.next()){
@@ -108,35 +128,14 @@ public class DataManager{
         return false;
     }
 
-    public static boolean isValidAdminName(String username){
-        if(username.equals(""))
-            return false;
-        try{
-            int numberOfUsernames = 0;
-            String countUsernames = "SELECT COUNT(1) FROM Admin WHERE username=\"" + username + "\";";
-            ResultSet countInfo = statement.executeQuery(countUsernames);
-
-            if(countInfo.next()){
-                numberOfUsernames = countInfo.getInt("COUNT(1)");
-            }
-
-            return numberOfUsernames > 0;
-
-        }catch(Exception expt){
-            expt.printStackTrace();
-        }
-        return false;
-    }
-
-    public static boolean isValidUsername(String username, String password){
+    public static boolean isValidUsername(String username){
         if(isValidAdminName(username))
             return true;
         if(username.equals(""))
             return false;
         try{
             int numberOfUsernames = 0;
-            String countUsernames = "SELECT COUNT(1) FROM User WHERE username=\"" +username+ "\" " +
-                    "AND password= \"" +password+ "\";";
+            String countUsernames = "SELECT COUNT(1) FROM User WHERE user_id=\"" + username + "\";";
             ResultSet countInfo = statement.executeQuery(countUsernames);
 
             if(countInfo.next()){
@@ -151,15 +150,34 @@ public class DataManager{
         return false;
     }
 
-    public static void shutdown(){
-		try{
-			if(connection!= null)
-				connection.close();
-			if(connection!=null)
-				statement.close();
+    public static boolean isValidUser(String username, String password){
+        try{
+            int numberOfUsers = 0;
+            String countUsers = "SELECT COUNT(1) FROM User WHERE username=\"" +username+ "\" AND password= \"" +password+ "\";";
+            ResultSet countInfo = statement.executeQuery(countUsers);
 
-		}catch(Exception expt){
-			expt.printStackTrace();
-		}
-	}
+            if(countInfo.next()){
+                numberOfUsers = countInfo.getInt("COUNT(1)");
+            }
+
+            return numberOfUsers > 0;
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public static void shutdown(){
+        try{
+            if(connection!= null)
+                connection.close();
+            if(connection!=null)
+                statement.close();
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
 }

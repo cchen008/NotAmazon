@@ -19,13 +19,20 @@ import javafx.event.EventHandler;
 public class NotAmazon extends Application{
     
     private Stage window;
-    private MainPage mainPage;
+    private GUMainPage guMainScene;
     private LoginPage loginScene;
     private SignupPage signupScene;
+    private OUMainPage ouMainScene;
+    private TransactionPage transScene;
+    private MyProfilePage myProfileScene;
+    private GUSearchItemPage guSearchItemScene;
+    private OUSearchItemPage ouSearchItemScene;
+    private SUMainPage suMainScene;
+
 
     private String thisUser;
     private String thisAdmin;
-    
+
     public static void main(String[]args){
         launch(args);
     }
@@ -35,7 +42,7 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(mainPage);
+        window.setScene(ouMainScene);
         window.show();
     }
     
@@ -43,9 +50,15 @@ public class NotAmazon extends Application{
         //sets up values for variables
         thisUser = "";
         thisAdmin = "";
-        mainPage = new MainPage();
+        guMainScene = new GUMainPage();
         loginScene = new LoginPage();
         signupScene = new SignupPage();
+        ouMainScene = new OUMainPage();
+        transScene = new TransactionPage();
+        myProfileScene = new MyProfilePage();
+        guSearchItemScene = new GUSearchItemPage();
+        ouSearchItemScene = new OUSearchItemPage();
+        suMainScene = new SUMainPage();
     }
     
     @Override
@@ -53,20 +66,38 @@ public class NotAmazon extends Application{
         DataManager.shutdown();
     }
     
-    class MainPage extends Scene{
+    class GUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
+        Text recItemTitle;
+        Text popItemTitle;
         MenuButton menu;
         MenuItem login;
         MenuItem signup;
+        TextField searchBar;
+        Button searchBtn;
+
         
-        
-        public MainPage() {
-            super(new GridPane(),400,400);
+
+        public GUMainPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
-            
+            recItemTitle = new Text("Recommended");
+            popItemTitle = new Text("Popular");
+            searchBar = new TextField();
+
+            recItemTitle.setFont(Font.font("Segoe UI Bold",25));
+            popItemTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            searchBtn = new Button("Search");
+
+            searchBtn.setOnAction(event ->{
+                guSearchItemScene = new GUSearchItemPage();
+                window.setScene(guSearchItemScene);
+            });
+
             //dropdown menu
             menu = new MenuButton("Select Action");
             login = new MenuItem("Login");
@@ -90,7 +121,11 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 0, 1, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(recItemTitle, 0, 3, 2, 1);
+            layout.add(popItemTitle, 0, 26, 2, 1);
         }
     }
     
@@ -126,7 +161,19 @@ public class NotAmazon extends Application{
             
             aBtn.setAlignment(Pos.BOTTOM_RIGHT);
             aBtn.getChildren().add(loginBtn);
-            
+            loginBtn.setOnAction(event ->{
+                String tempUsername = usr_TextField.getText();
+                String tempPassword = pass_TextField.getText();
+                if(DataManager.isValidAdmin(tempUsername,tempPassword)){
+                    usr_TextField.setText("");
+                    pass_TextField.setText("");
+                    suMainScene = new SUMainPage();
+                    window.setScene(suMainScene);
+                }
+
+
+            });
+
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
             cancelBtn.setOnAction(e -> window.setScene(mainPage));
@@ -155,6 +202,8 @@ public class NotAmazon extends Application{
 
             // when enter is pressed
             loginBtn.setOnAction(pressEnter);
+
+            cancelBtn.setOnAction(e -> window.setScene(guMainScene));
 
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
@@ -218,34 +267,34 @@ public class NotAmazon extends Application{
             aBtn = new HBox(5);
             cBtn = new HBox(5);
 
-			applyBtn.setOnAction(e -> {
-				String tempUserName = usr_TextField.getText();
-				String tempFName = first_TextField.getText();
-				String tempLName = last_TextField.getText();
-				String tempAddress = addr_TextField.getText();
-				String tempPhone = phone_TextField.getText();
-				String tempCard = cc_TextField.getText();
-				if(!tempUserName.equals("") && !DataManager.isValidUsername(tempUserName)){
-					DataManager.createNewUser(tempUserName, tempFName, tempLName, tempAddress,
-							tempPhone, tempCard);
-					usr_TextField.setText("");
-					first_TextField.setText("");
-					last_TextField.setText("");
-					addr_TextField.setText("");
-					cc_TextField.setText("");
-					window.setScene(loginScene);
-				}
-			});
+            applyBtn.setOnAction(e -> {
+                String tempUserName = usr_TextField.getText();
+                String tempFName = first_TextField.getText();
+                String tempLName = last_TextField.getText();
+                String tempAddress = addr_TextField.getText();
+                String tempPhone = phone_TextField.getText();
+                String tempCard = cc_TextField.getText();
+                if(!tempUserName.equals("") && !DataManager.isValidUsername(tempUserName)){
+                    DataManager.createNewUser(tempUserName, tempFName, tempLName, tempAddress,
+                                              tempPhone, tempCard);
+                    usr_TextField.setText("");
+                    first_TextField.setText("");
+                    last_TextField.setText("");
+                    addr_TextField.setText("");
+                    cc_TextField.setText("");
+                    window.setScene(loginScene);
+                }
+            });
 
-			cancelBtn.setOnAction(e -> {
-				usr_TextField.setText("");
-				first_TextField.setText("");
-				last_TextField.setText("");
-				addr_TextField.setText("");
-				phone_TextField.setText("");
-				cc_TextField.setText("");
-				window.setScene(mainPage);
-			});
+            cancelBtn.setOnAction(e -> {
+                usr_TextField.setText("");
+                first_TextField.setText("");
+                last_TextField.setText("");
+                addr_TextField.setText("");
+                phone_TextField.setText("");
+                cc_TextField.setText("");
+                window.setScene(guMainScene);
+            });
 
             signup.setFont(Font.font("Segoe UI Bold",25));
             
@@ -254,7 +303,7 @@ public class NotAmazon extends Application{
             
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
-            cancelBtn.setOnAction(e -> window.setScene(mainPage));
+            cancelBtn.setOnAction(e -> window.setScene(guMainScene));
             
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
@@ -279,6 +328,340 @@ public class NotAmazon extends Application{
             layout.add(aBtn, 1, 7);
             layout.add(cBtn, 0, 7);
             
+        }
+    }
+
+    class OUMainPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text recItemTitle;
+        Text popItemTitle;
+        Text sellTitle;
+        Text bidTitle;
+        Text friendTitle;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem signOut;
+        TextField searchBar;
+        Button searchBtn;
+
+
+        public OUMainPage() {
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            window.setTitle("Not Amazon");
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            recItemTitle = new Text("Recommended");
+            popItemTitle = new Text("Popular");
+            sellTitle = new Text("Sell");
+            bidTitle = new Text("Bid");
+            friendTitle = new Text("Friend");
+
+            searchBar = new TextField();
+
+            recItemTitle.setFont(Font.font("Segoe UI Bold",25));
+            popItemTitle.setFont(Font.font("Segoe UI Bold",25));
+            sellTitle.setFont(Font.font("Segoe UI Bold",25));
+            bidTitle.setFont(Font.font("Segoe UI Bold",25));
+            friendTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            searchBtn = new Button("Search");
+
+            searchBtn.setOnAction(event -> {
+                ouSearchItemScene = new OUSearchItemPage();
+                window.setScene(ouSearchItemScene);
+            });
+
+            //dropdown menu
+            menu = new MenuButton("Select Action");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, signOut);
+
+
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+            //dropdown menu
+
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(recItemTitle, 0, 3, 2, 1);
+            layout.add(popItemTitle, 0, 26, 2, 1);
+            layout.add(sellTitle, 2, 3, 2, 1);
+            layout.add(bidTitle, 2, 17, 2, 1);
+            layout.add(friendTitle, 2, 30, 2, 1);
+        }
+    }
+
+    class TransactionPage extends Scene{
+        GridPane layout;
+        Text transTitle;
+        Button backBtn;
+
+        public TransactionPage() {
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            transTitle = new Text("Transaction History");
+
+            backBtn = new Button("Back");
+
+            transTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            backBtn.setOnAction(event -> {
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
+            });
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(transTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 9, 26, 2, 1);
+        }
+    }
+
+    class MyProfilePage extends Scene{
+        GridPane layout;
+        Text myProfileTitle;
+        Button backBtn;
+
+        public MyProfilePage(){
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            myProfileTitle = new Text("Temp Title");
+            backBtn = new Button("Back");
+
+            myProfileTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            backBtn.setOnAction(event -> {
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
+            });
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(myProfileTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 9, 26, 2, 1);
+        }
+    }
+
+    class GUSearchItemPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text searchResultTitle;
+        MenuButton menu;
+        MenuItem login;
+        MenuItem signup;
+        TextField searchBar;
+        Button searchBtn;
+
+        public GUSearchItemPage() {
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            searchResultTitle = new Text("Search Results:");
+            searchBar = new TextField();
+
+            searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            searchBtn = new Button("Search");
+
+
+            //dropdown menu
+            menu = new MenuButton("Select Action");
+            login = new MenuItem("Login");
+            signup = new MenuItem("Sign Up");
+            menu.getItems().addAll(login, signup);
+
+            login.setOnAction(event -> {
+                loginScene = new LoginPage();
+                window.setScene(loginScene);
+            });
+
+            signup.setOnAction(event -> {
+                signupScene = new SignupPage();
+                window.setScene(signupScene);
+            });
+            //dropdown menu
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchResultTitle, 0, 3, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+
+        }
+    }
+
+    class OUSearchItemPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text searchResultTitle;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem signOut;
+        TextField searchBar;
+        Button searchBtn;
+
+        public OUSearchItemPage() {
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            searchResultTitle = new Text("Search Results:");
+            searchBar = new TextField();
+
+            searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            searchBtn = new Button("Search");
+
+            //dropdown menu
+            menu = new MenuButton("Select Action");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, signOut);
+
+
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+            //dropdown menu
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchResultTitle, 0, 3, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+
+        }
+    }
+
+    class SUMainPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text pendAppTitle;
+        Text pendItemAppTitle;
+        Text reportTitle;
+        Text blackListTitle;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem signOut;
+        TextField searchBar;
+        Button searchBtn;
+
+        public SUMainPage() {
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
+            pendAppTitle = new Text("Pending Apps");
+            reportTitle = new Text("Report/Warnings");
+            pendItemAppTitle = new Text("Pending Items Apps");
+            blackListTitle = new Text("BlackListed Item");
+
+            searchBar = new TextField();
+
+            pendAppTitle.setFont(Font.font("Segoe UI Bold",25));
+            reportTitle.setFont(Font.font("Segoe UI Bold",25));
+            pendItemAppTitle.setFont(Font.font("Segoe UI Bold",25));
+            blackListTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            searchBtn = new Button("Search");
+
+            searchBtn.setOnAction(event -> {
+                ouSearchItemScene = new OUSearchItemPage();
+                window.setScene(ouSearchItemScene);
+            });
+
+            //dropdown menu
+            menu = new MenuButton("Select Action");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, signOut);
+
+
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+            //dropdown menu
+
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            //placing objects into scene
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(pendAppTitle, 0, 3, 2, 1);
+            layout.add(pendItemAppTitle, 2, 3, 2, 1);
+            layout.add(reportTitle, 0, 26, 2, 1);
+            layout.add(blackListTitle, 2, 26, 2, 1);
         }
     }
 }
