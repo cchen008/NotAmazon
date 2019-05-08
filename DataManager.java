@@ -38,6 +38,7 @@ public class DataManager{
             
             String createItemAppTable = "CREATE TABLE IF NOT EXISTS Item_Application("
             + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "seller VARCHAR(30) REFERENCES User(user_id),"
             + "price DECIMAL(10,2));";
             
             String createItemTable = "CREATE TABLE IF NOT EXISTS Item("
@@ -129,6 +130,24 @@ public class DataManager{
         return false;
     }
     
+    public static boolean isValidAdmin(String username, String password){
+        try{
+            int numberOfAdmins = 0;
+            String countAdminQuery = "SELECT COUNT(1) FROM Super_User WHERE username=\"" +username+ "\" AND password=\"" +password+ "\";";
+            ResultSet countInfo = statement.executeQuery(countAdminQuery);
+            
+            if(countInfo.next()){
+                numberOfAdmins = countInfo.getInt("COUNT(1)");
+            }
+            countInfo.close();
+            return numberOfAdmins > 0;
+            
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return false;
+    }
+    
     public static boolean isValidUsername(String username){
         if(isValidAdminName(username))
             return true;
@@ -148,6 +167,25 @@ public class DataManager{
         }catch(Exception expt){
             expt.printStackTrace();
         }
+        return false;
+    }
+    
+    public static boolean isValidUser(String username, String password){
+        try{
+            int numberOfUsers = 0;
+            String countUsers = "SELECT COUNT(1) FROM User WHERE username=\"" +username+ "\" AND password= \"" +password+ "\";";
+            ResultSet countInfo = statement.executeQuery(countUsers);
+            
+            if(countInfo.next()){
+                numberOfUsers = countInfo.getInt("COUNT(1)");
+            }
+            
+            return numberOfUsers > 0;
+            
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        
         return false;
     }
     
