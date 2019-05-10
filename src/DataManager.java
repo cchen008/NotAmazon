@@ -196,6 +196,24 @@ public class DataManager{
         return false;
     }
 
+    public static ArrayList<String> getListOfApp(){
+        ArrayList<String> listOfApplicants = new ArrayList<>();
+        try{
+            String selectUsers = "SELECT user_id FROM user_application;";
+            ResultSet userAppInfo = statement.executeQuery(selectUsers);
+
+            while(userAppInfo.next()){
+                listOfApplicants.add(userAppInfo.getString("user_id"));
+            }
+            userAppInfo.close();
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+
+        return listOfApplicants;
+    }
+
     public static void shutdown(){
         try{
             if(connection!= null)

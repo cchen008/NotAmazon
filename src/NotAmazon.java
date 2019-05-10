@@ -7,7 +7,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.*;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -36,11 +35,11 @@ public class NotAmazon extends Application{
     private PendItemPage pendItemScene;
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
-
-
+    
+    
     private String thisUser;
     private String thisAdmin;
-
+    
     public static void main(String[]args){
         launch(args);
     }
@@ -50,7 +49,7 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(guMainScene);
+        window.setScene(suMainScene);
         window.show();
     }
     
@@ -451,7 +450,7 @@ public class NotAmazon extends Application{
         }
     }
 
-    class MyProfilePage extends Scene {
+    class MyProfilePage extends Scene{
         GridPane layout;
         Text sceneTitle;
         Text itemsSale;
@@ -661,6 +660,7 @@ public class NotAmazon extends Application{
         Text reportTitle;
         Text blackListTitle;
         TextField searchBar;
+        Button signOutBtn;
         Button searchBtn;
         Image userAppImage;
         Image itemAppImage;
@@ -781,6 +781,7 @@ public class NotAmazon extends Application{
             layout.add(itemAppView, 2, 6, 2, 1);
             layout.add(blackListTitle, 2, 10, 2, 1);
             layout.add(bListView, 2, 13, 2, 1);
+            layout.add(signOutBtn, 4, 1, 2, 1);
         }
     }
 
@@ -788,10 +789,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	ObservableList<String> listOfApp;
+        ListView<String> appListView;
 
     	public PendAppPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            listOfApp = FXCollections.observableArrayList(DataManager.getListOfApp());
+            appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -802,12 +807,17 @@ public class NotAmazon extends Application{
             	window.setScene(suMainScene);
             });
 
+            appListView.setPrefWidth(300);
+            appListView.setPrefHeight(400);
+            appListView.setOrientation(Orientation.VERTICAL);
+
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
 
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(appListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
     	}
     }
@@ -816,10 +826,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	ObservableList<String> listOfItem;
+        ListView<String> itemListView;
 
     	public PendItemPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            listOfItem = FXCollections.observableArrayList();
+            itemListView = new ListView<>(listOfItem);
             sceneTitle = new Text("Pending Item Applications");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -829,15 +843,16 @@ public class NotAmazon extends Application{
             	suMainScene = new SUMainPage();
             	window.setScene(suMainScene);
             });
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(itemListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
-
+            
     	}
     }
 
@@ -845,10 +860,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	ObservableList<String> listOfReport;
+        ListView<String> reportListView;
 
     	public ReportPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            listOfReport = FXCollections.observableArrayList();
+            reportListView = new ListView<>(listOfReport);
             sceneTitle = new Text("Report Page");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -865,6 +884,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
 
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(reportListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
 
     	}
@@ -874,10 +894,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	ObservableList<String> blackList;
+        ListView<String> blackListView;
 
     	public BlackListPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            blackList = FXCollections.observableArrayList(DataManager.getListOfApp());
+            blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -894,6 +918,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
 
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(blackListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
 
     	}
