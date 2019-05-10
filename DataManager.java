@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "@Fcrt39jiv9";
+            String password = "cody1234";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -137,7 +137,7 @@ public class DataManager{
             return false;
         try{
             int numberOfUsernames = 0;
-            String countUsernames = "SELECT COUNT(1) FROM Admin WHERE username=\"" + username + "\";";
+            String countUsernames = "SELECT COUNT(1) FROM super_user WHERE username=\"" + username + "\";";
             ResultSet countInfo = statement.executeQuery(countUsernames);
 
             if(countInfo.next()){
@@ -193,6 +193,24 @@ public class DataManager{
         return false;
     }
 
+    public static ArrayList<String> getListOfApp(){
+        ArrayList<String> listOfApplicants = new ArrayList<>();
+        try{
+            String selectUsers = "SELECT user_id FROM user_application;";
+            ResultSet userAppInfo = statement.executeQuery(selectUsers);
+
+            while(userAppInfo.next()){
+                listOfApplicants.add(userAppInfo.getString("user_id"));
+            }
+            userAppInfo.close();
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+
+        return listOfApplicants;
+    }
+    
     public static void shutdown(){
         try{
             if(connection!= null)
