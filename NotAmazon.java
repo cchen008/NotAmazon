@@ -705,7 +705,7 @@ public class NotAmazon extends Application{
     	public PendAppPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
-            listOfApp = FXCollections.observableArrayList();
+            listOfApp = FXCollections.observableArrayList(DataManager.getListOfApp());
             appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
             
@@ -810,7 +810,7 @@ public class NotAmazon extends Application{
     	public BlackListPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
-            blackList = FXCollections.observableArrayList();
+            blackList = FXCollections.observableArrayList(DataManager.getListOfApp());
             blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
             
