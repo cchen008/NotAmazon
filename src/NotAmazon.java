@@ -781,7 +781,6 @@ public class NotAmazon extends Application{
             layout.add(itemAppView, 2, 6, 2, 1);
             layout.add(blackListTitle, 2, 10, 2, 1);
             layout.add(bListView, 2, 13, 2, 1);
-            layout.add(signOutBtn, 4, 1, 2, 1);
         }
     }
 
