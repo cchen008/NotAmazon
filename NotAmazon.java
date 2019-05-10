@@ -16,6 +16,8 @@ import javafx.collections.*;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.image.*;
+import javafx.scene.input.MouseEvent;
 
 
 public class NotAmazon extends Application{
@@ -30,6 +32,10 @@ public class NotAmazon extends Application{
     private GUSearchItemPage guSearchItemScene;
     private OUSearchItemPage ouSearchItemScene;
     private SUMainPage suMainScene;
+    private PendAppPage pendAppScene;
+    private PendItemPage pendItemScene;
+    private ReportPage pendReportScene;
+    private BlackListPage bListScene;
 
 
     private String thisUser;
@@ -61,6 +67,10 @@ public class NotAmazon extends Application{
         guSearchItemScene = new GUSearchItemPage();
         ouSearchItemScene = new OUSearchItemPage();
         suMainScene = new SUMainPage();
+        pendAppScene = new PendAppPage();
+        pendItemScene = new PendItemPage();
+        pendReportScene = new ReportPage();
+        bListScene = new BlackListPage();
     }
     
     @Override
@@ -539,10 +549,10 @@ public class NotAmazon extends Application{
         GridPane layout;
         Text sceneTitle;
         Text searchResultTitle;
-        TextField searchBar;
-        Button searchBtn;
         Button loginBtn;
         Button signupBtn;
+        TextField searchBar;
+        Button searchBtn;
 
         public GUSearchItemPage() {
             super(new GridPane(),700,700);
@@ -567,7 +577,6 @@ public class NotAmazon extends Application{
                 signupScene = new SignupPage();
                 window.setScene(signupScene);
             });
-            //dropdown menu
 
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
@@ -651,12 +660,17 @@ public class NotAmazon extends Application{
         Text pendItemAppTitle;
         Text reportTitle;
         Text blackListTitle;
-        MenuButton menu;
-        MenuItem profile;
-        MenuItem myTranHist;
-        MenuItem signOut;
         TextField searchBar;
+        Button signOutBtn;
         Button searchBtn;
+        Image userAppImage;
+        Image itemAppImage;
+        Image reportImage;
+        Image bListImage;
+        ImageView userAppView;
+        ImageView itemAppView;
+        ImageView reportView;
+        ImageView bListView;
 
         public SUMainPage() {
             super(new GridPane(),700,700);
@@ -674,8 +688,49 @@ public class NotAmazon extends Application{
             pendItemAppTitle.setFont(Font.font("Segoe UI Bold",25));
             blackListTitle.setFont(Font.font("Segoe UI Bold",25));
 
-            searchBtn = new Button("Search");
+            userAppImage = new Image("appImage.jpg");
+            userAppView = new ImageView();
+            userAppView.setImage(userAppImage);
+            userAppView.setFitHeight(200);
+            userAppView.setFitWidth(200);
+            userAppView.setOnMouseClicked((MouseEvent e) -> {
+            	pendAppScene = new PendAppPage();
+            	window.setScene(pendAppScene);
+            });
 
+            itemAppImage = new Image("itemApp.png");
+            itemAppView = new ImageView();
+            itemAppView.setImage(itemAppImage);
+            itemAppView.setFitHeight(200);
+            itemAppView.setFitWidth(200);
+            itemAppView.setPickOnBounds(true);
+            itemAppView.setOnMouseClicked((MouseEvent) -> {
+            	pendItemScene = new PendItemPage();
+            	window.setScene(pendItemScene);
+            });
+
+            reportImage = new Image("reportImage.jpg");
+            reportView = new ImageView();
+            reportView.setImage(reportImage);
+            reportView.setFitHeight(200);
+            reportView.setFitWidth(200);
+            reportView.setOnMouseClicked((MouseEvent) -> {
+            	pendReportScene = new ReportPage();
+            	window.setScene(pendReportScene);
+            });
+
+            bListImage = new Image("blackListImage.png");
+            bListView = new ImageView();
+            bListView.setImage(bListImage);
+            bListView.setFitHeight(200);
+            bListView.setFitWidth(200);
+            bListView.setOnMouseClicked((MouseEvent) -> {
+            	bListScene = new BlackListPage();
+            	window.setScene(bListScene);
+            });
+
+
+            searchBtn = new Button("Search");
             searchBtn.setOnAction(event -> {
                 ouSearchItemScene = new OUSearchItemPage();
                 window.setScene(ouSearchItemScene);
@@ -714,11 +769,133 @@ public class NotAmazon extends Application{
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(menu, 3, 1);
             layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(pendAppTitle, 0, 3, 2, 1);
+            layout.add(userAppView, 0, 6, 2, 1);
+            layout.add(reportTitle, 0, 10, 2, 1);
+            layout.add(reportView, 0, 13, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(searchBtn, 2, 1);
             layout.add(pendAppTitle, 0, 3, 2, 1);
             layout.add(pendItemAppTitle, 2, 3, 2, 1);
-            layout.add(reportTitle, 0, 26, 2, 1);
-            layout.add(blackListTitle, 2, 26, 2, 1);
+            layout.add(itemAppView, 2, 6, 2, 1);
+            layout.add(blackListTitle, 2, 10, 2, 1);
+            layout.add(bListView, 2, 13, 2, 1);
+            layout.add(signOutBtn, 4, 1, 2, 1);
         }
+    }
+
+    class PendAppPage extends Scene{
+    	GridPane layout;
+    	Text sceneTitle;
+    	Button backBtn;
+
+    	public PendAppPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            sceneTitle = new Text("Pending User Applications");
+
+            sceneTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            backBtn = new Button("Back");
+            backBtn.setOnAction(event -> {
+            	suMainScene = new SUMainPage();
+            	window.setScene(suMainScene);
+            });
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 2, 0, 2, 1);
+    	}
+    }
+
+    class PendItemPage extends Scene{
+    	GridPane layout;
+    	Text sceneTitle;
+    	Button backBtn;
+
+    	public PendItemPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            sceneTitle = new Text("Pending Item Applications");
+
+            sceneTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            backBtn = new Button("Back");
+            backBtn.setOnAction(event -> {
+            	suMainScene = new SUMainPage();
+            	window.setScene(suMainScene);
+            });
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 2, 0, 2, 1);
+
+    	}
+    }
+
+    class ReportPage extends Scene{
+    	GridPane layout;
+    	Text sceneTitle;
+    	Button backBtn;
+
+    	public ReportPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            sceneTitle = new Text("Report Page");
+
+            sceneTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            backBtn = new Button("Back");
+            backBtn.setOnAction(event -> {
+            	suMainScene = new SUMainPage();
+            	window.setScene(suMainScene);
+            });
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 2, 0, 2, 1);
+
+    	}
+    }
+
+    class BlackListPage extends Scene{
+    	GridPane layout;
+    	Text sceneTitle;
+    	Button backBtn;
+
+    	public BlackListPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            sceneTitle = new Text("Black List Page");
+
+            sceneTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            backBtn = new Button("Back");
+            backBtn.setOnAction(event -> {
+            	suMainScene = new SUMainPage();
+            	window.setScene(suMainScene);
+            });
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(backBtn, 2, 0, 2, 1);
+
+    	}
     }
 }

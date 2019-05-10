@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "3821";
+            String password = "@Fcrt39jiv9";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -21,7 +21,7 @@ public class DataManager{
             + "last_name VARCHAR(30),"
             + "address VARCHAR(30),"
             + "phone_num VARCHAR(30),"
-            + "card_num VARCHAR (30));";
+            + "card_num VARCHAR (16));";
 
             String createUserTable = "CREATE TABLE IF NOT EXISTS user("
             + "user_id VARCHAR(30) PRIMARY KEY NOT NULL,"
@@ -29,7 +29,7 @@ public class DataManager{
             + "last_name VARCHAR(30),"
             + "address VARCHAR(30),"
             + "phone_num VARCHAR(30),"
-            + "card_num VARCHAR (30));";
+            + "card_num VARCHAR (16));";
 
             String createAdminTable = "CREATE TABLE IF NOT EXISTS super_user("
             + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
@@ -43,7 +43,11 @@ public class DataManager{
 
             String createItemTable = "CREATE TABLE IF NOT EXISTS item("
             + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
-            + "price DECIMAL(10,2));";
+            + "seller_id VARCHAR(30) NOT NULL,"
+            + "item_type BOOLEAN NOT NULL,"
+            + "price DECIMAL(10,2),"
+            + "time INT(10),"
+            + "FOREIGN KEY (seller_id) REFERENCES USER(user_id));";
 
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
 
