@@ -23,7 +23,7 @@ public class DataManager{
             + "phone_num VARCHAR(30),"
             + "card_num VARCHAR (30));";
 
-            String createUserTable = "CREATE TABLE IF NOT EXISTS User("
+            String createUserTable = "CREATE TABLE IF NOT EXISTS user("
             + "user_id VARCHAR(30) PRIMARY KEY NOT NULL,"
             + "first_name VARCHAR(30),"
             + "last_name VARCHAR(30),"
@@ -31,21 +31,21 @@ public class DataManager{
             + "phone_num VARCHAR(30),"
             + "card_num VARCHAR (30));";
 
-            String createAdminTable = "CREATE TABLE IF NOT EXISTS Super_User("
+            String createAdminTable = "CREATE TABLE IF NOT EXISTS super_user("
             + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
             + "password VARCHAR(30),"
             + "name VARCHAR(30));";
 
-            String createItemAppTable = "CREATE TABLE IF NOT EXISTS Item_Application("
+            String createItemAppTable = "CREATE TABLE IF NOT EXISTS item_application("
             + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
             + "seller VARCHAR(30) REFERENCES User(user_id),"
             + "price DECIMAL(10,2));";
 
-            String createItemTable = "CREATE TABLE IF NOT EXISTS Item("
+            String createItemTable = "CREATE TABLE IF NOT EXISTS item("
             + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
             + "price DECIMAL(10,2));";
 
-            String insertAdmin = "INSERT IGNORE INTO Super_User VALUES(\"admin\",\"password\", \"Super User\");";
+            String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
 
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -71,16 +71,17 @@ public class DataManager{
 
     //for profile page
     public static String [] getPersonalInfo(String username){
-        String [] personalInfo = {"",""};
+        String [] personalInfo = {"","",""};
 
         try{
-            String selectUserInfo = "SELECT name,address FROM User WHERE username=\"" +username+ "\";";
+            String selectUserInfo = "SELECT user_id,first_name,last_name FROM user WHERE user_id=\"" +username+ "\";";
 
             ResultSet userInfo = statement.executeQuery(selectUserInfo);
 
             if(userInfo.next()){
-                personalInfo[0] = userInfo.getString("name");
-                personalInfo[1] = userInfo.getString("address");
+                personalInfo[0] = userInfo.getString("user_id");
+                personalInfo[1] = userInfo.getString("first_name");
+                personalInfo[2] = userInfo.getString("last_name");
 
                 userInfo.close();
 
@@ -113,7 +114,7 @@ public class DataManager{
     public static boolean isValidAdmin(String username, String password){
         try{
             int numberOfAdmins = 0;
-            String countAdminQuery = "SELECT COUNT(1) FROM Super_User WHERE username=\"" +username+ "\" AND password=\"" +password+ "\";";
+            String countAdminQuery = "SELECT COUNT(1) FROM super_user WHERE username=\"" +username+ "\" AND password=\"" +password+ "\";";
             ResultSet countInfo = statement.executeQuery(countAdminQuery);
 
             if(countInfo.next()){
@@ -133,7 +134,7 @@ public class DataManager{
             return false;
         try{
             int numberOfUsernames = 0;
-            String countUsernames = "SELECT COUNT(1) FROM Admin WHERE username=\"" + username + "\";";
+            String countUsernames = "SELECT COUNT(1) FROM super_user WHERE username=\"" + username + "\";";
             ResultSet countInfo = statement.executeQuery(countUsernames);
 
             if(countInfo.next()){
@@ -155,7 +156,7 @@ public class DataManager{
             return false;
         try{
             int numberOfUsernames = 0;
-            String countUsernames = "SELECT COUNT(1) FROM User WHERE user_id=\"" + username + "\";";
+            String countUsernames = "SELECT COUNT(1) FROM user WHERE user_id=\"" + username + "\";";
             ResultSet countInfo = statement.executeQuery(countUsernames);
 
             if(countInfo.next()){
@@ -170,10 +171,12 @@ public class DataManager{
         return false;
     }
 
-    public static boolean isValidUser(String username, String password){
+    //public static boolean isValidUser(String username, String password){
+    public static boolean isValidUser(String username){
         try{
             int numberOfUsers = 0;
-            String countUsers = "SELECT COUNT(1) FROM User WHERE username=\"" +username+ "\" AND password= \"" +password+ "\";";
+            //String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\" AND password= \"" +password+ "\";";
+            String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\";";
             ResultSet countInfo = statement.executeQuery(countUsers);
 
             if(countInfo.next()){

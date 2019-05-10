@@ -2,6 +2,8 @@ import javafx.application.*;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.*;
@@ -178,7 +180,8 @@ public class NotAmazon extends Application{
                 {
                     String tempUsername = usr_TextField.getText();
                     String tempPassword = pass_TextField.getText();
-                    if(DataManager.isValidUser(tempUsername,tempPassword)){
+                    //if(DataManager.isValidUser(tempUsername,tempPassword)){
+                    if(DataManager.isValidUser(tempUsername)){
                         thisUser = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");
@@ -242,7 +245,7 @@ public class NotAmazon extends Application{
             layout = (GridPane)this.getRoot();
             
             signup = new Label("Sign Up");
-            user = new Label("Username/ID:");
+            user = new Label("Username:");
             first_name = new Label("First Name:");
             last_name = new Label("Last Name:");
             address = new Label("Address:");
@@ -438,31 +441,97 @@ public class NotAmazon extends Application{
         }
     }
 
-    class MyProfilePage extends Scene{
+    class MyProfilePage extends Scene {
         GridPane layout;
-        Text myProfileTitle;
+        Text sceneTitle;
+        Text itemsSale;
+        Text ratings;
+        Label username;
+        Label name;
+        TextField searchBar;
+        Button searchBtn;
         Button backBtn;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem signOut;
+        String [] personalInfo;
 
-        public MyProfilePage(){
-            super(new GridPane(),700,700);
-            layout = (GridPane)this.getRoot();
-            myProfileTitle = new Text("Temp Title");
+
+        public MyProfilePage() {
+            super(new GridPane(), 700, 700);
+            layout = (GridPane) this.getRoot();
+            sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+            itemsSale = new Text("Items for sale");
+            ratings = new Text("Ratings");
+            searchBar = new TextField();
+
+            personalInfo = DataManager.getPersonalInfo(thisUser);
+
+            searchBtn = new Button("Search");
             backBtn = new Button("Back");
 
-            myProfileTitle.setFont(Font.font("Segoe UI Bold",25));
+            sceneTitle.setFont(Font.font("Segoe UI Bold", 25));
+            itemsSale.setFont(Font.font("Segoe UI Bold",25));
+            ratings.setFont(Font.font("Segoe UI Bold",25));
+
+            //dropdown menu
+            menu = new MenuButton("My NotAmazon");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, signOut);
+
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+
+            searchBtn.setOnAction(event ->{
+                guSearchItemScene = new GUSearchItemPage();
+                window.setScene(guSearchItemScene);
+            });
 
             backBtn.setOnAction(event -> {
                 ouMainScene = new OUMainPage();
                 window.setScene(ouMainScene);
             });
 
+            //rectangle for profile info
+            username = new Label(personalInfo[0]);
+            name = new Label(personalInfo[1] + " " + personalInfo[2]);
+            Rectangle rectangle = new Rectangle(100, 100, 660, 160);
+            rectangle.setFill(Color.LIGHTGRAY);
+            rectangle.setArcHeight(10.0d);
+            rectangle.setArcWidth(10.0d);
+            StackPane stack_pane = new StackPane(rectangle, username, name);
+            StackPane.setAlignment(username, Pos.TOP_LEFT);
+            StackPane.setAlignment(name,Pos.CENTER_LEFT);
+
+
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
 
-            layout.add(myProfileTitle, 0, 0, 2, 1);
-            layout.add(backBtn, 9, 26, 2, 1);
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(stack_pane, 0, 3, 2, 1);
+            layout.add(menu, 4, 1);
+            layout.add(itemsSale,0,4,2,1);
+            layout.add(ratings,0,5,2,1);
+
         }
     }
 
@@ -470,11 +539,10 @@ public class NotAmazon extends Application{
         GridPane layout;
         Text sceneTitle;
         Text searchResultTitle;
-        MenuButton menu;
-        MenuItem login;
-        MenuItem signup;
         TextField searchBar;
         Button searchBtn;
+        Button loginBtn;
+        Button signupBtn;
 
         public GUSearchItemPage() {
             super(new GridPane(),700,700);
@@ -487,20 +555,15 @@ public class NotAmazon extends Application{
             searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
 
             searchBtn = new Button("Search");
+            loginBtn = new Button("Login");
+            signupBtn = new Button("Sign Up");
 
-
-            //dropdown menu
-            menu = new MenuButton("Select Action");
-            login = new MenuItem("Login");
-            signup = new MenuItem("Sign Up");
-            menu.getItems().addAll(login, signup);
-
-            login.setOnAction(event -> {
+            loginBtn.setOnAction(event -> {
                 loginScene = new LoginPage();
                 window.setScene(loginScene);
             });
 
-            signup.setOnAction(event -> {
+            signupBtn.setOnAction(event -> {
                 signupScene = new SignupPage();
                 window.setScene(signupScene);
             });
@@ -512,11 +575,11 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 4, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchResultTitle, 0, 3, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
-
+            layout.add(loginBtn,4,1,2,1);
+            layout.add(signupBtn,6,1,2,1);
         }
     }
 
@@ -602,7 +665,7 @@ public class NotAmazon extends Application{
             pendAppTitle = new Text("Pending Apps");
             reportTitle = new Text("Report/Warnings");
             pendItemAppTitle = new Text("Pending Items Apps");
-            blackListTitle = new Text("BlackListed Item");
+            blackListTitle = new Text("Blacklisted Item");
 
             searchBar = new TextField();
 
@@ -619,7 +682,7 @@ public class NotAmazon extends Application{
             });
 
             //dropdown menu
-            menu = new MenuButton("Select Action");
+            menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
@@ -649,9 +712,9 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 3, 1, 2, 1);
+            layout.add(menu, 3, 1);
             layout.add(searchBar, 0, 1, 2, 1);
-            layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(searchBtn, 2, 1);
             layout.add(pendAppTitle, 0, 3, 2, 1);
             layout.add(pendItemAppTitle, 2, 3, 2, 1);
             layout.add(reportTitle, 0, 26, 2, 1);
