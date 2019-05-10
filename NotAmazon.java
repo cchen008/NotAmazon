@@ -1,11 +1,8 @@
 import javafx.application.*;
 import javafx.geometry.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.stage.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.*;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
@@ -702,10 +699,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	ObservableList<String> listOfApp;
+        ListView<String> appListView;
     	
     	public PendAppPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            listOfApp = FXCollections.observableArrayList();
+            appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
             
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -716,12 +717,17 @@ public class NotAmazon extends Application{
             	window.setScene(suMainScene);
             });
             
+            appListView.setPrefWidth(300);
+            appListView.setPrefHeight(400);
+            appListView.setOrientation(Orientation.VERTICAL);
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(appListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
     	}
     }
@@ -730,10 +736,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	ObservableList<String> listOfItem;
+        ListView<String> itemListView;
     	
     	public PendItemPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            listOfItem = FXCollections.observableArrayList();
+            itemListView = new ListView<>(listOfItem);
             sceneTitle = new Text("Pending Item Applications");
             
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -750,6 +760,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(itemListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
             
     	}
@@ -759,10 +770,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
-    	
+    	ObservableList<String> listOfReport;
+        ListView<String> reportListView;
+        
     	public ReportPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            listOfReport = FXCollections.observableArrayList();
+            reportListView = new ListView<>(listOfReport);
             sceneTitle = new Text("Report Page");
             
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -779,6 +794,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(reportListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
             
     	}
@@ -788,10 +804,14 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	ObservableList<String> blackList;
+        ListView<String> blackListView;
     	
     	public BlackListPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
+            blackList = FXCollections.observableArrayList();
+            blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
             
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -808,6 +828,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(blackListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
             
     	}
