@@ -28,11 +28,11 @@ public class NotAmazon extends Application{
     private GUSearchItemPage guSearchItemScene;
     private OUSearchItemPage ouSearchItemScene;
     private SUMainPage suMainScene;
-
-
+    
+    
     private String thisUser;
     private String thisAdmin;
-
+    
     public static void main(String[]args){
         launch(args);
     }
@@ -171,7 +171,8 @@ public class NotAmazon extends Application{
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
-
+            
+            /*
             // action event
             EventHandler<ActionEvent> pressEnter = new EventHandler<ActionEvent>(){
                 public void handle(ActionEvent e)
@@ -193,10 +194,11 @@ public class NotAmazon extends Application{
                     }
                 }
             };
-
+			
             // when enter is pressed
             pass_TextField.setOnAction(pressEnter);
-
+			*/
+            
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
 
             layout.setAlignment(Pos.BASELINE_LEFT);
@@ -324,7 +326,7 @@ public class NotAmazon extends Application{
             
         }
     }
-
+    
     class OUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -470,9 +472,8 @@ public class NotAmazon extends Application{
         GridPane layout;
         Text sceneTitle;
         Text searchResultTitle;
-        MenuButton menu;
-        MenuItem login;
-        MenuItem signup;
+        Button loginBtn;
+        Button signupBtn;
         TextField searchBar;
         Button searchBtn;
 
@@ -489,22 +490,18 @@ public class NotAmazon extends Application{
             searchBtn = new Button("Search");
 
 
-            //dropdown menu
-            menu = new MenuButton("Select Action");
-            login = new MenuItem("Login");
-            signup = new MenuItem("Sign Up");
-            menu.getItems().addAll(login, signup);
-
-            login.setOnAction(event -> {
+            loginBtn = new Button("Login");
+            signupBtn = new Button("Sign Up");
+            
+            loginBtn.setOnAction(event -> {
                 loginScene = new LoginPage();
                 window.setScene(loginScene);
             });
 
-            signup.setOnAction(event -> {
+            signupBtn.setOnAction(event -> {
                 signupScene = new SignupPage();
                 window.setScene(signupScene);
             });
-            //dropdown menu
 
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
@@ -512,7 +509,8 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 4, 1, 2, 1);
+            layout.add(loginBtn, 4, 1, 2, 1);
+            layout.add(signupBtn, 6, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchResultTitle, 0, 3, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
@@ -588,10 +586,7 @@ public class NotAmazon extends Application{
         Text pendItemAppTitle;
         Text reportTitle;
         Text blackListTitle;
-        MenuButton menu;
-        MenuItem profile;
-        MenuItem myTranHist;
-        MenuItem signOut;
+        Button signOutBtn;
         TextField searchBar;
         Button searchBtn;
 
@@ -618,30 +613,12 @@ public class NotAmazon extends Application{
                 window.setScene(ouSearchItemScene);
             });
 
-            //dropdown menu
-            menu = new MenuButton("Select Action");
-            profile = new MenuItem("Profile");
-            myTranHist = new MenuItem("My Transaction History");
-            signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myTranHist, signOut);
+            signOutBtn = new Button("Sign Out");
 
-
-            profile.setOnAction(event -> {
-                myProfileScene = new MyProfilePage();
-                window.setScene(myProfileScene);
-            });
-
-            myTranHist.setOnAction(event -> {
-                transScene = new TransactionPage();
-                window.setScene(transScene);
-            });
-
-            signOut.setOnAction(event -> {
+            signOutBtn.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
             });
-            //dropdown menu
-
 
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
@@ -649,7 +626,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 3, 1, 2, 1);
+            layout.add(signOutBtn, 4, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(pendAppTitle, 0, 3, 2, 1);
