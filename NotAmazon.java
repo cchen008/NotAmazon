@@ -587,11 +587,17 @@ public class NotAmazon extends Application{
         Text pendItemAppTitle;
         Text reportTitle;
         Text blackListTitle;
-        Button signOutBtn;
         TextField searchBar;
+        Button signOutBtn;
         Button searchBtn;
-        Image appImage;
-        ImageView appView;
+        Image userAppImage;
+        Image itemAppImage;
+        Image reportImage;
+        Image bListImage;
+        ImageView userAppView;
+        ImageView itemAppView;
+        ImageView reportView;
+        ImageView bListView;
 
         public SUMainPage() {
             super(new GridPane(),700,700);
@@ -609,11 +615,30 @@ public class NotAmazon extends Application{
             pendItemAppTitle.setFont(Font.font("Segoe UI Bold",25));
             blackListTitle.setFont(Font.font("Segoe UI Bold",25));
             
-            appImage = new Image("appImage.jpg");
-            appView = new ImageView();
-            appView.setImage(appImage);
-            appView.setFitHeight(200);
-            appView.setFitWidth(200);
+            userAppImage = new Image("appImage.jpg");
+            userAppView = new ImageView();
+            userAppView.setImage(userAppImage);
+            userAppView.setFitHeight(200);
+            userAppView.setFitWidth(200);
+            
+            itemAppImage = new Image("itemApp.png");
+            itemAppView = new ImageView();
+            itemAppView.setImage(itemAppImage);
+            itemAppView.setFitHeight(200);
+            itemAppView.setFitWidth(200);
+            
+            reportImage = new Image("reportImage.jpg");
+            reportView = new ImageView();
+            reportView.setImage(reportImage);
+            reportView.setFitHeight(200);
+            reportView.setFitWidth(200);
+            
+            bListImage = new Image("blackListImage.png");
+            bListView = new ImageView();
+            bListView.setImage(bListImage);
+            bListView.setFitHeight(200);
+            bListView.setFitWidth(200);
+            
 
             searchBtn = new Button("Search");
 
@@ -637,11 +662,14 @@ public class NotAmazon extends Application{
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(pendAppTitle, 0, 3, 2, 1);
-            layout.add(appView, 0, 6, 2, 1);
+            layout.add(userAppView, 0, 6, 2, 1);
             layout.add(reportTitle, 0, 10, 2, 1);
+            layout.add(reportView, 0, 13, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(pendItemAppTitle, 2, 3, 2, 1);
+            layout.add(itemAppView, 2, 6, 2, 1);
             layout.add(blackListTitle, 2, 10, 2, 1);
+            layout.add(bListView, 2, 13, 2, 1);
             layout.add(signOutBtn, 4, 1, 2, 1);
         }
     }
