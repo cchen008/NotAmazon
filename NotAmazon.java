@@ -14,6 +14,7 @@ import javafx.collections.*;
 import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.image.*;
 
 
 public class NotAmazon extends Application{
@@ -42,7 +43,7 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(guMainScene);
+        window.setScene(suMainScene);
         window.show();
     }
     
@@ -589,6 +590,8 @@ public class NotAmazon extends Application{
         Button signOutBtn;
         TextField searchBar;
         Button searchBtn;
+        Image appImage;
+        ImageView appView;
 
         public SUMainPage() {
             super(new GridPane(),700,700);
@@ -598,13 +601,19 @@ public class NotAmazon extends Application{
             reportTitle = new Text("Report/Warnings");
             pendItemAppTitle = new Text("Pending Items Apps");
             blackListTitle = new Text("BlackListed Item");
-
+            
             searchBar = new TextField();
 
             pendAppTitle.setFont(Font.font("Segoe UI Bold",25));
             reportTitle.setFont(Font.font("Segoe UI Bold",25));
             pendItemAppTitle.setFont(Font.font("Segoe UI Bold",25));
             blackListTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            appImage = new Image("appImage.jpg");
+            appView = new ImageView();
+            appView.setImage(appImage);
+            appView.setFitHeight(200);
+            appView.setFitWidth(200);
 
             searchBtn = new Button("Search");
 
@@ -626,13 +635,14 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(signOutBtn, 4, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
-            layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(pendAppTitle, 0, 3, 2, 1);
+            layout.add(appView, 0, 6, 2, 1);
+            layout.add(reportTitle, 0, 10, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(pendItemAppTitle, 2, 3, 2, 1);
-            layout.add(reportTitle, 0, 26, 2, 1);
-            layout.add(blackListTitle, 2, 26, 2, 1);
+            layout.add(blackListTitle, 2, 10, 2, 1);
+            layout.add(signOutBtn, 4, 1, 2, 1);
         }
     }
 }
