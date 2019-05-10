@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.*;
+import javafx.scene.input.MouseEvent;
 
 
 public class NotAmazon extends Application{
@@ -620,35 +621,50 @@ public class NotAmazon extends Application{
             userAppView.setImage(userAppImage);
             userAppView.setFitHeight(200);
             userAppView.setFitWidth(200);
-            
+            userAppView.setOnMouseClicked((MouseEvent e) -> {
+            	guMainScene = new GUMainPage();
+            	window.setScene(guMainScene);
+            });
+            	
             itemAppImage = new Image("itemApp.png");
             itemAppView = new ImageView();
             itemAppView.setImage(itemAppImage);
             itemAppView.setFitHeight(200);
             itemAppView.setFitWidth(200);
+            itemAppView.setPickOnBounds(true);
+            itemAppView.setOnMouseClicked((MouseEvent) -> {
+            	guMainScene = new GUMainPage();
+            	window.setScene(guMainScene);
+            });
             
             reportImage = new Image("reportImage.jpg");
             reportView = new ImageView();
             reportView.setImage(reportImage);
             reportView.setFitHeight(200);
             reportView.setFitWidth(200);
+            reportView.setOnMouseClicked((MouseEvent) -> {
+            	guMainScene = new GUMainPage();
+            	window.setScene(guMainScene);
+            });
             
             bListImage = new Image("blackListImage.png");
             bListView = new ImageView();
             bListView.setImage(bListImage);
             bListView.setFitHeight(200);
             bListView.setFitWidth(200);
+            bListView.setOnMouseClicked((MouseEvent) -> {
+            	guMainScene = new GUMainPage();
+            	window.setScene(guMainScene);
+            });
             
 
             searchBtn = new Button("Search");
-
             searchBtn.setOnAction(event -> {
                 ouSearchItemScene = new OUSearchItemPage();
                 window.setScene(ouSearchItemScene);
             });
 
             signOutBtn = new Button("Sign Out");
-
             signOutBtn.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
