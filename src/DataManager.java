@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "@Fcrt39jiv9";
+            String password = "3821";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 

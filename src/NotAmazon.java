@@ -661,7 +661,6 @@ public class NotAmazon extends Application{
         Text reportTitle;
         Text blackListTitle;
         TextField searchBar;
-        Button signOutBtn;
         Button searchBtn;
         Image userAppImage;
         Image itemAppImage;
@@ -671,6 +670,10 @@ public class NotAmazon extends Application{
         ImageView itemAppView;
         ImageView reportView;
         ImageView bListView;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem signOut;
 
         public SUMainPage() {
             super(new GridPane(),700,700);
@@ -773,14 +776,11 @@ public class NotAmazon extends Application{
             layout.add(userAppView, 0, 6, 2, 1);
             layout.add(reportTitle, 0, 10, 2, 1);
             layout.add(reportView, 0, 13, 2, 1);
-            layout.add(searchBtn, 2, 1, 2, 1);
-            layout.add(searchBtn, 2, 1);
-            layout.add(pendAppTitle, 0, 3, 2, 1);
+            layout.add(searchBtn, 2, 1, 1, 1);
             layout.add(pendItemAppTitle, 2, 3, 2, 1);
             layout.add(itemAppView, 2, 6, 2, 1);
             layout.add(blackListTitle, 2, 10, 2, 1);
             layout.add(bListView, 2, 13, 2, 1);
-            layout.add(signOutBtn, 4, 1, 2, 1);
         }
     }
 
