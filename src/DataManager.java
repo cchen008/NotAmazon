@@ -42,6 +42,7 @@ public class DataManager{
             + "seller VARCHAR(30),"
             + "item_type BOOLEAN NOT NULL,"
             + "price DECIMAL(10,2),"
+            + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
             + "FOREIGN KEY (seller) REFERENCES USER(user_id));";
             
@@ -51,6 +52,7 @@ public class DataManager{
             + "seller_id VARCHAR(30) NOT NULL,"
             + "item_type BOOLEAN NOT NULL,"
             + "price DECIMAL(10,2),"
+            + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
             + "FOREIGN KEY (seller_id) REFERENCES USER(user_id));";
 
@@ -141,7 +143,7 @@ public class DataManager{
 
 
     public static String [] getItemInfo(String item){
-        String [] itemInfo = {"",""};
+        String [] itemInfo = {"","",""};
 
         try{
             String selectItemInfo = "SELECT item_name, price FROM item WHERE item_name=\"" +item+ "\";";
@@ -150,6 +152,7 @@ public class DataManager{
              if(thisItem.next()){
                  itemInfo[0] = thisItem.getString("item_name");
                  itemInfo[1] = thisItem.getString("price");
+                 itemInfo[2] = thisItem.getString("item_condition");
 
                  thisItem.close();
 

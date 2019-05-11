@@ -446,7 +446,7 @@ public class NotAmazon extends Application{
             });
 
             //dropdown menu
-            menu = new MenuButton("Menu");
+            menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
@@ -546,6 +546,7 @@ public class NotAmazon extends Application{
         MenuItem myTranHist;
         MenuItem signOut;
         String [] personalInfo;
+        MenuItem item; //TEMP FOR TESTING
 
 
         public MyProfilePage() {
@@ -569,8 +570,9 @@ public class NotAmazon extends Application{
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
             myTranHist = new MenuItem("My Transaction History");
+            item = new MenuItem("Item"); //TEMP FOR TESTING
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myTranHist, signOut);
+            menu.getItems().addAll(profile, myTranHist, item, signOut);
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
@@ -580,6 +582,12 @@ public class NotAmazon extends Application{
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
+            });
+
+            //TEMP FOR TESTING
+            item.setOnAction(event -> {
+                viewItemScene = new ViewItemPage();
+                window.setScene(viewItemScene);
             });
 
             signOut.setOnAction(event -> {
@@ -611,7 +619,7 @@ public class NotAmazon extends Application{
 
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
-            layout.setVgap(10);
+            layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
 
             layout.add(sceneTitle, 0, 0, 2, 1);
@@ -696,7 +704,7 @@ public class NotAmazon extends Application{
             searchBtn = new Button("Search");
 
             //dropdown menu
-            menu = new MenuButton("Select Action");
+            menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
@@ -736,20 +744,100 @@ public class NotAmazon extends Application{
     class ViewItemPage extends Scene{
         GridPane layout;
         Label itemLabel;
+        Text sceneTitle;
         Text itemCondition;
         Text timeLeft;
         Text currentBid;
         TextField myBid;
-        Button placeBid;
+        TextField searchBar;
+        Button placeBidBtn;
+        Button searchBtn;
+        Button backBtn;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myTranHist;
+        MenuItem item; //TEMP FOR TESTING
+        MenuItem signOut;
         String [] itemInfo;
 
         public ViewItemPage(){
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
 
-            itemInfo = DataManager.getItemInfo(thisItem);
+            sceneTitle = new Text("<NotAmazon logo>");
+            sceneTitle.setFont(Font.font("Segoe UI Bold",20));
 
-            itemLabel = new Label(itemInfo[0]);
+            searchBar = new TextField();
+
+            searchBtn = new Button("Search");
+            backBtn = new Button("Back");
+
+            //dropdown menu
+            menu = new MenuButton("My NotAmazon");
+            profile = new MenuItem("Profile");
+            myTranHist = new MenuItem("My Transaction History");
+            item = new MenuItem("Item");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myTranHist, item, signOut);
+
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+
+            item.setOnAction(event -> {
+                viewItemScene = new ViewItemPage();
+                window.setScene(viewItemScene);
+            });
+
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+
+            searchBtn.setOnAction(event ->{
+                guSearchItemScene = new GUSearchItemPage();
+                window.setScene(guSearchItemScene);
+            });
+
+            backBtn.setOnAction(event -> {
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
+            });
+
+            //itemInfo = DataManager.getItemInfo(thisItem);
+
+            itemLabel = new Label("<Insert item_name here>"); //itemInfo[0]
+            itemCondition = new Text("Condition:  "); //itemInfo[2]
+            timeLeft = new Text("Time left:  ");
+            currentBid = new Text("Current bid:  "); //itemInfo[1]
+            myBid = new TextField();
+            placeBidBtn = new Button("Place bid");
+
+            itemLabel.setFont(Font.font("Segoe UI Bold",15));
+            itemCondition.setFont(Font.font("Segoe UI",13));
+            timeLeft.setFont(Font.font("Segoe UI",13));
+            currentBid.setFont(Font.font("Segoe UI",13));
+
+            layout.setVgap(5);
+            layout.setHgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle,0,0,2,1);
+            layout.add(searchBar, 0, 2, 2, 1);
+            layout.add(searchBtn, 2, 2, 2, 1);
+            layout.add(menu, 4, 2);
+            layout.add(itemLabel,0,5,2,1);
+            layout.add(itemCondition,0,7);
+            layout.add(timeLeft,0,8);
+            layout.add(currentBid,0,9);
+            layout.add(myBid,0,10,2,1);
+            layout.add(placeBidBtn,0,11);
         }
     }
 
