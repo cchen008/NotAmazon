@@ -50,7 +50,7 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(suMainScene);
+        window.setScene(ouMainScene);
         window.show();
     }
     
@@ -352,12 +352,26 @@ public class NotAmazon extends Application{
         MenuItem signOut;
         TextField searchBar;
         Button searchBtn;
+        ObservableList<String> sellingList;
+        ListView<String> sellListView;
+        ObservableList<String> biddingList;
+        ListView<String> bidListView;
+        ObservableList<String> friendList;
+        ListView<String> friendListView;
 
 
         public OUMainPage() {
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
+            
+            sellingList = FXCollections.observableArrayList();
+            sellListView = new ListView<>(sellingList);
+            biddingList = FXCollections.observableArrayList();
+            bidListView = new ListView<>(biddingList);
+            friendList = FXCollections.observableArrayList();
+            friendListView = new ListView<>(friendList);
+            
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
             recItemTitle = new Text("Recommended");
             popItemTitle = new Text("Popular");
@@ -403,6 +417,16 @@ public class NotAmazon extends Application{
                 window.setScene(guMainScene);
             });
             //dropdown menu
+            
+            sellListView.setPrefWidth(300);
+            sellListView.setPrefHeight(400);
+            sellListView.setOrientation(Orientation.VERTICAL);
+            bidListView.setPrefWidth(300);
+            bidListView.setPrefHeight(400);
+            bidListView.setOrientation(Orientation.VERTICAL);
+            friendListView.setPrefWidth(300);
+            friendListView.setPrefHeight(400);
+            friendListView.setOrientation(Orientation.VERTICAL);
 
 
             layout.setAlignment(Pos.BASELINE_CENTER);
@@ -411,14 +435,17 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 4, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
-            layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(recItemTitle, 0, 3, 2, 1);
-            layout.add(popItemTitle, 0, 26, 2, 1);
+            layout.add(popItemTitle, 0, 6, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(sellTitle, 2, 3, 2, 1);
-            layout.add(bidTitle, 2, 17, 2, 1);
-            layout.add(friendTitle, 2, 30, 2, 1);
+            layout.add(sellListView, 2, 4, 2, 1);
+            layout.add(bidTitle, 2, 5, 2, 1);
+            layout.add(bidListView, 2, 6, 2, 1);
+            layout.add(friendTitle, 2, 7, 2, 1);
+            layout.add(friendListView, 2, 8, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
         }
     }
 
