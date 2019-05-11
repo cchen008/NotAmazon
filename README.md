@@ -3,6 +3,8 @@
   ```
   -Pending Applications Page is completed. (PendAppPage)
   -Testing is done on PendAppPage
+  -Fixed Logging in without password.
+  -Added defaultPassword upon approval of a new User's application.
   ```
   Changelog (4/29/29)
   ```
