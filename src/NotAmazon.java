@@ -913,6 +913,7 @@ public class NotAmazon extends Application{
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES) {
             			DataManager.addNewUser(currentApp);
+            			DataManager.defaultUserPass(currentApp);
                 		DataManager.deleteNewUser(currentApp);
                 		pendAppScene = new PendAppPage();
                 		window.setScene(pendAppScene);
