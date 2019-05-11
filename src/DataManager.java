@@ -79,6 +79,33 @@ public class DataManager{
         
     }
 
+    //returns all of user's information from User_Application
+    public static String[] getUserApp(String username) {
+    	String [] userInfo = {"","","","","",""};
+    	
+    	try {
+    		String retrieve_userAppInfo = "SELECT user_id,first_name,last_name,address,phone_num,card_num FROM User_Application WHERE user_id=\"" +username+ "\";";
+    		
+    		ResultSet results = statement.executeQuery(retrieve_userAppInfo);
+    		
+    		if(results.next()){
+                userInfo[0] = results.getString("user_id");
+                userInfo[1] = results.getString("first_name");
+                userInfo[2] = results.getString("last_name");
+                userInfo[3] = results.getString("address");
+                userInfo[4] = results.getString("phone_num");
+                userInfo[5] = results.getString("card_num");
+
+                results.close();
+
+                return userInfo;
+            }
+    	}
+    	catch(Exception expt){
+            expt.printStackTrace();
+        }
+    	return (userInfo);
+    }
     //for profile page
     public static String [] getPersonalInfo(String username){
         String [] personalInfo = {"","",""};
@@ -128,8 +155,7 @@ public class DataManager{
     		expt.printStackTrace();
     	}
     }
-    
-    
+      
     public static void deleteNewUser(String username) {
     	try {
     		String deleteUser = "DELETE FROM User_Application WHERE user_id = \"" +username+ "\";";

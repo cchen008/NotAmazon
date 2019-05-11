@@ -871,6 +871,13 @@ public class NotAmazon extends Application{
     	ObservableList<String> listOfApp;
         ListView<String> appListView;
         Alert confirm;
+        String [] userInfo;
+        String user;
+        String first;
+        String last;
+        String addr;
+        String phone;
+        String cc;
 
     	public PendAppPage() {
     		super(new GridPane(),700,700);
@@ -878,13 +885,30 @@ public class NotAmazon extends Application{
             listOfApp = FXCollections.observableArrayList(DataManager.getListOfApp());
             appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
-            confirm = new Alert(AlertType.CONFIRMATION, "Approve Application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
 
             viewBtn = new Button("View");
             viewBtn.setOnAction(e -> {
             	currentApp = appListView.getSelectionModel().getSelectedItem().toString();
+            	userInfo = DataManager.getUserApp(currentApp);
+                user = userInfo[0];
+                first = userInfo[1];
+                last = userInfo[2];
+                addr = userInfo[3];
+                phone = userInfo[4];
+                cc = userInfo[5];
+                
+                confirm = new Alert(AlertType.CONFIRMATION,
+                		"Username: "+user
+                		+"\nFirst Name: "+first
+                		+"\nLast Name: "+last
+                		+"\nAddress:"+addr
+                		+"\nPhone Number:"+phone
+                		+"\nCredit Card Number:"+cc
+                		+"\nApprove Application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                
             	if(appListView.getSelectionModel().getSelectedItem() != null){
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES) {
