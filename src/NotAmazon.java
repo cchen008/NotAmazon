@@ -13,6 +13,8 @@ import javafx.scene.text.Font;
 import javafx.scene.paint.*;
 import javafx.collections.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.*;
+import javafx.scene.control.Dialog.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.*;
@@ -49,7 +51,7 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(suMainScene);
+        window.setScene(guMainScene);
         window.show();
     }
     
@@ -712,7 +714,7 @@ public class NotAmazon extends Application{
             	window.setScene(pendItemScene);
             });
 
-            reportImage = new Image("reportImage.jpg");
+            reportImage = new Image("reportImage.png");
             reportView = new ImageView();
             reportView.setImage(reportImage);
             reportView.setFitHeight(200);
@@ -788,8 +790,10 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	Button viewBtn;
     	ObservableList<String> listOfApp;
         ListView<String> appListView;
+        Alert confirm;
 
     	public PendAppPage() {
     		super(new GridPane(),700,700);
@@ -797,9 +801,20 @@ public class NotAmazon extends Application{
             listOfApp = FXCollections.observableArrayList(DataManager.getListOfApp());
             appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
+            confirm = new Alert(AlertType.CONFIRMATION, "Approve Application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
 
+            viewBtn = new Button("View");
+            viewBtn.setOnAction(e -> {
+            	if(appListView.getSelectionModel().getSelectedItem() != null){
+            		confirm.showAndWait();
+            		if(confirm.getResult() == ButtonType.YES) {
+            			//filler
+            		}
+            	}
+            });
+            
             backBtn = new Button("Back");
             backBtn.setOnAction(event -> {
             	suMainScene = new SUMainPage();
@@ -818,6 +833,7 @@ public class NotAmazon extends Application{
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(appListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
+            layout.add(viewBtn, 0, 2, 2, 1);
     	}
     }
 

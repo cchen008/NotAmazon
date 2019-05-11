@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "3821";
+            String password = "@Fcrt39jiv9";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -50,6 +50,7 @@ public class DataManager{
             + "FOREIGN KEY (seller_id) REFERENCES USER(user_id));";
 
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
+            String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
 
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -65,6 +66,7 @@ public class DataManager{
             statement.executeUpdate(createItemAppTable);
             statement.executeUpdate(createItemTable);
             statement.executeUpdate(insertAdmin);
+            statement.executeUpdate(insertSecondAdmin);
         }
 
         catch(Exception e){
