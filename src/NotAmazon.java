@@ -181,7 +181,7 @@ public class NotAmazon extends Application{
                     suMainScene = new SUMainPage();
                     window.setScene(suMainScene);
                 }
-                if(DataManager.isValidUser(tempUsername,tempPassword)){
+                if(DataManager.isValidUser(tempUsername)){
                 	thisUser = tempUsername;
                     usr_TextField.setText("");
                     pass_TextField.setText("");
@@ -201,7 +201,7 @@ public class NotAmazon extends Application{
                 {
                     String tempUsername = usr_TextField.getText();
                     String tempPassword = pass_TextField.getText();
-                    if(DataManager.isValidUser(tempUsername,tempPassword)){
+                    if(DataManager.isValidUser(tempUsername)){
                         thisUser = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");
@@ -885,7 +885,7 @@ public class NotAmazon extends Application{
             listOfApp = FXCollections.observableArrayList(DataManager.getListOfApp());
             appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
-            
+
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
 
@@ -899,7 +899,7 @@ public class NotAmazon extends Application{
                 addr = userInfo[3];
                 phone = userInfo[4];
                 cc = userInfo[5];
-                
+
                 confirm = new Alert(AlertType.CONFIRMATION,
                 		"Username: "+user
                 		+"\nFirst Name: "+first
@@ -908,7 +908,7 @@ public class NotAmazon extends Application{
                 		+"\nPhone Number:"+phone
                 		+"\nCredit Card Number:"+cc
                 		+"\nApprove Application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-                
+
             	if(appListView.getSelectionModel().getSelectedItem() != null){
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES) {
@@ -1063,4 +1063,24 @@ public class NotAmazon extends Application{
             
     	}
     }
+
+    /*class viewingItem{
+        GridPane layout;
+        Text itemLabel;
+        Text itemCondition;
+        Text timeLeft;
+        Text currentBid;
+        TextField myBid;
+        Button placeBid;
+        String [] itemInfo;
+
+        public viewingItem(){
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+
+            //itemInfo = DataManager.
+
+            itemLabel = new Text();
+        }
+    }*/
 }

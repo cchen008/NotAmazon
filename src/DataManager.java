@@ -132,6 +132,29 @@ public class DataManager{
         return (personalInfo);
     }
 
+    /*
+    public static String [] getItemInfo(String item){
+        String [] itemInfo = {"",""};
+
+        try{
+            String selectItemInfo = "SELECT item_name, price FROM item WHERE item_name=\"" +item+ "\";";
+
+            ResultSet thisItem = statement.executeQuery(selectItemInfo);
+             if(thisItem.next()){
+                 itemInfo[0] = thisItem.getString("item_name");
+                 itemInfo[1] = thisItem.getString("price");
+
+                 thisItem.close();
+
+                 return itemInfo;
+             }
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+
+        return (itemInfo);
+    }*/
+
     //create new user
     public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum,
                                      String creditNum){
