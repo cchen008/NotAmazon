@@ -115,6 +115,25 @@ public class DataManager{
             expt.printStackTrace();
         }
     }
+    
+    public static void addNewUser(String username) {
+    	try {
+    		String addUser = "INSERT IGNORE INTO user SELECT * FROM user_application WHERE user_id = \"" +username+ "\";";
+    		statement.executeUpdate(addUser);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
+    
+    public static void deleteNewUser(String username) {
+    	try {
+    		String deleteUser = "DELETE FROM User_Application WHERE user_id = \"" +username+ "\";";
+    		statement.executeUpdate(deleteUser);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
 
     //checks if username exists
     public static boolean isValidAdmin(String username, String password){
@@ -177,8 +196,8 @@ public class DataManager{
         return false;
     }
 
-    //public static boolean isValidUser(String username, String password){
-    public static boolean isValidUser(String username){
+    public static boolean isValidUser(String username, String password){
+    //public static boolean isValidUser(String username){
         try{
             int numberOfUsers = 0;
             //String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\" AND password= \"" +password+ "\";";

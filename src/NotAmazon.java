@@ -37,10 +37,11 @@ public class NotAmazon extends Application{
     private PendItemPage pendItemScene;
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
-    
+    //private SellPage sellScene;
     
     private String thisUser;
     private String thisAdmin;
+    private String currentApp;
     
     public static void main(String[]args){
         launch(args);
@@ -174,25 +175,33 @@ public class NotAmazon extends Application{
                 String tempUsername = usr_TextField.getText();
                 String tempPassword = pass_TextField.getText();
                 if(DataManager.isValidAdmin(tempUsername,tempPassword)){
+                	thisAdmin = tempUsername;
                     usr_TextField.setText("");
                     pass_TextField.setText("");
                     suMainScene = new SUMainPage();
                     window.setScene(suMainScene);
+                }
+                if(DataManager.isValidUser(tempUsername,tempPassword)){
+                	thisUser = tempUsername;
+                    usr_TextField.setText("");
+                    pass_TextField.setText("");
+                    suMainScene = new SUMainPage();
+                    window.setScene(ouMainScene);
                 }
             });
 
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
-
+            
+            
             // action event
             EventHandler<ActionEvent> pressEnter = new EventHandler<ActionEvent>(){
                 public void handle(ActionEvent e)
                 {
                     String tempUsername = usr_TextField.getText();
                     String tempPassword = pass_TextField.getText();
-                    //if(DataManager.isValidUser(tempUsername,tempPassword)){
-                    if(DataManager.isValidUser(tempUsername)){
+                    if(DataManager.isValidUser(tempUsername,tempPassword)){
                         thisUser = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");
@@ -200,6 +209,7 @@ public class NotAmazon extends Application{
                         window.setScene(ouMainScene);
                     }
                     if(DataManager.isValidAdmin(tempUsername,tempPassword)){
+                    	thisAdmin = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");
                         suMainScene = new SUMainPage();
@@ -207,9 +217,11 @@ public class NotAmazon extends Application{
                     }
                 }
             };
+            
 
             // when enter is pressed
             pass_TextField.setOnAction(pressEnter);
+            
 
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
 
@@ -347,38 +359,87 @@ public class NotAmazon extends Application{
         Text sellTitle;
         Text bidTitle;
         Text friendTitle;
+        Text addFriendTitle;
+        Text friendName;
         MenuButton menu;
         MenuItem profile;
         MenuItem myTranHist;
         MenuItem signOut;
         TextField searchBar;
+        TextField friendTextField;
         Button searchBtn;
+        Button sellBtn;
+        Button friendBtn;
+        ObservableList<String> sellingList;
+        ListView<String> sellListView;
+        ObservableList<String> biddingList;
+        ListView<String> bidListView;
+        ObservableList<String> friendList;
+        ListView<String> friendListView;
 
 
         public OUMainPage() {
-            super(new GridPane(),700,700);
+            super(new GridPane(),900,800);
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
+            
+            sellingList = FXCollections.observableArrayList();
+            sellListView = new ListView<>(sellingList);
+            biddingList = FXCollections.observableArrayList();
+            bidListView = new ListView<>(biddingList);
+            friendList = FXCollections.observableArrayList();
+            friendListView = new ListView<>(friendList);
+            
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
             recItemTitle = new Text("Recommended");
             popItemTitle = new Text("Popular");
             sellTitle = new Text("Sell");
             bidTitle = new Text("Bid");
             friendTitle = new Text("Friend");
+            addFriendTitle = new Text("Add Friend");
+            friendName = new Text("Username:");
 
             searchBar = new TextField();
+            friendTextField = new TextField();
 
             recItemTitle.setFont(Font.font("Segoe UI Bold",25));
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
             bidTitle.setFont(Font.font("Segoe UI Bold",25));
             friendTitle.setFont(Font.font("Segoe UI Bold",25));
+            addFriendTitle.setFont(Font.font("Segoe UI Bold",25));
 
             searchBtn = new Button("Search");
+            sellBtn = new Button("+");
+            friendBtn = new Button("+");
 
             searchBtn.setOnAction(event -> {
                 ouSearchItemScene = new OUSearchItemPage();
                 window.setScene(ouSearchItemScene);
+            });
+            
+            sellBtn.setOnAction(event -> {
+            	
+            });
+            
+            friendBtn.setOnAction(event -> {
+                GridPane friendLayout = new GridPane();
+                Scene friendScene = new Scene(friendLayout, 400, 300);
+ 
+                // New window (Stage)
+                Stage friendWindow = new Stage();
+                friendWindow.setTitle("Add Friend");
+                friendWindow.setScene(friendScene);
+                
+                friendLayout.setAlignment(Pos.BASELINE_CENTER);
+                friendLayout.setHgap(10);
+                friendLayout.setVgap(10);
+                friendLayout.setPadding(new Insets(25, 25, 25, 25));
+                friendLayout.add(addFriendTitle, 2, 0, 2, 1);
+                friendLayout.add(friendName, 0, 1, 2, 1);
+                friendLayout.add(friendTextField, 2, 1, 2, 1);
+                
+                friendWindow.show();
             });
 
             //dropdown menu
@@ -404,6 +465,16 @@ public class NotAmazon extends Application{
                 window.setScene(guMainScene);
             });
             //dropdown menu
+            
+            sellListView.setPrefWidth(300);
+            sellListView.setPrefHeight(400);
+            sellListView.setOrientation(Orientation.VERTICAL);
+            bidListView.setPrefWidth(300);
+            bidListView.setPrefHeight(400);
+            bidListView.setOrientation(Orientation.VERTICAL);
+            friendListView.setPrefWidth(300);
+            friendListView.setPrefHeight(400);
+            friendListView.setOrientation(Orientation.VERTICAL);
 
 
             layout.setAlignment(Pos.BASELINE_CENTER);
@@ -412,14 +483,19 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 4, 1, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
-            layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(recItemTitle, 0, 3, 2, 1);
-            layout.add(popItemTitle, 0, 26, 2, 1);
+            layout.add(popItemTitle, 0, 6, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(sellTitle, 2, 3, 2, 1);
-            layout.add(bidTitle, 2, 17, 2, 1);
-            layout.add(friendTitle, 2, 30, 2, 1);
+            layout.add(sellListView, 2, 4, 2, 1);
+            layout.add(bidTitle, 2, 5, 2, 1);
+            layout.add(bidListView, 2, 6, 2, 1);
+            layout.add(friendTitle, 2, 7, 2, 1);
+            layout.add(friendListView, 2, 8, 2, 1);
+            layout.add(menu, 4, 1, 2, 1);
+            layout.add(sellBtn, 4, 3, 2, 1);
+            layout.add(friendBtn, 4, 7, 2, 1);
         }
     }
 
@@ -807,10 +883,19 @@ public class NotAmazon extends Application{
 
             viewBtn = new Button("View");
             viewBtn.setOnAction(e -> {
+            	currentApp = appListView.getSelectionModel().getSelectedItem().toString();
             	if(appListView.getSelectionModel().getSelectedItem() != null){
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES) {
-            			//filler
+            			DataManager.addNewUser(currentApp);
+                		DataManager.deleteNewUser(currentApp);
+                		pendAppScene = new PendAppPage();
+                		window.setScene(pendAppScene);
+            		}
+            		else if(confirm.getResult() == ButtonType.NO) {
+            			DataManager.deleteNewUser(currentApp);
+                    	pendAppScene = new PendAppPage();
+                    	window.setScene(pendAppScene);
             		}
             	}
             });
@@ -820,7 +905,7 @@ public class NotAmazon extends Application{
             	suMainScene = new SUMainPage();
             	window.setScene(suMainScene);
             });
-
+            
             appListView.setPrefWidth(300);
             appListView.setPrefHeight(400);
             appListView.setOrientation(Orientation.VERTICAL);
@@ -915,7 +1000,7 @@ public class NotAmazon extends Application{
     	public BlackListPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
-            blackList = FXCollections.observableArrayList(DataManager.getListOfApp());
+            blackList = FXCollections.observableArrayList();
             blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
 
