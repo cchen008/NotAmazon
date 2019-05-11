@@ -39,6 +39,7 @@ public class NotAmazon extends Application{
     
     private String thisUser;
     private String thisAdmin;
+    private String currentApp;
     
     public static void main(String[]args){
         launch(args);
@@ -788,6 +789,8 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	Button acceptBtn;
+    	Button declineBtn;
     	ObservableList<String> listOfApp;
         ListView<String> appListView;
 
@@ -801,9 +804,29 @@ public class NotAmazon extends Application{
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
 
             backBtn = new Button("Back");
+            acceptBtn = new Button("Accept");
+            declineBtn = new Button("Decline");
+            
             backBtn.setOnAction(event -> {
             	suMainScene = new SUMainPage();
             	window.setScene(suMainScene);
+            });
+            
+            acceptBtn.setOnAction(event -> {
+            	if(appListView.getSelectionModel().getSelectedItem() != null)
+            		currentApp = appListView.getSelectionModel().getSelectedItem().toString();
+            		DataManager.addNewUser(currentApp);
+            		DataManager.deleteNewUser(currentApp);
+            		pendAppScene = new PendAppPage();
+            		window.setScene(pendAppScene);
+            });
+            
+            declineBtn.setOnAction(event ->{
+                if(appListView.getSelectionModel().getSelectedItem() != null)
+                    currentApp = appListView.getSelectionModel().getSelectedItem().toString();
+                	DataManager.deleteNewUser(currentApp);
+                	pendAppScene = new PendAppPage();
+                	window.setScene(pendAppScene);
             });
 
             appListView.setPrefWidth(300);
@@ -817,6 +840,8 @@ public class NotAmazon extends Application{
 
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(appListView, 0, 1, 2, 1);
+            layout.add(declineBtn, 0, 2, 2, 1);
+            layout.add(acceptBtn, 2, 2, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
     	}
     }
@@ -899,7 +924,7 @@ public class NotAmazon extends Application{
     	public BlackListPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
-            blackList = FXCollections.observableArrayList(DataManager.getListOfApp());
+            blackList = FXCollections.observableArrayList();
             blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
 
