@@ -1,4 +1,9 @@
 # NotAmazon
+  Changelog (5/11/29)
+  ```
+  -Pending Applications Page is completed. (PendAppPage)
+  -Testing is done on PendAppPage
+  ```
   Changelog (4/29/29)
   ```
   -Added FirstScene,SecondScene, and ThirdScene as shown prototypes.
