@@ -38,10 +38,11 @@ public class NotAmazon extends Application{
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
     private SellPage sellScene;
-    //private ViewItemPage viewItemScene;
+    private ViewItemPage viewItemScene;
     
     private String thisUser;
     private String thisAdmin;
+    private String thisItem;
     private String currentApp;
     
     public static void main(String[]args){
@@ -74,7 +75,7 @@ public class NotAmazon extends Application{
         pendItemScene = new PendItemPage();
         pendReportScene = new ReportPage();
         bListScene = new BlackListPage();
-        //viewItemScene = new ViewItemPage();
+        viewItemScene = new ViewItemPage();
     }
     
     @Override
@@ -378,8 +379,6 @@ public class NotAmazon extends Application{
         ListView<String> bidListView;
         ObservableList<String> friendList;
         ListView<String> friendListView;
-        String [] personalInfo;
-
 
         public OUMainPage() {
             super(new GridPane(),900,800);
@@ -599,8 +598,8 @@ public class NotAmazon extends Application{
             });
 
             //rectangle for profile info
-            username = new Label(personalInfo[0]);
-            name = new Label(personalInfo[1] + " " + personalInfo[2]);
+            username = new Label("  " + personalInfo[0]);
+            name = new Label("  " + personalInfo[1] + " " + personalInfo[2]);
             Rectangle rectangle = new Rectangle(100, 100, 660, 160);
             rectangle.setFill(Color.LIGHTGRAY);
             rectangle.setArcHeight(10.0d);
@@ -734,9 +733,9 @@ public class NotAmazon extends Application{
         }
     }
 
-    /*class ViewItemPage{
+    class ViewItemPage extends Scene{
         GridPane layout;
-        Text itemLabel;
+        Label itemLabel;
         Text itemCondition;
         Text timeLeft;
         Text currentBid;
@@ -748,11 +747,11 @@ public class NotAmazon extends Application{
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
 
-            //itemInfo = DataManager.
+            itemInfo = DataManager.getItemInfo(thisItem);
 
-            itemLabel = new Text();
+            itemLabel = new Label(itemInfo[0]);
         }
-    }*/
+    }
 
     class SUMainPage extends Scene{
         GridPane layout;

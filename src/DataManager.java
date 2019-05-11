@@ -140,7 +140,7 @@ public class DataManager{
     }
 
 
-    /*public static String [] getItemInfo(String item){
+    public static String [] getItemInfo(String item){
         String [] itemInfo = {"",""};
 
         try{
@@ -160,7 +160,7 @@ public class DataManager{
         }
 
         return (itemInfo);
-    }*/
+    }
 
     //create new user
     public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum,
