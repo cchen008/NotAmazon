@@ -55,7 +55,6 @@ public class DataManager{
             + "FOREIGN KEY (seller_id) REFERENCES USER(user_id));";
 
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
-            String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
 
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -71,7 +70,6 @@ public class DataManager{
             statement.executeUpdate(createItemAppTable);
             statement.executeUpdate(createItemTable);
             statement.executeUpdate(insertAdmin);
-            statement.executeUpdate(insertSecondAdmin);
         }
 
         catch(Exception e){
@@ -141,8 +139,8 @@ public class DataManager{
         return (personalInfo);
     }
 
-    /*
-    public static String [] getItemInfo(String item){
+
+    /*public static String [] getItemInfo(String item){
         String [] itemInfo = {"",""};
 
         try{
@@ -260,7 +258,6 @@ public class DataManager{
     }
 
     public static boolean isValidUser(String username, String password){
-    //public static boolean isValidUser(String username){
         try{
             int numberOfUsers = 0;
             String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\" AND password =\"" +password+"\";";

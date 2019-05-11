@@ -38,6 +38,7 @@ public class NotAmazon extends Application{
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
     private SellPage sellScene;
+    //private ViewItemPage viewItemScene;
     
     private String thisUser;
     private String thisAdmin;
@@ -73,6 +74,7 @@ public class NotAmazon extends Application{
         pendItemScene = new PendItemPage();
         pendReportScene = new ReportPage();
         bListScene = new BlackListPage();
+        //viewItemScene = new ViewItemPage();
     }
     
     @Override
@@ -181,7 +183,7 @@ public class NotAmazon extends Application{
                     suMainScene = new SUMainPage();
                     window.setScene(suMainScene);
                 }
-                if(DataManager.isValidUser(tempUsername)){
+                if(DataManager.isValidUser(tempUsername,tempPassword)){
                 	thisUser = tempUsername;
                     usr_TextField.setText("");
                     pass_TextField.setText("");
@@ -201,19 +203,19 @@ public class NotAmazon extends Application{
                 {
                     String tempUsername = usr_TextField.getText();
                     String tempPassword = pass_TextField.getText();
-                    if(DataManager.isValidUser(tempUsername)){
-                        thisUser = tempUsername;
-                        usr_TextField.setText("");
-                        pass_TextField.setText("");
-                        ouMainScene = new OUMainPage();
-                        window.setScene(ouMainScene);
-                    }
                     if(DataManager.isValidAdmin(tempUsername,tempPassword)){
-                    	thisAdmin = tempUsername;
+                        thisAdmin = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");
                         suMainScene = new SUMainPage();
                         window.setScene(suMainScene);
+                    }
+                    if(DataManager.isValidUser(tempUsername,tempPassword)){
+                        thisUser = tempUsername;
+                        usr_TextField.setText("");
+                        pass_TextField.setText("");
+                        suMainScene = new SUMainPage();
+                        window.setScene(ouMainScene);
                     }
                 }
             };
@@ -376,6 +378,7 @@ public class NotAmazon extends Application{
         ListView<String> bidListView;
         ObservableList<String> friendList;
         ListView<String> friendListView;
+        String [] personalInfo;
 
 
         public OUMainPage() {
@@ -488,15 +491,15 @@ public class NotAmazon extends Application{
             layout.add(recItemTitle, 0, 3, 2, 1);
             layout.add(popItemTitle, 0, 6, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
-            layout.add(sellTitle, 2, 3, 2, 1);
+            layout.add(sellTitle, 2, 3, 1, 1);
             layout.add(sellListView, 2, 4, 2, 1);
-            layout.add(bidTitle, 2, 5, 2, 1);
+            layout.add(bidTitle, 2, 5, 1, 1);
             layout.add(bidListView, 2, 6, 2, 1);
-            layout.add(friendTitle, 2, 7, 2, 1);
+            layout.add(friendTitle, 2, 7, 1, 1);
             layout.add(friendListView, 2, 8, 2, 1);
-            layout.add(menu, 4, 1, 2, 1);
-            layout.add(sellBtn, 4, 3, 2, 1);
-            layout.add(friendBtn, 4, 7, 2, 1);
+            layout.add(menu, 3, 1, 2, 1);
+            layout.add(sellBtn, 3, 3, 2, 1);
+            layout.add(friendBtn, 3, 7, 2, 1);
         }
     }
 
@@ -731,6 +734,26 @@ public class NotAmazon extends Application{
         }
     }
 
+    /*class ViewItemPage{
+        GridPane layout;
+        Text itemLabel;
+        Text itemCondition;
+        Text timeLeft;
+        Text currentBid;
+        TextField myBid;
+        Button placeBid;
+        String [] itemInfo;
+
+        public ViewItemPage(){
+            super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+
+            //itemInfo = DataManager.
+
+            itemLabel = new Text();
+        }
+    }*/
+
     class SUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -749,10 +772,6 @@ public class NotAmazon extends Application{
         ImageView itemAppView;
         ImageView reportView;
         ImageView bListView;
-        MenuButton menu;
-        MenuItem profile;
-        MenuItem myTranHist;
-        MenuItem signOut;
 
         public SUMainPage() {
             super(new GridPane(),700,700);
@@ -818,29 +837,12 @@ public class NotAmazon extends Application{
                 window.setScene(ouSearchItemScene);
             });
 
-            //dropdown menu
-            menu = new MenuButton("My NotAmazon");
-            profile = new MenuItem("Profile");
-            myTranHist = new MenuItem("My Transaction History");
-            signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myTranHist, signOut);
-
-
-            profile.setOnAction(event -> {
-                myProfileScene = new MyProfilePage();
-                window.setScene(myProfileScene);
-            });
-
-            myTranHist.setOnAction(event -> {
-                transScene = new TransactionPage();
-                window.setScene(transScene);
-            });
-
-            signOut.setOnAction(event -> {
+            signOutBtn = new Button("Sign Out");
+            signOutBtn.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
             });
-            //dropdown menu
+
 
 
             layout.setAlignment(Pos.BASELINE_CENTER);
@@ -849,7 +851,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             //placing objects into scene
             layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 3, 1);
+            layout.add(signOutBtn, 3, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(pendAppTitle, 0, 3, 2, 1);
             layout.add(userAppView, 0, 6, 2, 1);
@@ -907,7 +909,7 @@ public class NotAmazon extends Application{
                 		+"\nAddress:"+addr
                 		+"\nPhone Number:"+phone
                 		+"\nCredit Card Number:"+cc
-                		+"\nApprove Application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 
             	if(appListView.getSelectionModel().getSelectedItem() != null){
             		confirm.showAndWait();
@@ -1065,23 +1067,4 @@ public class NotAmazon extends Application{
     	}
     }
 
-    /*class viewingItem{
-        GridPane layout;
-        Text itemLabel;
-        Text itemCondition;
-        Text timeLeft;
-        Text currentBid;
-        TextField myBid;
-        Button placeBid;
-        String [] itemInfo;
-
-        public viewingItem(){
-            super(new GridPane(),700,700);
-            layout = (GridPane)this.getRoot();
-
-            //itemInfo = DataManager.
-
-            itemLabel = new Text();
-        }
-    }*/
 }
