@@ -38,8 +38,12 @@ public class DataManager{
 
             String createItemAppTable = "CREATE TABLE IF NOT EXISTS item_application("
             + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
-            + "seller VARCHAR(30) REFERENCES User(user_id),"
-            + "price DECIMAL(10,2));";
+            + "seller VARCHAR(30),"
+            + "item_type BOOLEAN NOT NULL,"
+            + "price DECIMAL(10,2),"
+            + "time INT(10),"
+            + "FOREIGN KEY (seller) REFERENCES USER(user_id));";
+            
 
             String createItemTable = "CREATE TABLE IF NOT EXISTS item("
             + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
@@ -194,11 +198,9 @@ public class DataManager{
         return false;
     }
 
-    //public static boolean isValidUser(String username, String password){
-    public static boolean isValidUser(String username){
+    public static boolean isValidUser(String username, String password){
         try{
             int numberOfUsers = 0;
-            //String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\" AND password= \"" +password+ "\";";
             String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\";";
             ResultSet countInfo = statement.executeQuery(countUsers);
 
@@ -231,6 +233,23 @@ public class DataManager{
         }
 
         return listOfApplicants;
+    }
+    
+    public static ArrayList<String> getListOfItemApp(){
+        ArrayList<String> listOfItemApp = new ArrayList<>();
+        try{
+            String selectItem = "SELECT item_name FROM item_application;";
+            ResultSet itemAppInfo = statement.executeQuery(selectItem);
+
+            while(itemAppInfo.next()){
+                listOfItemApp.add(itemAppInfo.getString("item_name"));
+            }
+            itemAppInfo.close();
+            
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return listOfItemApp;
     }
 
     public static void shutdown(){

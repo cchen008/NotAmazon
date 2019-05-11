@@ -35,7 +35,7 @@ public class NotAmazon extends Application{
     private PendItemPage pendItemScene;
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
-    //private SellPage sellScene;
+    private SellPage sellScene;
     
     private String thisUser;
     private String thisAdmin;
@@ -417,7 +417,8 @@ public class NotAmazon extends Application{
             });
             
             sellBtn.setOnAction(event -> {
-            	
+            	sellScene = new SellPage();
+            	window.setScene(sellScene);
             });
             
             friendBtn.setOnAction(event -> {
@@ -931,7 +932,7 @@ public class NotAmazon extends Application{
     	public PendItemPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
-            listOfItem = FXCollections.observableArrayList();
+            listOfItem = FXCollections.observableArrayList(DataManager.getListOfItemApp());
             itemListView = new ListView<>(listOfItem);
             sceneTitle = new Text("Pending Item Applications");
 
@@ -1020,6 +1021,21 @@ public class NotAmazon extends Application{
             layout.add(blackListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
 
+    	}
+    }
+
+    class SellPage extends Scene{
+    	GridPane layout;
+    	Text sellTitle;
+    	
+    	public SellPage() {
+    		super(new GridPane(),700,700);
+            layout = (GridPane)this.getRoot();
+            
+            sellTitle = new Text("Sell/Auction");
+            
+            sellTitle.setFont(Font.font("Segoe UI Bold",25));
+            
     	}
     }
 }
