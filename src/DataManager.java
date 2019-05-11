@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "3821";
+            String password = "cody1234";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -112,6 +112,25 @@ public class DataManager{
         }catch(Exception expt){
             expt.printStackTrace();
         }
+    }
+    
+    public static void addNewUser(String username) {
+    	try {
+    		String addUser = "INSERT IGNORE INTO user SELECT * FROM user_application WHERE user_id = \"" +username+ "\";";
+    		statement.executeUpdate(addUser);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
+    
+    public static void deleteNewUser(String username) {
+    	try {
+    		String deleteUser = "DELETE FROM User_Application WHERE user_id = \"" +username+ "\";";
+    		statement.executeUpdate(deleteUser);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
     }
 
     //checks if username exists
