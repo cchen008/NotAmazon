@@ -29,7 +29,8 @@ public class DataManager{
             + "last_name VARCHAR(30),"
             + "address VARCHAR(30),"
             + "phone_num VARCHAR(30),"
-            + "card_num VARCHAR (16));";
+            + "card_num VARCHAR(16),"
+            + "password VARCHAR(32));";
 
             String createAdminTable = "CREATE TABLE IF NOT EXISTS super_user("
             + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
@@ -78,7 +79,15 @@ public class DataManager{
         }
         
     }
-
+    //setup
+    public static void defaultUserPass(String username) {
+    	try {
+    		String defaultPassword = "UPDATE user SET password = '" + username +"' WHERE user_id = \"" +username+ "\";";
+    		statement.executeUpdate(defaultPassword);
+    	}catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
     //returns all of user's information from User_Application
     public static String[] getUserApp(String username) {
     	String [] userInfo = {"","","","","",""};
@@ -149,7 +158,8 @@ public class DataManager{
     
     public static void addNewUser(String username) {
     	try {
-    		String addUser = "INSERT IGNORE INTO user SELECT * FROM user_application WHERE user_id = \"" +username+ "\";";
+    		String addUser = "INSERT INTO user (user_id, first_name, last_name, address, phone_num, card_num) SELECT user_id, first_name, last_name, address, phone_num, card_num \n" + 
+    				"FROM user_application WHERE user_id = \"" +username+ "\";";
     		statement.executeUpdate(addUser);
     	}catch(Exception expt) {
     		expt.printStackTrace();
@@ -230,7 +240,7 @@ public class DataManager{
     //public static boolean isValidUser(String username){
         try{
             int numberOfUsers = 0;
-            String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\";";
+            String countUsers = "SELECT COUNT(1) FROM user WHERE user_id=\"" +username+ "\" AND password =\"" +password+"\";";
             ResultSet countInfo = statement.executeQuery(countUsers);
 
             if(countInfo.next()){
