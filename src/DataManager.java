@@ -44,7 +44,7 @@ public class DataManager{
             + "price DECIMAL(10,2),"
             + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
-            + "FOREIGN KEY (seller) REFERENCES USER(user_id));";
+            + "FOREIGN KEY (seller) REFERENCES user(user_id));";
             
 
             String createItemTable = "CREATE TABLE IF NOT EXISTS item("
@@ -54,9 +54,18 @@ public class DataManager{
             + "price DECIMAL(10,2),"
             + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
-            + "FOREIGN KEY (seller_id) REFERENCES USER(user_id));";
+            + "FOREIGN KEY (seller_id) REFERENCES user(user_id));";
+            
+            String createtransactionTable = "CREATE TABLE IF NOT EXISTS transactions("
+            + "item_name VARCHAR(30),"
+            + "seller_id VARCHAR(30),"
+            + "price DECIMAL(10,2),"
+            + "buyer_id VARCHAR(30),"
+            + "FOREIGN KEY (buyer_id) REFERENCES user(user_id),"
+            + "FOREIGN KEY (seller_id) REFERENCES item(seller_id));";
 
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
+            String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
 
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -71,7 +80,9 @@ public class DataManager{
             statement.executeUpdate(createAdminTable);
             statement.executeUpdate(createItemAppTable);
             statement.executeUpdate(createItemTable);
+            statement.executeUpdate(createtransactionTable);
             statement.executeUpdate(insertAdmin);
+            statement.executeUpdate(insertSecondAdmin);
         }
 
         catch(Exception e){
@@ -146,7 +157,6 @@ public class DataManager{
 
         return (personalInfo);
     }
-
 
     public static String [] getItemInfo(String item){
         String [] itemInfo = {"","",""};
