@@ -21,6 +21,9 @@ import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.effect.DropShadow;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class NotAmazon extends Application{
     
@@ -986,6 +989,23 @@ public class NotAmazon extends Application{
         Tooltip t1;
         String[] personalInfo;
 
+        private boolean validatePassword() {
+            Pattern p = Pattern.compile("((?=.*\\d).{6,15})");
+            Matcher m = p.matcher(confirmPass_field.getText());
+
+            if(m.matches()){
+                return true;
+            }else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Validate Password");
+                alert.setHeaderText(null);
+                alert.setContentText("Password must contain at least one digit with a length of 6-15 characters.");
+                alert.showAndWait();
+
+                return false;
+            }
+        }
+
         private boolean validateFields() {
             if (newPass_field.getText().isEmpty() | confirmPass_field.getText().isEmpty()){
 
@@ -1018,7 +1038,7 @@ public class NotAmazon extends Application{
             cancelBtn = new Button("Cancel");
 
             updateBtn.setOnAction(event -> {
-                if (validateFields()) {
+                if (validateFields() && validatePassword()) {
                     String newPass1 = newPass_field.getText();
                     String newPass2 = confirmPass_field.getText();
                     if (newPass1 == newPass2) {
