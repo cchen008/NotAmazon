@@ -40,6 +40,12 @@ public class NotAmazon extends Application{
     private BlackListPage bListScene;
     private SellPage sellScene;
     private ViewItemPage viewItemScene;
+    private MyAccountPage myAccountScene;
+    private EditAddressPage editAddrScene;
+    private EditNamePage editNameScene;
+    private EditPasswordPage editPWScene;
+    //private EditPhoneNum editPhoneScene;
+    //private EditCCNum editCCScene;
     
     private String thisUser;
     private String thisAdmin;
@@ -77,6 +83,12 @@ public class NotAmazon extends Application{
         pendReportScene = new ReportPage();
         bListScene = new BlackListPage();
         viewItemScene = new ViewItemPage();
+        myAccountScene = new MyAccountPage();
+        editAddrScene = new EditAddressPage();
+        editNameScene = new EditNamePage();
+        editPWScene = new EditPasswordPage();
+        //editPhoneScene = new EditPhoneNum();
+        //editCCScene = new EditCCNum();
     }
     
     @Override
@@ -169,7 +181,7 @@ public class NotAmazon extends Application{
         }
         
         public LoginPage() {
-            super(new GridPane(),320,200);
+            super(new GridPane(),300,220);
             layout = (GridPane)this.getRoot();
             
             login = new Label("Login");
@@ -245,7 +257,7 @@ public class NotAmazon extends Application{
 
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
 
-            layout.setAlignment(Pos.BASELINE_LEFT);
+            layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
@@ -290,9 +302,8 @@ public class NotAmazon extends Application{
 
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
-                warnUsr.setHeaderText(null);
-                warnUsr.setContentText("At least one of the fields have been left blank. Please complete the application and" +
-                        " apply again.");
+                warnUsr.setHeaderText("An empty field has been detected.");
+                warnUsr.setContentText("Please complete the application and submit again.");
                 warnUsr.showAndWait();
 
                 return false;
@@ -328,7 +339,7 @@ public class NotAmazon extends Application{
             t1.setFont(Font.font("Segoe UI",12));
             t2.setFont(Font.font("Segoe UI",12));
             
-            applyBtn = new Button("Apply");
+            applyBtn = new Button("Submit");
             cancelBtn = new Button("Cancel");
             aBtn = new HBox(5);
             cBtn = new HBox(5);
@@ -375,9 +386,9 @@ public class NotAmazon extends Application{
             cBtn.getChildren().add(cancelBtn);
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
             
-            layout.setAlignment(Pos.BASELINE_LEFT);
+            layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
-            layout.setVgap(10);
+            layout.setVgap(8);
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             //placing objects into scene
@@ -590,6 +601,7 @@ public class NotAmazon extends Application{
         Button backBtn;
         MenuButton menu;
         MenuItem profile;
+        MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem signOut;
         String [] personalInfo;
@@ -620,14 +632,20 @@ public class NotAmazon extends Application{
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
+            myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
             item = new MenuItem("Item"); //TEMP FOR TESTING
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myTranHist, item, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
+            });
+
+            myAcc.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
             });
 
             myTranHist.setOnAction(event -> {
@@ -647,8 +665,8 @@ public class NotAmazon extends Application{
             });
 
             searchBtn.setOnAction(event ->{
-                guSearchItemScene = new GUSearchItemPage();
-                window.setScene(guSearchItemScene);
+                ouSearchItemScene = new OUSearchItemPage();
+                window.setScene(ouSearchItemScene);
             });
 
             backBtn.setOnAction(event -> {
@@ -671,7 +689,6 @@ public class NotAmazon extends Application{
             username.setFont(Font.font("Segoe UI Bold", 15));
             name.setFont(Font.font("Segoe UI Bold", 15));
 
-
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
@@ -687,6 +704,367 @@ public class NotAmazon extends Application{
 
         }
     }
+
+    class MyAccountPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Label username;
+        Label name;
+        Label address;
+        Label phonenum;
+        TextField searchBar;
+        Button searchBtn;
+        Button backBtn;
+        Button editNameBtn;
+        Button editAddrBtn;
+        Button editPhoneBtn;
+        Button editCCBtn;
+        Button editPWBtn;
+        MenuButton menu;
+        MenuItem profile;
+        MenuItem myAcc;
+        MenuItem myTranHist;
+        MenuItem signOut;
+        String [] personalInfo;
+
+        public MyAccountPage(){
+            super(new GridPane(), 700, 350);
+            layout = (GridPane) this.getRoot();
+            sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+            personalInfo = DataManager.getPersonalInfo(thisUser);
+
+            searchBar = new TextField();
+            searchBtn = new Button("Search");
+            backBtn = new Button("Back");
+            editNameBtn = new Button("Change");
+            editAddrBtn = new Button("Change");
+            editPhoneBtn = new Button("Change");
+            editCCBtn = new Button("Change");
+            editPWBtn = new Button("Change password");
+
+            sceneTitle.setFont(Font.font("Segoe UI Bold", 20));
+
+            username = new Label("Username: " + personalInfo[0]);
+            name = new Label("Name: " + personalInfo[1] + " " + personalInfo[2]);
+            address = new Label("Address: " + personalInfo[3]);
+            phonenum = new Label("Phone Number: " + personalInfo[4]);
+
+            username.setFont(Font.font("Segoe UI Bold", 13));
+            name.setFont(Font.font("Segoe UI Bold",13));
+            address.setFont(Font.font("Segoe UI Bold",13));
+            phonenum.setFont(Font.font("Segoe UI Bold",13));
+
+            //dropdown menu
+            menu = new MenuButton("My NotAmazon");
+            profile = new MenuItem("Profile");
+            myAcc = new MenuItem("My Account");
+            myTranHist = new MenuItem("My Transaction History");
+            signOut = new MenuItem("Sign Out");
+            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
+
+            profile.setOnAction(event -> {
+                myProfileScene = new MyProfilePage();
+                window.setScene(myProfileScene);
+            });
+
+            myAcc.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            myTranHist.setOnAction(event -> {
+                transScene = new TransactionPage();
+                window.setScene(transScene);
+            });
+
+            signOut.setOnAction(event -> {
+                guMainScene = new GUMainPage();
+                window.setScene(guMainScene);
+            });
+
+            searchBtn.setOnAction(event ->{
+                ouSearchItemScene = new OUSearchItemPage();
+                window.setScene(ouSearchItemScene);
+            });
+
+            backBtn.setOnAction(event -> {
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
+            });
+
+            editNameBtn.setOnAction(event -> {
+                editNameScene = new EditNamePage();
+                window.setScene(editNameScene);
+            });
+
+            editAddrBtn.setOnAction(event -> {
+                editAddrScene = new EditAddressPage();
+                window.setScene(editAddrScene);
+            });
+
+            /*editPhoneBtn.setOnAction(event -> {
+                editPhoneScene = new EditPhoneNum();
+                window.setScene(editPhoneScene);
+            });
+
+            editCCBtn.setOnAction((event -> {
+                editCCScene = new EditCCNum();
+                window.setScene(editCCScene);
+            }));*/
+
+            editPWBtn.setOnAction(event -> {
+                editPWScene = new EditPasswordPage();
+                window.setScene(editPWScene);
+            });
+
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(searchBar, 0, 1, 2, 1);
+            layout.add(searchBtn, 2, 1, 2, 1);
+            layout.add(menu, 4, 1);
+            layout.add(username, 0,5,2,1);
+            layout.add(name,0,6,2,1);
+            layout.add(address,0,7,2,1);
+            layout.add(phonenum,0,8,2,1);
+            layout.add(editNameBtn,2,6);
+            layout.add(editAddrBtn,2,7);
+            layout.add(editPhoneBtn,2,8);
+            layout.add(editPWBtn,0,9);
+        }
+    }
+
+    class EditNamePage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text firstname;
+        Text lastname;
+        TextField firstname_field;
+        TextField lastname_field;
+        Button updateBtn;
+        Button cancelBtn;
+
+        private boolean validateFields(){
+            if(firstname_field.getText().isEmpty() | lastname_field.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("An empty field has been detected.");
+                warnUsr.setContentText("Input into the field (you do not wish to change) with the currently existing " +
+                        "information (i.e. if you want to change just your first name, input \"Jane Doe\" if you want " +
+                        "to change it from \"John Doe\").");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
+
+        public EditNamePage(){
+            super(new GridPane(), 300, 200);
+            layout = (GridPane) this.getRoot();
+
+            sceneTitle = new Text("Update Information: Name");
+            firstname = new Text("First name ");
+            lastname = new Text("Last name ");
+
+            firstname_field = new TextField();
+            firstname_field.setPromptText("Enter your first name.");
+            lastname_field = new TextField();
+            lastname_field.setPromptText("Enter your last name.");
+
+            updateBtn = new Button("Update");
+            cancelBtn = new Button("Cancel");
+
+            updateBtn.setOnAction(event -> {
+                if(validateFields()){
+                    DataManager.updateUserName(thisUser,firstname_field.getText(),lastname_field.getText());
+                    myAccountScene = new MyAccountPage();
+                    window.setScene(myAccountScene);
+                }
+            });
+
+            cancelBtn.setOnAction(event-> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            updateBtn.setAlignment(Pos.BOTTOM_LEFT);
+            cancelBtn.setAlignment(Pos.BOTTOM_LEFT);
+
+            layout.setAlignment(Pos.CENTER);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 3, 1);
+            layout.add(firstname,0,3);
+            layout.add(lastname,0,4);
+            layout.add(firstname_field,1,3,3,1);
+            layout.add(lastname_field,1,4,3,1);
+            layout.add(updateBtn,7,5);
+            layout.add(cancelBtn,6,5);
+        }
+    }
+
+    class EditAddressPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text addr;
+        TextField addr_field;
+        Button updateBtn;
+        Button cancelBtn;
+
+        private boolean validateFields(){
+            if(addr_field.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("An empty field has been detected.");
+                warnUsr.setContentText("Please fill in the empty field and try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
+
+        public EditAddressPage(){
+            super(new GridPane(), 250, 200);
+            layout = (GridPane) this.getRoot();
+
+            sceneTitle = new Text("Update Information: Address");
+            addr = new Text("Address ");
+
+            addr_field = new TextField();
+            addr_field.setPromptText("Enter your street address.");
+
+            updateBtn = new Button("Update");
+            cancelBtn = new Button("Cancel");
+
+            updateBtn.setOnAction(event -> {
+                if(validateFields()){
+                    DataManager.updateUserAddr(thisUser,addr_field.getText());
+                    myAccountScene = new MyAccountPage();
+                    window.setScene(myAccountScene);
+                }
+            });
+
+            cancelBtn.setOnAction(event-> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            updateBtn.setAlignment(Pos.BOTTOM_LEFT);
+            cancelBtn.setAlignment(Pos.BOTTOM_LEFT);
+
+            layout.setAlignment(Pos.CENTER);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(addr,0,3);
+            layout.add(addr_field,1,3,2,1);
+            layout.add(updateBtn,1,4);
+            layout.add(cancelBtn,0,4);
+        }
+    }
+
+    class EditPasswordPage extends Scene {
+        GridPane layout;
+        Text sceneTitle;
+        Text newPass;
+        Text confirmPass;
+        TextField newPass_field;
+        TextField confirmPass_field;
+        Button updateBtn;
+        Button cancelBtn;
+        Tooltip t1;
+        String[] personalInfo;
+
+        private boolean validateFields() {
+            if (newPass_field.getText().isEmpty() | confirmPass_field.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("An empty field has been detected.");
+                warnUsr.setContentText("Please fill in the empty field and try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
+
+        public EditPasswordPage() {
+            super(new GridPane(), 400, 230);
+            layout = (GridPane) this.getRoot();
+            personalInfo = DataManager.getPersonalInfo(thisUser);
+
+            sceneTitle = new Text("Update Information: Password");
+            newPass = new Text("New password ");
+            confirmPass = new Text("Confirm new password ");
+
+            newPass_field = new TextField();
+            newPass_field.setPromptText("Enter new password.");
+            confirmPass_field = new TextField();
+            confirmPass_field.setPromptText("Enter again.");
+
+            updateBtn = new Button("Update");
+            cancelBtn = new Button("Cancel");
+
+            updateBtn.setOnAction(event -> {
+                if (validateFields()) {
+                    String newPass1 = newPass_field.getText();
+                    String newPass2 = confirmPass_field.getText();
+                    if (newPass1 == newPass2) {
+                        Alert warnUsr = new Alert(AlertType.WARNING);
+                        warnUsr.setTitle("Error");
+                        warnUsr.setHeaderText("An incorrect field has been detected.");
+                        warnUsr.setContentText("Please fill in the field correctly and try again.");
+                        warnUsr.showAndWait();
+                    }else {
+                        DataManager.updateUserPass(thisUser, newPass_field.getText());
+                        myAccountScene = new MyAccountPage();
+                        window.setScene(myAccountScene);
+                    }
+                }
+            });
+
+            cancelBtn.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            updateBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
+
+            layout.setAlignment(Pos.CENTER);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(newPass, 0, 3);
+            layout.add(confirmPass, 0, 4);
+            layout.add(newPass_field, 1, 3, 2, 1);
+            layout.add(confirmPass_field, 1, 4, 2, 1);
+            layout.add(updateBtn, 1, 5);
+            layout.add(cancelBtn, 0, 5);
+        }
+    }
+
+    /*class EditPhoneNum extends Scene{
+
+    }
+
+    class EditCCNum extends Scene{
+
+    }*/
 
     class GUSearchItemPage extends Scene{
         GridPane layout;

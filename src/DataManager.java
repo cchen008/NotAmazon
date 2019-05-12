@@ -93,7 +93,8 @@ public class DataManager{
     	String [] userInfo = {"","","","","",""};
     	
     	try {
-    		String retrieve_userAppInfo = "SELECT user_id,first_name,last_name,address,phone_num,card_num FROM User_Application WHERE user_id=\"" +username+ "\";";
+    		String retrieve_userAppInfo = "SELECT user_id,first_name,last_name,address,phone_num,card_num " +
+                    "FROM User_Application WHERE user_id=\"" +username+ "\";";
     		
     		ResultSet results = statement.executeQuery(retrieve_userAppInfo);
     		
@@ -117,10 +118,11 @@ public class DataManager{
     }
     //for profile page
     public static String [] getPersonalInfo(String username){
-        String [] personalInfo = {"","",""};
+        String [] personalInfo = {"","","","","","",""};
 
         try{
-            String selectUserInfo = "SELECT user_id,first_name,last_name FROM user WHERE user_id=\"" +username+ "\";";
+            String selectUserInfo = "SELECT user_id,first_name,last_name, address, phone_num, card_num, password" +
+                    " FROM user WHERE user_id=\"" +username+ "\";";
 
             ResultSet userInfo = statement.executeQuery(selectUserInfo);
 
@@ -128,6 +130,10 @@ public class DataManager{
                 personalInfo[0] = userInfo.getString("user_id");
                 personalInfo[1] = userInfo.getString("first_name");
                 personalInfo[2] = userInfo.getString("last_name");
+                personalInfo[3] = userInfo.getString("address");
+                personalInfo[4] = userInfo.getString("phone_num");
+                personalInfo[5] = userInfo.getString("card_num");
+                personalInfo[6] = userInfo.getString("password");
 
                 userInfo.close();
 
@@ -182,7 +188,8 @@ public class DataManager{
     
     public static void addNewUser(String username) {
     	try {
-    		String addUser = "INSERT INTO user (user_id, first_name, last_name, address, phone_num, card_num) SELECT user_id, first_name, last_name, address, phone_num, card_num \n" + 
+    		String addUser = "INSERT INTO user (user_id, first_name, last_name, address, phone_num, card_num) " +
+                    "SELECT user_id, first_name, last_name, address, phone_num, card_num \n" +
     				"FROM user_application WHERE user_id = \"" +username+ "\";";
     		statement.executeUpdate(addUser);
     	}catch(Exception expt) {
@@ -277,6 +284,46 @@ public class DataManager{
         }
 
         return false;
+    }
+
+    public static void updateUserName(String username, String newFirst, String newLast){
+        try{
+            String updateQuery = "UPDATE User SET first_name=\"" +newFirst+ "\", last_name=\"" +newLast+ "\" WHERE user_id=\"" +username+ "\";";
+            statement.executeUpdate(updateQuery);
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+
+    public static void updateUserAddr(String username, String newAddr){
+        try{
+            String updateQuery = "UPDATE User SET address=\"" +newAddr+ "\" WHERE user_id=\"" +username+ "\";";
+            statement.executeUpdate(updateQuery);
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+
+    public static void updateUserPhoneNum(String username, String newPhoneNum){
+        try{
+            String updateQuery = "UPDATE User SET phone_num=\"" +newPhoneNum+ "\" WHERE user_id=\"" +username+ "\";";
+            statement.executeUpdate(updateQuery);
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+
+    public static void updateUserPass(String username, String newPass){
+        try{
+            String updateQuery = "UPDATE User SET password=\"" +newPass+ "\" WHERE user_id=\"" +username+ "\";";
+            statement.executeUpdate(updateQuery);
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
     }
 
     public static ArrayList<String> getListOfApp(){
