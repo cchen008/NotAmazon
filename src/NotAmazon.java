@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.effect.DropShadow;
+import java.io.File;
 
 
 public class NotAmazon extends Application{
@@ -1576,7 +1577,11 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sellTitle;
     	Button browseBtn;
+    	Button backBtn;
     	FileChooser fileChooser;
+    	File upload;
+    	Image item;
+    	ImageView itemupload;
     	
     	public SellPage() {
     		super(new GridPane(),700,700);
@@ -1584,6 +1589,7 @@ public class NotAmazon extends Application{
             sellTitle = new Text("Sell/Auction");
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
             browseBtn = new Button("Browse");
+            backBtn = new Button("Back");
             
             //fileChooser
             fileChooser = new FileChooser();
@@ -1595,10 +1601,23 @@ public class NotAmazon extends Application{
             //fileChooser
             
             browseBtn.setOnAction(e->{
-            	fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
+            	upload = fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
+            	if(upload != null) {
+            		item = new Image(upload.toURI().toString());
+            		itemupload = new ImageView();
+            		itemupload.setImage(item);
+            		itemupload.setFitHeight(200);
+                    itemupload.setFitWidth(200);
+                    //sellScene = new SellPage();
+                    //window.setScene(sellScene);
+                    layout.add(itemupload, 0, 2, 2, 1);
+            	}
             });
- 
             
+            backBtn.setOnAction(e->{
+            	window.setScene(ouMainScene);
+            });
+               
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
@@ -1606,6 +1625,7 @@ public class NotAmazon extends Application{
             
             layout.add(sellTitle, 0, 0, 2, 1);
             layout.add(browseBtn, 0, 1, 2, 1);
+            layout.add(backBtn, 0, 3);
             }
             
     	
