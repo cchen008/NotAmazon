@@ -172,10 +172,10 @@ public class NotAmazon extends Application{
         private boolean validateFields(){
             if(usr_TextField.getText().isEmpty() | pass_TextField.getText().isEmpty()){
 
-                Alert warnUsr = new Alert(AlertType.ERROR);
+                Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Invalid Credentials");
                 warnUsr.setHeaderText(null);
-                warnUsr.setContentText("Invalid username and/or password. Please try again.");
+                warnUsr.setContentText("An empty field has been detected. Please try again.");
                 warnUsr.showAndWait();
 
                 return false;
@@ -215,12 +215,19 @@ public class NotAmazon extends Application{
                         suMainScene = new SUMainPage();
                         window.setScene(suMainScene);
                     }
-                    if (DataManager.isValidUser(tempUsername, tempPassword)) {
+                    else if (DataManager.isValidUser(tempUsername, tempPassword)) {
                         thisUser = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");
                         suMainScene = new SUMainPage();
                         window.setScene(ouMainScene);
+                    }else {
+                        pass_TextField.setText("");
+                        Alert alert = new Alert(AlertType.WARNING);
+                        alert.setTitle("Invalid Credentials");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Invalid username and/or password. Please try again.");
+                        alert.showAndWait();
                     }
                 }
             });
@@ -243,12 +250,19 @@ public class NotAmazon extends Application{
                             suMainScene = new SUMainPage();
                             window.setScene(suMainScene);
                         }
-                        if (DataManager.isValidUser(tempUsername, tempPassword)) {
+                        else if (DataManager.isValidUser(tempUsername, tempPassword)) {
                             thisUser = tempUsername;
                             usr_TextField.setText("");
                             pass_TextField.setText("");
                             suMainScene = new SUMainPage();
                             window.setScene(ouMainScene);
+                        }else {
+                            pass_TextField.setText("");
+                            Alert alert = new Alert(AlertType.WARNING);
+                            alert.setTitle("Invalid Credentials");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Invalid username and/or password. Please try again.");
+                            alert.showAndWait();
                         }
                     }
                 }
