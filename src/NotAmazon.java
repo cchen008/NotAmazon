@@ -20,6 +20,7 @@ import javafx.event.EventHandler;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.effect.DropShadow;
+import java.io.File;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -1793,16 +1794,59 @@ public class NotAmazon extends Application{
     class SellPage extends Scene{
     	GridPane layout;
     	Text sellTitle;
+    	Button browseBtn;
+    	Button backBtn;
+    	FileChooser fileChooser;
+    	File upload;
+    	Image item;
+    	ImageView itemupload;
     	
     	public SellPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
-            
             sellTitle = new Text("Sell/Auction");
-            
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
+            browseBtn = new Button("Browse");
+            backBtn = new Button("Back");
             
-    	}
+            //fileChooser
+            fileChooser = new FileChooser();
+            fileChooser.setTitle("Upload Image");
+            fileChooser.getExtensionFilters().addAll(
+            		new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
+            		new FileChooser.ExtensionFilter("PNG Files", "*.png")
+            );
+            //fileChooser
+            
+            browseBtn.setOnAction(e->{
+            	upload = fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
+            	if(upload != null) {
+            		item = new Image(upload.toURI().toString());
+            		itemupload = new ImageView();
+            		itemupload.setImage(item);
+            		itemupload.setFitHeight(200);
+                    itemupload.setFitWidth(200);
+                    //sellScene = new SellPage();
+                    //window.setScene(sellScene);
+                    layout.add(itemupload, 0, 2, 2, 1);
+            	}
+            });
+            
+            backBtn.setOnAction(e->{
+            	window.setScene(ouMainScene);
+            });
+               
+            layout.setAlignment(Pos.BASELINE_CENTER);
+            layout.setHgap(10);
+            layout.setVgap(10);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+            
+            layout.add(sellTitle, 0, 0, 2, 1);
+            layout.add(browseBtn, 0, 1, 2, 1);
+            layout.add(backBtn, 0, 3);
+            }
+            
+    	
     }
 
 }

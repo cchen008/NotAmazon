@@ -1,12 +1,25 @@
 # NotAmazon
-  Changelog (5/11/29)
+  Changelog (5/12/19)
+  ```
+  -Known Bugs on macOS discovered with the implementation of FileChooser
+    "objc[24064]: Class FIFinderSyncExtensionHost is implemented in both
+    /System/Library/PrivateFrameworks/FinderKit.framework/Versions/A/FinderKit (0x7fffa7174210) and
+    /System/Library/PrivateFrameworks/FileProvider.framework/OverrideBundles/FinderSyncCollaborationFileProviderOverride.
+  bundle/Contents/MacOS/FinderSyncCollaborationFileProviderOverride (0x12017fdc8). One of the two will be used. Which one is
+  undefined. 2019-05-12 13:55:38.615 java[24064:5582934] warning: <NSRemoteView: 0x7ffc08e1a490> determined it was necessary
+  to configure <GlassOpenPanel: 0x7ffc04ff1be0> to support remote view vibrancy"
+  
+  -Has been determined to not affect functionality in any visible means.
+  -See https://bugs.openjdk.java.net/browse/JDK-8189083 for more details.
+  ```
+  Changelog (5/11/19)
   ```
   -Pending Applications Page is completed. (PendAppPage)
   -Testing is done on PendAppPage
   -Fixed Logging in without password.
   -Added defaultPassword upon approval of a new User's application.
   ```
-  Changelog (4/29/29)
+  Changelog (4/29/19)
   ```
   -Added FirstScene,SecondScene, and ThirdScene as shown prototypes.
   ```
