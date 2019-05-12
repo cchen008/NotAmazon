@@ -47,8 +47,8 @@ public class NotAmazon extends Application{
     private EditAddressPage editAddrScene;
     private EditNamePage editNameScene;
     private EditPasswordPage editPWScene;
-    //private EditPhoneNum editPhoneScene;
-    //private EditCCNum editCCScene;
+    private EditPhoneNum editPhoneScene;
+    private EditCCNum editCCScene;
     
     private String thisUser;
     private String thisAdmin;
@@ -90,8 +90,8 @@ public class NotAmazon extends Application{
         editAddrScene = new EditAddressPage();
         editNameScene = new EditNamePage();
         editPWScene = new EditPasswordPage();
-        //editPhoneScene = new EditPhoneNum();
-        //editCCScene = new EditCCNum();
+        editPhoneScene = new EditPhoneNum();
+        editCCScene = new EditCCNum();
     }
     
     @Override
@@ -427,6 +427,7 @@ public class NotAmazon extends Application{
         Text friendName;
         MenuButton menu;
         MenuItem profile;
+        MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem signOut;
         TextField searchBar;
@@ -509,14 +510,20 @@ public class NotAmazon extends Application{
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
+            myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myTranHist, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
 
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
+            });
+
+            myAcc.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
             });
 
             myTranHist.setOnAction(event -> {
@@ -742,7 +749,7 @@ public class NotAmazon extends Application{
             editNameBtn = new Button("Change");
             editAddrBtn = new Button("Change");
             editPhoneBtn = new Button("Change");
-            editCCBtn = new Button("Change");
+            editCCBtn = new Button("Change credit card");
             editPWBtn = new Button("Change password");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold", 20));
@@ -805,15 +812,15 @@ public class NotAmazon extends Application{
                 window.setScene(editAddrScene);
             });
 
-            /*editPhoneBtn.setOnAction(event -> {
+            editPhoneBtn.setOnAction(event -> {
                 editPhoneScene = new EditPhoneNum();
                 window.setScene(editPhoneScene);
             });
 
-            editCCBtn.setOnAction((event -> {
+            editCCBtn.setOnAction(event -> {
                 editCCScene = new EditCCNum();
                 window.setScene(editCCScene);
-            }));*/
+            });
 
             editPWBtn.setOnAction(event -> {
                 editPWScene = new EditPasswordPage();
@@ -837,6 +844,7 @@ public class NotAmazon extends Application{
             layout.add(editAddrBtn,2,7);
             layout.add(editPhoneBtn,2,8);
             layout.add(editPWBtn,0,9);
+            layout.add(editCCBtn,0,10);
         }
     }
 
@@ -908,8 +916,8 @@ public class NotAmazon extends Application{
             layout.add(lastname,0,4);
             layout.add(firstname_field,1,3,3,1);
             layout.add(lastname_field,1,4,3,1);
-            layout.add(updateBtn,7,5);
-            layout.add(cancelBtn,6,5);
+            layout.add(updateBtn,1,5);
+            layout.add(cancelBtn,0,5);
         }
     }
 
@@ -987,7 +995,7 @@ public class NotAmazon extends Application{
         Button updateBtn;
         Button cancelBtn;
         Tooltip t1;
-        String[] personalInfo;
+        String [] personalInfo;
 
         private boolean validatePassword() {
             Pattern p = Pattern.compile("((?=.*\\d).{6,15})");
@@ -1034,6 +1042,10 @@ public class NotAmazon extends Application{
             confirmPass_field = new TextField();
             confirmPass_field.setPromptText("Enter again.");
 
+            t1 = new Tooltip("Must contain at least 1 digit and have a length of 6-15 characters.");
+            t1.setFont(Font.font("Segoe UI Bold",12));
+            newPass_field.setTooltip(t1);
+
             updateBtn = new Button("Update");
             cancelBtn = new Button("Cancel");
 
@@ -1045,7 +1057,8 @@ public class NotAmazon extends Application{
                         Alert warnUsr = new Alert(AlertType.WARNING);
                         warnUsr.setTitle("Error");
                         warnUsr.setHeaderText("An incorrect field has been detected.");
-                        warnUsr.setContentText("Please fill in the field correctly and try again.");
+                        warnUsr.setContentText("Password must contain at least 1 digit and have a length of 6-15 " +
+                                "characters. Please fill in the field correctly and try again.");
                         warnUsr.showAndWait();
                     }else {
                         DataManager.updateUserPass(thisUser, newPass_field.getText());
@@ -1078,13 +1091,177 @@ public class NotAmazon extends Application{
         }
     }
 
-    /*class EditPhoneNum extends Scene{
+    class EditPhoneNum extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text newPhone;
+        TextField newPhone_field;
+        Button updateBtn;
+        Button cancelBtn;
+        Tooltip t1;
 
+        private boolean validatePhoneNum() {
+            Pattern p = Pattern.compile("((?=.*\\d).{10})");
+            Matcher m = p.matcher(newPhone_field.getText());
+
+            if(m.matches()){
+                return true;
+            }else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Validate Phone Number");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid input of phone number. Please try again.");
+                alert.showAndWait();
+
+                return false;
+            }
+        }
+
+        private boolean validateFields() {
+            if (newPhone_field.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("An empty field has been detected.");
+                warnUsr.setContentText("Please fill in the empty field and try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
+
+        public EditPhoneNum() {
+            super(new GridPane(), 400, 230);
+            layout = (GridPane) this.getRoot();
+
+            sceneTitle = new Text("Update Information: Phone Number");
+            newPhone = new Text("New phone number ");
+
+            newPhone_field = new TextField();
+            newPhone_field.setPromptText("e.g. 1112223333");
+
+            t1 = new Tooltip("Input your 10-digit phone number without the country, spaces, or dashes.");
+            t1.setFont(Font.font("Segoe UI Bold",12));
+            newPhone_field.setTooltip(t1);
+
+            updateBtn = new Button("Update");
+            cancelBtn = new Button("Cancel");
+
+            updateBtn.setOnAction(event -> {
+                if (validateFields() && validatePhoneNum()) {
+                    DataManager.updateUserPhoneNum(thisUser, newPhone_field.getText());
+                    myAccountScene = new MyAccountPage();
+                    window.setScene(myAccountScene);
+                }
+            });
+
+            cancelBtn.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            updateBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
+
+            layout.setAlignment(Pos.CENTER);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(newPhone,0,3);
+            layout.add(newPhone_field,1,3,2,1);
+            layout.add(updateBtn,1,4);
+            layout.add(cancelBtn,0,4);
+        }
     }
 
     class EditCCNum extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text newCC;
+        TextField newCC_field;
+        Button updateBtn;
+        Button cancelBtn;
+        Tooltip t1;
 
-    }*/
+        private boolean validateCCNum() {
+            Pattern p = Pattern.compile("((?=.*\\d).{10})");
+            Matcher m = p.matcher(newCC_field.getText());
+
+            if(m.matches()){
+                return true;
+            }else {
+                Alert alert = new Alert(AlertType.WARNING);
+                alert.setTitle("Validate Phone Number");
+                alert.setHeaderText(null);
+                alert.setContentText("Invalid input of phone number. Please try again.");
+                alert.showAndWait();
+
+                return false;
+            }
+        }
+
+        private boolean validateFields() {
+            if (newCC_field.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("An empty field has been detected.");
+                warnUsr.setContentText("Please fill in the empty field and try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
+
+        public EditCCNum() {
+            super(new GridPane(), 400, 230);
+            layout = (GridPane) this.getRoot();
+
+            sceneTitle = new Text("Update Information: Credt Card");
+            newCC = new Text("New phone number ");
+
+            newCC_field = new TextField();
+            newCC_field.setPromptText("e.g. 1111222233334444");
+
+            t1 = new Tooltip("Input your 16-digit credit card number without spaces or dashes.");
+            t1.setFont(Font.font("Segoe UI Bold",12));
+            newCC_field.setTooltip(t1);
+
+            updateBtn = new Button("Update");
+            cancelBtn = new Button("Cancel");
+
+            updateBtn.setOnAction(event -> {
+                if (validateFields() && validateCCNum()) {
+                    DataManager.updateUserCCNum(thisUser, newCC_field.getText());
+                    myAccountScene = new MyAccountPage();
+                    window.setScene(myAccountScene);
+                }
+            });
+
+            cancelBtn.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            updateBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
+
+            layout.setAlignment(Pos.CENTER);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(newCC,0,3);
+            layout.add(newCC_field,1,3,2,1);
+            layout.add(updateBtn,1,4);
+            layout.add(cancelBtn,0,4);
+        }
+    }
 
     class GUSearchItemPage extends Scene{
         GridPane layout;
@@ -1139,6 +1316,7 @@ public class NotAmazon extends Application{
         Text searchResultTitle;
         MenuButton menu;
         MenuItem profile;
+        MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem signOut;
         TextField searchBar;
@@ -1159,14 +1337,20 @@ public class NotAmazon extends Application{
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
+            myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myTranHist, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
 
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
+            });
+
+            myAcc.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
             });
 
             myTranHist.setOnAction(event -> {

@@ -316,6 +316,16 @@ public class DataManager{
         }
     }
 
+    public static void updateUserCCNum(String username, String newCCNum){
+        try{
+            String updateQuery = "UPDATE User SET card_num=\"" +newCCNum+ "\" WHERE user_id=\"" +username+ "\";";
+            statement.executeUpdate(updateQuery);
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+
     public static void updateUserPass(String username, String newPass){
         try{
             String updateQuery = "UPDATE User SET password=\"" +newPass+ "\" WHERE user_id=\"" +username+ "\";";
