@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.effect.DropShadow;
 
 
 public class NotAmazon extends Application{
@@ -152,6 +153,20 @@ public class NotAmazon extends Application{
         Button cancelBtn;
         HBox aBtn;
         HBox cBtn;
+
+        private boolean validateFields(){
+            if(usr_TextField.getText().isEmpty() | pass_TextField.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.ERROR);
+                warnUsr.setTitle("Invalid Credentials");
+                warnUsr.setHeaderText(null);
+                warnUsr.setContentText("Invalid username and/or password. Please try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
         
         public LoginPage() {
             super(new GridPane(),320,200);
@@ -175,21 +190,23 @@ public class NotAmazon extends Application{
             aBtn.getChildren().add(loginBtn);
 
             loginBtn.setOnAction(event ->{
-                String tempUsername = usr_TextField.getText();
-                String tempPassword = pass_TextField.getText();
-                if(DataManager.isValidAdmin(tempUsername,tempPassword)){
-                	thisAdmin = tempUsername;
-                    usr_TextField.setText("");
-                    pass_TextField.setText("");
-                    suMainScene = new SUMainPage();
-                    window.setScene(suMainScene);
-                }
-                if(DataManager.isValidUser(tempUsername,tempPassword)){
-                	thisUser = tempUsername;
-                    usr_TextField.setText("");
-                    pass_TextField.setText("");
-                    suMainScene = new SUMainPage();
-                    window.setScene(ouMainScene);
+                if(validateFields()) {
+                    String tempUsername = usr_TextField.getText();
+                    String tempPassword = pass_TextField.getText();
+                    if (DataManager.isValidAdmin(tempUsername, tempPassword)) {
+                        thisAdmin = tempUsername;
+                        usr_TextField.setText("");
+                        pass_TextField.setText("");
+                        suMainScene = new SUMainPage();
+                        window.setScene(suMainScene);
+                    }
+                    if (DataManager.isValidUser(tempUsername, tempPassword)) {
+                        thisUser = tempUsername;
+                        usr_TextField.setText("");
+                        pass_TextField.setText("");
+                        suMainScene = new SUMainPage();
+                        window.setScene(ouMainScene);
+                    }
                 }
             });
 
@@ -199,28 +216,28 @@ public class NotAmazon extends Application{
             
             
             // action event
-            EventHandler<ActionEvent> pressEnter = new EventHandler<ActionEvent>(){
-                public void handle(ActionEvent e)
-                {
-                    String tempUsername = usr_TextField.getText();
-                    String tempPassword = pass_TextField.getText();
-                    if(DataManager.isValidAdmin(tempUsername,tempPassword)){
-                        thisAdmin = tempUsername;
-                        usr_TextField.setText("");
-                        pass_TextField.setText("");
-                        suMainScene = new SUMainPage();
-                        window.setScene(suMainScene);
-                    }
-                    if(DataManager.isValidUser(tempUsername,tempPassword)){
-                        thisUser = tempUsername;
-                        usr_TextField.setText("");
-                        pass_TextField.setText("");
-                        suMainScene = new SUMainPage();
-                        window.setScene(ouMainScene);
+            EventHandler<ActionEvent> pressEnter = new EventHandler<ActionEvent>() {
+                public void handle(ActionEvent e) {
+                    if (validateFields()) {
+                        String tempUsername = usr_TextField.getText();
+                        String tempPassword = pass_TextField.getText();
+                        if (DataManager.isValidAdmin(tempUsername, tempPassword)) {
+                            thisAdmin = tempUsername;
+                            usr_TextField.setText("");
+                            pass_TextField.setText("");
+                            suMainScene = new SUMainPage();
+                            window.setScene(suMainScene);
+                        }
+                        if (DataManager.isValidUser(tempUsername, tempPassword)) {
+                            thisUser = tempUsername;
+                            usr_TextField.setText("");
+                            pass_TextField.setText("");
+                            suMainScene = new SUMainPage();
+                            window.setScene(ouMainScene);
+                        }
                     }
                 }
             };
-            
 
             // when enter is pressed
             pass_TextField.setOnAction(pressEnter);
@@ -265,6 +282,23 @@ public class NotAmazon extends Application{
         Button cancelBtn;
         HBox aBtn;
         HBox cBtn;
+        Tooltip t1,t2,t3;
+
+        private boolean validateFields(){
+            if(usr_TextField.getText().isEmpty() | first_TextField.getText().isEmpty() | last_TextField.getText().isEmpty() |
+            addr_TextField.getText().isEmpty() | phone_TextField.getText().isEmpty() | cc_TextField.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText(null);
+                warnUsr.setContentText("At least one of the fields have been left blank. Please complete the application and" +
+                        " apply again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
         
         public SignupPage() {
             super(new GridPane(),400,400);
@@ -284,28 +318,41 @@ public class NotAmazon extends Application{
             addr_TextField = new TextField();
             phone_TextField = new TextField();
             cc_TextField = new TextField();
+
+            t1 = new Tooltip("Exclude country code and dashes.");
+            t2 = new Tooltip("Input your 16-digit card while excluding space.");
+
+            phone_TextField.setTooltip(t1);
+            cc_TextField.setTooltip(t2);
+
+            t1.setFont(Font.font("Segoe UI",12));
+            t2.setFont(Font.font("Segoe UI",12));
             
             applyBtn = new Button("Apply");
             cancelBtn = new Button("Cancel");
             aBtn = new HBox(5);
             cBtn = new HBox(5);
 
+
+
             applyBtn.setOnAction(e -> {
-                String tempUserName = usr_TextField.getText();
-                String tempFName = first_TextField.getText();
-                String tempLName = last_TextField.getText();
-                String tempAddress = addr_TextField.getText();
-                String tempPhone = phone_TextField.getText();
-                String tempCard = cc_TextField.getText();
-                if(!tempUserName.equals("") && !DataManager.isValidUsername(tempUserName)){
-                    DataManager.createNewUser(tempUserName, tempFName, tempLName, tempAddress,
-                                              tempPhone, tempCard);
-                    usr_TextField.setText("");
-                    first_TextField.setText("");
-                    last_TextField.setText("");
-                    addr_TextField.setText("");
-                    cc_TextField.setText("");
-                    window.setScene(loginScene);
+                if(validateFields()){
+                    String tempUserName = usr_TextField.getText();
+                    String tempFName = first_TextField.getText();
+                    String tempLName = last_TextField.getText();
+                    String tempAddress = addr_TextField.getText();
+                    String tempPhone = phone_TextField.getText();
+                    String tempCard = cc_TextField.getText();
+                    if(!tempUserName.equals("") && !DataManager.isValidUsername(tempUserName)){
+                        DataManager.createNewUser(tempUserName, tempFName, tempLName, tempAddress,
+                                                  tempPhone, tempCard);
+                        usr_TextField.setText("");
+                        first_TextField.setText("");
+                        last_TextField.setText("");
+                        addr_TextField.setText("");
+                        cc_TextField.setText("");
+                        window.setScene(loginScene);
+                    }
                 }
             });
 
@@ -566,6 +613,10 @@ public class NotAmazon extends Application{
             itemsSale.setFont(Font.font("Segoe UI Bold",25));
             ratings.setFont(Font.font("Segoe UI Bold",25));
 
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setOffsetX(5);
+            dropShadow.setOffsetY(5);
+
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
@@ -612,9 +663,13 @@ public class NotAmazon extends Application{
             rectangle.setFill(Color.LIGHTGRAY);
             rectangle.setArcHeight(10.0d);
             rectangle.setArcWidth(10.0d);
+            rectangle.setEffect(dropShadow);
             StackPane stack_pane = new StackPane(rectangle, username, name);
             StackPane.setAlignment(username, Pos.TOP_LEFT);
             StackPane.setAlignment(name,Pos.CENTER_LEFT);
+
+            username.setFont(Font.font("Segoe UI Bold", 15));
+            name.setFont(Font.font("Segoe UI Bold", 15));
 
 
             layout.setAlignment(Pos.BASELINE_CENTER);
@@ -625,10 +680,10 @@ public class NotAmazon extends Application{
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
-            layout.add(stack_pane, 0, 3, 2, 1);
+            layout.add(stack_pane, 0, 4, 2, 1);
             layout.add(menu, 4, 1);
-            layout.add(itemsSale,0,4,2,1);
-            layout.add(ratings,0,5,2,1);
+            layout.add(itemsSale,0,6,2,1);
+            layout.add(ratings,0,8,2,1);
 
         }
     }
