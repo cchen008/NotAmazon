@@ -1,6 +1,10 @@
 # NotAmazon
   Changelog (5/12/19)
   ```
+  -SellPage is semi-completed.
+  -TransactionPage is in progress.
+  -SellPage needs time revision, amongst other minor unintended outcomes.
+  -Image URI link
   -Known Bugs on macOS discovered with the implementation of FileChooser
     "objc[24064]: Class FIFinderSyncExtensionHost is implemented in both
     /System/Library/PrivateFrameworks/FinderKit.framework/Versions/A/FinderKit (0x7fffa7174210) and
