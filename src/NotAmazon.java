@@ -1,4 +1,6 @@
 import javafx.application.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -14,14 +16,13 @@ import javafx.scene.paint.*;
 import javafx.collections.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.*;
-import javafx.scene.control.Dialog.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.effect.DropShadow;
-import java.io.File;
 
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +41,7 @@ public class NotAmazon extends Application{
     private SUMainPage suMainScene;
     private PendAppPage pendAppScene;
     private PendItemPage pendItemScene;
+    private ReportAppPage reportAppScene;
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
     private SellPage sellScene;
@@ -55,6 +57,7 @@ public class NotAmazon extends Application{
     private String thisAdmin;
     private String thisItem;
     private String currentApp;
+    private String currentReport;
     
     public static void main(String[]args){
         launch(args);
@@ -84,6 +87,7 @@ public class NotAmazon extends Application{
         suMainScene = new SUMainPage();
         pendAppScene = new PendAppPage();
         pendItemScene = new PendItemPage();
+        reportAppScene = new ReportAppPage();
         pendReportScene = new ReportPage();
         bListScene = new BlackListPage();
         viewItemScene = new ViewItemPage();
@@ -1278,6 +1282,96 @@ public class NotAmazon extends Application{
         }
     }
 
+    class ReportAppPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text reportUser;
+        Text reasonForReport;
+        Text reasonDetails;
+        TextField reportUser_TextField;
+        TextField mainReason_TextField;
+        TextField reasonTextField;
+        Button submitBtn;
+        Button cancelBtn;
+
+        private boolean validateFields() {
+            if (reportUser_TextField.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("No user being reported.");
+                warnUsr.setContentText("Please fill in the empty field and try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            else if (mainReason_TextField.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("A reason for reporting the user has not been selected.");
+                warnUsr.setContentText("Please select a reason and try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
+
+        public ReportAppPage() {
+            super(new GridPane(),500,500);
+            layout = (GridPane)this.getRoot();
+
+            sceneTitle = new Text("Report User");
+
+            reportUser = new Text("User to report: ");
+            reasonForReport = new Text("Reason: ");
+            reasonDetails = new Text("If possible, provide an explanation as to your reason. More details in your " +
+                    "explanation may help aid the administrators in their decision.");
+
+            mainReason_TextField = new TextField();
+            mainReason_TextField.setPromptText("e.g. Item(s) user is selling is not as described.");
+            reasonTextField = new TextField();
+            reportUser_TextField = new TextField();
+
+            submitBtn = new Button("Submit");
+            cancelBtn = new Button("Cancel");
+
+            submitBtn.setOnAction(event -> {
+                if(validateFields()) {
+                    String reportThisUser = reportUser_TextField.getText();
+                    String whatReason = mainReason_TextField.getText();
+                    String reasonText = reasonTextField.getText();
+                    DataManager.addReport(thisUser, reportThisUser, whatReason, reasonText);
+                    window.setScene(ouMainScene);
+                }
+            });
+
+            cancelBtn.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
+
+            layout.setAlignment(Pos.CENTER);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+            layout.add(reportUser,0,1);
+            layout.add(reportUser_TextField,1,3,2,1);
+            layout.add(reasonForReport,0,2);
+            layout.add(mainReason_TextField,1,2,2,1);
+            layout.add(reasonDetails,0,4,3,1);
+            layout.add(reasonTextField,0,5,4,3);
+            layout.add(submitBtn,1,4);
+            layout.add(cancelBtn,0,4);
+        }
+    }
+
     class GUSearchItemPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1395,8 +1489,9 @@ public class NotAmazon extends Application{
 
     class ViewItemPage extends Scene{
         GridPane layout;
-        Label itemLabel;
+        Text itemLabel;
         Text sceneTitle;
+        Text seller;
         Text itemCondition;
         Text timeLeft;
         Text currentBid;
@@ -1405,8 +1500,10 @@ public class NotAmazon extends Application{
         Button placeBidBtn;
         Button searchBtn;
         Button backBtn;
+        Button reportBtn;
         MenuButton menu;
         MenuItem profile;
+        MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem item; //TEMP FOR TESTING
         MenuItem signOut;
@@ -1427,15 +1524,21 @@ public class NotAmazon extends Application{
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
+            myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
             item = new MenuItem("Item");
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myTranHist, item, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
             });
+
+            myAcc.setOnAction((event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            }));
 
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
@@ -1464,14 +1567,47 @@ public class NotAmazon extends Application{
 
             //itemInfo = DataManager.getItemInfo(thisItem);
 
-            itemLabel = new Label("<Insert item_name here>"); //itemInfo[0]
-            itemCondition = new Text("Condition:  "); //itemInfo[2]
-            timeLeft = new Text("Time left:  ");
-            currentBid = new Text("Current bid:  "); //itemInfo[1]
+            //itemLabel = new Text(itemInfo[0]);
+            //seller = new Text(itemInfo[1]);
+            itemCondition = new Text("Condition:  "); //itemInfo[3]
+            timeLeft = new Text("Time left:  "); //itemInfo[4]
+            currentBid = new Text("Current bid:  "); //itemInfo[2]
             myBid = new TextField();
-            placeBidBtn = new Button("Place bid");
 
-            itemLabel.setFont(Font.font("Segoe UI Bold",15));
+            Tooltip t1 = new Tooltip("Input an price higher than the current bid.");
+            t1.setFont(Font.font("Seogoe UI Bold",10));
+
+            myBid.textProperty().addListener(new ChangeListener<String>() {
+                 @Override
+                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                     if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
+                         myBid.setText(oldValue);
+                     }
+                 }
+             });
+
+            placeBidBtn = new Button("Place bid");
+            /*placeBidBtn.setOnAction(event -> {
+                if(placedBidPrice < currentBidPrice) {
+                    Alert alert = new Alert(AlertType.ERROR);
+                    alert.setTitle("Invalid Input");
+                    alert.setHeaderText(null);
+                    alert.setContentText("ERROR: Invalid input. Please try again.");
+                    alert.showAndWait();
+                }else{
+                    DataManager.updateItemBid(thisItem, placedBidPrice);
+                    viewItemScene = new ViewItemPage();
+                    window.setScene(viewItemScene);
+                }
+            });*/
+
+            reportBtn = new Button("Report?");
+            reportBtn.setOnAction(event -> {
+                reportAppScene = new ReportAppPage();
+                window.setScene(reportAppScene);
+            });
+
+            //itemLabel.setFont(Font.font("Segoe UI Bold",15));
             itemCondition.setFont(Font.font("Segoe UI",13));
             timeLeft.setFont(Font.font("Segoe UI",13));
             currentBid.setFont(Font.font("Segoe UI",13));
@@ -1484,12 +1620,13 @@ public class NotAmazon extends Application{
             layout.add(searchBar, 0, 2, 2, 1);
             layout.add(searchBtn, 2, 2, 2, 1);
             layout.add(menu, 4, 2);
-            layout.add(itemLabel,0,5,2,1);
+            //layout.add(itemLabel,0,5,2,1);
             layout.add(itemCondition,0,7);
             layout.add(timeLeft,0,8);
             layout.add(currentBid,0,9);
             layout.add(myBid,0,10,2,1);
             layout.add(placeBidBtn,0,11);
+            layout.add(reportBtn,0,13);
         }
     }
 

@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "@Fcrt39jiv9";
+            String password = "3821";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -45,7 +45,6 @@ public class DataManager{
             + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
             + "FOREIGN KEY (seller) REFERENCES user(user_id));";
-            
 
             String createItemTable = "CREATE TABLE IF NOT EXISTS item("
             + "item_name VARCHAR(30) PRIMARY KEY NOT NULL,"
@@ -56,13 +55,29 @@ public class DataManager{
             + "time INT(10),"
             + "FOREIGN KEY (seller_id) REFERENCES user(user_id));";
             
-            String createtransactionTable = "CREATE TABLE IF NOT EXISTS transactions("
+            /*String createtransactionTable = "CREATE TABLE IF NOT EXISTS transactions("
             + "item_name VARCHAR(30),"
             + "seller_id VARCHAR(30),"
             + "price DECIMAL(10,2),"
             + "buyer_id VARCHAR(30),"
             + "FOREIGN KEY (buyer_id) REFERENCES user(user_id),"
-            + "FOREIGN KEY (seller_id) REFERENCES item(seller_id));";
+            + "FOREIGN KEY (seller_id) REFERENCES item(seller_id));";*/
+
+            String createReportsTable = "CREATE TABLE IF NOT EXISTS reports("
+            + "reported_user VARCHAR(30) PRIMARY KEY,"
+            + "reported_by VARCHAR(30),"
+            + "reason VARCHAR(30),"
+            + "commnt VARCHAR(128),"
+            + "FOREIGN KEY (reported_user) REFERENCES user(user_id),"
+            + "FOREIGN KEY (reported_by) REFERENCES user(user_id));";
+
+            String createRatingsTable = "CREATE TABLE IF NOT EXISTS ratings("
+            + "user_rated VARCHAR(30) PRIMARY KEY,"
+            + "rated_by VARCHAR(30),"
+            + "rating INT,"
+            + "commnt VARCHAR(128),"
+            + "FOREIGN KEY (user_rated) REFERENCES user(user_id),"
+            + "FOREIGN KEY (rated_by) REFERENCES user(user_id));";
 
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
             String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
@@ -80,7 +95,7 @@ public class DataManager{
             statement.executeUpdate(createAdminTable);
             statement.executeUpdate(createItemAppTable);
             statement.executeUpdate(createItemTable);
-            statement.executeUpdate(createtransactionTable);
+            //statement.executeUpdate(createtransactionTable);
             statement.executeUpdate(insertAdmin);
             statement.executeUpdate(insertSecondAdmin);
         }
@@ -127,9 +142,10 @@ public class DataManager{
         }
     	return (userInfo);
     }
+
     //for profile page
     public static String [] getPersonalInfo(String username){
-        String [] personalInfo = {"","","","","","",""};
+        String [] personalInfo = {"","","","","","","",""};
 
         try{
             String selectUserInfo = "SELECT user_id,first_name,last_name, address, phone_num, card_num, password" +
@@ -145,6 +161,7 @@ public class DataManager{
                 personalInfo[4] = userInfo.getString("phone_num");
                 personalInfo[5] = userInfo.getString("card_num");
                 personalInfo[6] = userInfo.getString("password");
+                //personalInfo[7] = userInfo.getString("ratings");
 
                 userInfo.close();
 
@@ -158,17 +175,70 @@ public class DataManager{
         return (personalInfo);
     }
 
+    public static String [] getReportApp(String reportedUser){
+        String [] reportApp = {"","",""};
+
+        try {
+            String getReportApp = "SELECT reported_user, reported_by, reason, commnt FROM reports WHERE report_user=\"" +reportedUser+ "\";";
+
+            ResultSet results = statement.executeQuery(getReportApp);
+
+            if(results.next()){
+                reportApp[0] = results.getString("reported_user");
+                reportApp[1] = results.getString("reported_by");
+                reportApp[2] = results.getString("reason");
+                reportApp[3] = results.getString("commnt");
+
+                results.close();
+
+                return reportApp;
+            }
+        }
+        catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return (reportApp);
+    }
+
+    public static String [] getRatingsOf(String ratedUser){
+        String [] ratings = {"","",""};
+
+        try {
+            String getRatings = "SELECT rated_user, rated_by, rating, commnt FROM ratings WHERE rated_user=\"" +ratedUser+ "\";";
+
+            ResultSet results = statement.executeQuery(getRatings);
+
+            if(results.next()){
+                ratings[0] = results.getString("rated_user");
+                ratings[1] = results.getString("rated_by");
+                ratings[2] = results.getString("rating");
+                ratings[3] = results.getString("comment");
+
+                results.close();
+
+                return ratings;
+            }
+        }
+        catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return (ratings);
+    }
+
     public static String [] getItemInfo(String item){
-        String [] itemInfo = {"","",""};
+        String [] itemInfo = {"","","","",""};
 
         try{
-            String selectItemInfo = "SELECT item_name, price FROM item WHERE item_name=\"" +item+ "\";";
+            String selectItemInfo = "SELECT item_name, seller_id, price, item_condition, time FROM item " +
+                    "WHERE item_name=\"" +item+ "\";";
 
             ResultSet thisItem = statement.executeQuery(selectItemInfo);
              if(thisItem.next()){
                  itemInfo[0] = thisItem.getString("item_name");
-                 itemInfo[1] = thisItem.getString("price");
-                 itemInfo[2] = thisItem.getString("item_condition");
+                 itemInfo[1] = thisItem.getString("seller_id");
+                 itemInfo[2] = thisItem.getString("price");
+                 itemInfo[3] = thisItem.getString("item_condition");
+                 itemInfo[4] = thisItem.getString("time");
 
                  thisItem.close();
 
@@ -214,6 +284,17 @@ public class DataManager{
     	}catch(Exception expt) {
     		expt.printStackTrace();
     	}
+    }
+
+    public static void addReport(String reportUser, String reported_by, String reasonBox, String reasonDetails){
+        try{
+            String insertNewReport = "INSERT IGNORE INTO reports VALUES(\"" +reportUser+ "\",\"" +reported_by+ "\",\""
+                    +reasonBox+ "\",\"" +reasonDetails+ "\");";
+            statement.executeUpdate(insertNewReport);
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
     }
 
     //checks if username exists
@@ -341,6 +422,15 @@ public class DataManager{
             String updateQuery = "UPDATE User SET password=\"" +newPass+ "\" WHERE user_id=\"" +username+ "\";";
             statement.executeUpdate(updateQuery);
 
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+
+    public static void updateItemBid(String item, double bidPrice){
+        try{
+            String updateQuery = "UPDATE items SET price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\";";
+            statement.executeUpdate(updateQuery);
         }catch(Exception expt){
             expt.printStackTrace();
         }
