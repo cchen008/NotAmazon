@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "3821";
+            String password = "cody1234";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -55,7 +55,7 @@ public class DataManager{
             + "time INT(10),"
             + "FOREIGN KEY (seller_id) REFERENCES user(user_id));";
             
-            /*String createtransactionTable = "CREATE TABLE IF NOT EXISTS transactions("
+            String createtransactionTable = "CREATE TABLE IF NOT EXISTS transactions("
             + "item_name VARCHAR(30),"
             + "seller_id VARCHAR(30),"
             + "price DECIMAL(10,2),"
@@ -95,7 +95,7 @@ public class DataManager{
             statement.executeUpdate(createAdminTable);
             statement.executeUpdate(createItemAppTable);
             statement.executeUpdate(createItemTable);
-            //statement.executeUpdate(createtransactionTable);
+            statement.executeUpdate(createtransactionTable);
             statement.executeUpdate(insertAdmin);
             statement.executeUpdate(insertSecondAdmin);
         }
@@ -106,6 +106,46 @@ public class DataManager{
         
     }
     //setup
+    public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time) {
+    	try {
+    		String insertItemApp = "INSERT INTO item_application VALUES(\""
+    				+item_name+"\",\""
+    				+username+"\",\""
+    				+item_type+"\",\""
+    				+price+"\",\""
+    				+item_condition+"\",\""
+    				+time+"\");";
+    		statement.executeUpdate(insertItemApp);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+
+    public static String [] getItemAppInfo(String item){
+        String [] itemAppInfo = {"","","",""};
+
+        try{
+            String selectItemInfo = "SELECT * FROM item_application WHERE item_name=\"" +item+ "\";";
+
+            ResultSet thisItem = statement.executeQuery(selectItemInfo);
+             if(thisItem.next()){
+                 itemAppInfo[0] = thisItem.getString("item_name");
+                 itemAppInfo[1] = thisItem.getString("price");
+                 itemAppInfo[2] = thisItem.getString("item_condition");
+                 itemAppInfo[3] = thisItem.getString("seller");
+
+                 thisItem.close();
+
+                 return itemAppInfo;
+             }
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+
+        return (itemAppInfo);
+    }
+
+    //sets user's password to the default password
     public static void defaultUserPass(String username) {
     	try {
     		String defaultPassword = "UPDATE user SET password = '" + username +"' WHERE user_id = \"" +username+ "\";";
@@ -249,6 +289,24 @@ public class DataManager{
         }
 
         return (itemInfo);
+    }
+
+    public static void addNewItem(String item) {
+    	try {
+    		String addItem = "INSERT INTO item SELECT * FROM item_application WHERE item_name = \"" +item+ "\";";
+    		statement.executeUpdate(addItem);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+
+    public static void deleteItemApp(String item) {
+    	try {
+    		String deleteItem = "DELETE FROM Item_Application WHERE item_name = \"" +item+ "\";";
+    		statement.executeUpdate(deleteItem);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
     }
 
     //create new user

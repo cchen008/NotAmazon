@@ -16,13 +16,16 @@ import javafx.scene.paint.*;
 import javafx.collections.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.*;
+import javafx.scene.control.Dialog.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.effect.DropShadow;
-
 import java.io.File;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.text.ParsePosition;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,7 +61,7 @@ public class NotAmazon extends Application{
     private String thisItem;
     private String currentApp;
     private String currentReport;
-    
+
     public static void main(String[]args){
         launch(args);
     }
@@ -1782,9 +1785,9 @@ public class NotAmazon extends Application{
                 		"Username: "+user
                 		+"\nFirst Name: "+first
                 		+"\nLast Name: "+last
-                		+"\nAddress:"+addr
-                		+"\nPhone Number:"+phone
-                		+"\nCredit Card Number:"+cc
+                		+"\nAddress: "+addr
+                		+"\nPhone Number: "+phone
+                		+"\nCredit Card Number: "+cc
                 		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 
             	if(appListView.getSelectionModel().getSelectedItem() != null){
@@ -1830,8 +1833,15 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	Button viewBtn;
     	ObservableList<String> listOfItem;
         ListView<String> itemListView;
+        Alert confirm;
+        String [] itemInfo;
+        String seller;
+        String itemName;
+        String price;
+        String itemCondition;
 
     	public PendItemPage() {
     		super(new GridPane(),700,700);
@@ -1841,6 +1851,37 @@ public class NotAmazon extends Application{
             sceneTitle = new Text("Pending Item Applications");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
+
+            viewBtn = new Button("View");
+            viewBtn.setOnAction(e -> {
+            	currentApp = itemListView.getSelectionModel().getSelectedItem().toString();
+            	itemInfo = DataManager.getItemAppInfo(currentApp);
+            	itemName = itemInfo[0];
+                price = itemInfo[1];
+                itemCondition = itemInfo[2];
+                seller = itemInfo[3];
+
+                confirm = new Alert(AlertType.CONFIRMATION,
+                		"Item Name: "+itemName
+                		+"\nSeller: "+seller
+                		+"\nPrice: "+price
+                		+"\nItem Condition: "+itemCondition
+                		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            	if(itemListView.getSelectionModel().getSelectedItem() != null){
+            		confirm.showAndWait();
+            		if(confirm.getResult() == ButtonType.YES) {
+            			DataManager.addNewItem(itemName);
+                		DataManager.deleteItemApp(itemName);
+                		pendItemScene = new PendItemPage();
+                		window.setScene(pendItemScene);
+            		}
+            		else if(confirm.getResult() == ButtonType.NO) {
+            			DataManager.deleteItemApp(currentApp);
+                    	pendItemScene = new PendItemPage();
+                    	window.setScene(pendItemScene);
+            		}
+            	}
+            });
 
             backBtn = new Button("Back");
             backBtn.setOnAction(event -> {
@@ -1856,7 +1897,8 @@ public class NotAmazon extends Application{
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(itemListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
-            
+            layout.add(viewBtn, 0, 2, 2, 1);
+
     	}
     }
 
@@ -1933,11 +1975,26 @@ public class NotAmazon extends Application{
     	Text sellTitle;
     	Button browseBtn;
     	Button backBtn;
+    	Button submitBtn;
     	FileChooser fileChooser;
     	File upload;
     	Image item;
     	ImageView itemupload;
-    	
+    	Label itemLabel;
+    	Label item_typeLabel;
+    	Label priceLabel;
+    	Label item_conditionLabel;
+    	Label timeLabel;
+    	TextField itemTF;
+    	TextField item_typeTF;
+    	TextField priceTF;
+    	TextField item_conditionTF;
+    	TextField timeTF;
+    	DecimalFormat money;
+    	DecimalFormat time;
+    	Alert confirm;
+    	Alert error;
+
     	public SellPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
@@ -1945,7 +2002,27 @@ public class NotAmazon extends Application{
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
             browseBtn = new Button("Browse");
             backBtn = new Button("Back");
-            
+            submitBtn = new Button("Submit Application");
+
+            itemLabel = new Label("Item Name:");
+            item_typeLabel = new Label("Sell or Auction:");
+            priceLabel = new Label("Price:");
+            item_conditionLabel = new Label("Item Condition:");
+            timeLabel = new Label("Time in Minutes:");
+
+            itemTF = new TextField();
+            item_typeTF = new TextField();
+            priceTF = new TextField();
+            item_conditionTF = new TextField();
+            timeTF = new TextField();
+
+            money = new DecimalFormat("0.00");
+            money.setMinimumFractionDigits(2);
+            money.setMaximumFractionDigits(2);
+            money.setRoundingMode(RoundingMode.DOWN);
+
+            time = new DecimalFormat("#0");
+
             //fileChooser
             fileChooser = new FileChooser();
             fileChooser.setTitle("Upload Image");
@@ -1954,7 +2031,44 @@ public class NotAmazon extends Application{
             		new FileChooser.ExtensionFilter("PNG Files", "*.png")
             );
             //fileChooser
-            
+            timeTF.setTextFormatter(new TextFormatter<>(c ->{
+            	if ( c.getControlNewText().isEmpty() )
+                {
+                    return c;
+                }
+
+                ParsePosition parsePosition = new ParsePosition( 0 );
+                Object object = time.parse( c.getControlNewText(), parsePosition );
+
+                if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+                {
+                    return null;
+                }
+                else
+                {
+                    return c;
+                }
+            }));
+
+            priceTF.setTextFormatter(new TextFormatter<>(c ->{
+            	if ( c.getControlNewText().isEmpty() )
+                {
+                    return c;
+                }
+
+                ParsePosition parsePosition = new ParsePosition( 0 );
+                Object object = money.parse( c.getControlNewText(), parsePosition );
+
+                if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+                {
+                    return null;
+                }
+                else
+                {
+                    return c;
+                }
+            }));
+
             browseBtn.setOnAction(e->{
             	upload = fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
             	if(upload != null) {
@@ -1963,8 +2077,6 @@ public class NotAmazon extends Application{
             		itemupload.setImage(item);
             		itemupload.setFitHeight(200);
                     itemupload.setFitWidth(200);
-                    //sellScene = new SellPage();
-                    //window.setScene(sellScene);
                     layout.add(itemupload, 0, 2, 2, 1);
             	}
             });
@@ -1972,7 +2084,57 @@ public class NotAmazon extends Application{
             backBtn.setOnAction(e->{
             	window.setScene(ouMainScene);
             });
-               
+
+            submitBtn.setOnAction(e->{
+            	if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
+            			priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
+            			timeTF.getText().isEmpty()) {
+            		error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
+                    error.setTitle("Empty Field Error");
+                    error.showAndWait();
+            	}
+            	else if(!item_typeTF.getText().toLowerCase().equals("sell")
+            			&& !item_typeTF.getText().toLowerCase().equals("auction")) {
+
+            		error = new Alert(AlertType.WARNING,"Invalid input, must be either Sell or Auction",ButtonType.OK);
+            		error.setTitle("Invalid Input");
+            		error.showAndWait();
+            	}
+            	else {
+            		double priceDouble=0;
+            		int timeInt=0;
+            		try {
+            			priceDouble = Double.parseDouble(priceTF.getText());
+            			priceDouble = Double.parseDouble(money.format(priceDouble));
+            			timeInt= Integer.parseInt(timeTF.getText());
+            		}catch(NumberFormatException x){
+            			x.printStackTrace();
+            		}
+            		confirm = new Alert(AlertType.CONFIRMATION,
+                    		"Please confirm your item application."
+            				+"\nItem Name: "+itemTF.getText()
+            				+"\nSeller: "+thisUser
+            				+"\nItem Type: "+item_typeTF.getText()
+            				+"\nPrice: $"+money.format(priceDouble)
+            				+"\nItem Condition: "+item_conditionTF.getText()
+            				+"\nTime: "+timeTF.getText()
+            				+"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            		confirm.showAndWait();
+            		if(confirm.getResult() == ButtonType.YES){
+            			if(item_typeTF.getText().toLowerCase().equals("sell")) {
+            				DataManager.itemApplication(thisUser, itemTF.getText()
+                					,0,priceDouble,item_conditionTF.getText(),timeInt);
+            			}
+            			if(item_typeTF.getText().toLowerCase().equals("auction")) {
+            				DataManager.itemApplication(thisUser, itemTF.getText()
+                					,1,priceDouble,item_conditionTF.getText(),timeInt);
+            			}
+                		sellScene = new SellPage();
+                		window.setScene(sellScene);
+            		}
+            	}
+            });
+
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
@@ -1980,7 +2142,18 @@ public class NotAmazon extends Application{
             
             layout.add(sellTitle, 0, 0, 2, 1);
             layout.add(browseBtn, 0, 1, 2, 1);
-            layout.add(backBtn, 0, 3);
+            layout.add(itemLabel, 0, 3);
+            layout.add(itemTF, 1, 3);
+            layout.add(item_typeLabel, 0, 4);
+            layout.add(item_typeTF, 1, 4);
+            layout.add(priceLabel, 0, 5);
+            layout.add(priceTF, 1, 5);
+            layout.add(item_conditionLabel, 0, 6);
+            layout.add(item_conditionTF, 1, 6);
+            layout.add(timeLabel, 0, 7);
+            layout.add(timeTF, 1, 7);
+            layout.add(submitBtn, 0, 8, 2, 1);
+            layout.add(backBtn, 0, 9, 2, 1);
             }
             
     	
