@@ -61,7 +61,7 @@ public class DataManager{
             + "price DECIMAL(10,2),"
             + "buyer_id VARCHAR(30),"
             + "FOREIGN KEY (buyer_id) REFERENCES user(user_id),"
-            + "FOREIGN KEY (seller_id) REFERENCES item(seller_id));";*/
+            + "FOREIGN KEY (seller_id) REFERENCES item(seller_id));";
 
             String createReportsTable = "CREATE TABLE IF NOT EXISTS reports("
             + "reported_user VARCHAR(30) PRIMARY KEY,"
@@ -80,7 +80,7 @@ public class DataManager{
             + "FOREIGN KEY (rated_by) REFERENCES user(user_id));";
 
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
-            String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
+            //String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
 
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -97,7 +97,7 @@ public class DataManager{
             statement.executeUpdate(createItemTable);
             statement.executeUpdate(createtransactionTable);
             statement.executeUpdate(insertAdmin);
-            statement.executeUpdate(insertSecondAdmin);
+            //statement.executeUpdate(insertSecondAdmin);
         }
 
         catch(Exception e){
