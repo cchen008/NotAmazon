@@ -69,7 +69,7 @@ public class NotAmazon extends Application{
         window = stage;
         
         initialize();
-        window.setScene(guMainScene);
+        window.setScene(suMainScene);
         window.show();
     }
     
@@ -1649,9 +1649,9 @@ public class NotAmazon extends Application{
                 		"Username: "+user
                 		+"\nFirst Name: "+first
                 		+"\nLast Name: "+last
-                		+"\nAddress:"+addr
-                		+"\nPhone Number:"+phone
-                		+"\nCredit Card Number:"+cc
+                		+"\nAddress: "+addr
+                		+"\nPhone Number: "+phone
+                		+"\nCredit Card Number: "+cc
                 		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
 
             	if(appListView.getSelectionModel().getSelectedItem() != null){
@@ -1697,9 +1697,17 @@ public class NotAmazon extends Application{
     	GridPane layout;
     	Text sceneTitle;
     	Button backBtn;
+    	Button viewBtn;
     	ObservableList<String> listOfItem;
         ListView<String> itemListView;
+        Alert confirm;
+        String [] itemInfo;
+        String seller;
+        String itemName;
+        String price;
+        String itemCondition;
 
+        
     	public PendItemPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
@@ -1709,6 +1717,37 @@ public class NotAmazon extends Application{
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
 
+            viewBtn = new Button("View");
+            viewBtn.setOnAction(e -> {
+            	currentApp = itemListView.getSelectionModel().getSelectedItem().toString();
+            	itemInfo = DataManager.getItemAppInfo(currentApp);
+            	itemName = itemInfo[0];
+                price = itemInfo[1];
+                itemCondition = itemInfo[2];
+                seller = itemInfo[3];
+
+                confirm = new Alert(AlertType.CONFIRMATION,
+                		"Item Name: "+itemName
+                		+"\nSeller: "+seller
+                		+"\nPrice: "+price
+                		+"\nItem Condition: "+itemCondition
+                		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            	if(itemListView.getSelectionModel().getSelectedItem() != null){
+            		confirm.showAndWait();
+            		if(confirm.getResult() == ButtonType.YES) {
+            			DataManager.addNewItem(itemName);
+                		DataManager.deleteItemApp(itemName);
+                		pendItemScene = new PendItemPage();
+                		window.setScene(pendItemScene);
+            		}
+            		else if(confirm.getResult() == ButtonType.NO) {
+            			DataManager.deleteItemApp(currentApp);
+                    	pendItemScene = new PendItemPage();
+                    	window.setScene(pendItemScene);
+            		}
+            	}
+            });
+            
             backBtn = new Button("Back");
             backBtn.setOnAction(event -> {
             	suMainScene = new SUMainPage();
@@ -1723,6 +1762,7 @@ public class NotAmazon extends Application{
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(itemListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
+            layout.add(viewBtn, 0, 2, 2, 1);
             
     	}
     }
