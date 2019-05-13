@@ -4,6 +4,7 @@
   -SellPage is semi-completed.
   -TransactionPage is in progress.
   -SellPage needs time revision, amongst other minor unintended outcomes.
+      -Resolved time revision, image URI still in progress.
   -Image URI link
   -Known Bugs on macOS discovered with the implementation of FileChooser
     "objc[24064]: Class FIFinderSyncExtensionHost is implemented in both
