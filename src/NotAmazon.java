@@ -1864,7 +1864,7 @@ public class NotAmazon extends Application{
                 confirm = new Alert(AlertType.CONFIRMATION,
                 		"Item Name: "+itemName
                 		+"\nSeller: "+seller
-                		+"\nPrice: "+price
+                		+"\nPrice: $"+price
                 		+"\nItem Condition: "+itemCondition
                 		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
             	if(itemListView.getSelectionModel().getSelectedItem() != null){
@@ -2086,7 +2086,11 @@ public class NotAmazon extends Application{
             });
 
             submitBtn.setOnAction(e->{
-            	if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
+            	if(upload == null) {
+            		error = new Alert(AlertType.WARNING,"Please upload an image of your item.",ButtonType.OK);
+            		error.showAndWait();
+            	}
+            	else if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
             			priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
             			timeTF.getText().isEmpty()) {
             		error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
