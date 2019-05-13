@@ -1330,10 +1330,10 @@ public class NotAmazon extends Application{
             reportUser = new Text("User to report: ");
             reasonForReport = new Text("Reason: ");
             reasonDetails = new Text("If possible, provide an explanation as to your reason. More details in your " +
-                    "explanation may help aid the administrators in their decision.");
+                    "explanation\nmay help aid the administrators in their decision.");
 
             mainReason_TextField = new TextField();
-            mainReason_TextField.setPromptText("e.g. Item(s) user is selling is not as described.");
+            mainReason_TextField.setPromptText("e.g. User misconduct");
             reasonTextField = new TextField();
             reportUser_TextField = new TextField();
 
@@ -1358,20 +1358,20 @@ public class NotAmazon extends Application{
             submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
             cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
 
-            layout.setAlignment(Pos.CENTER);
+            layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
 
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(reportUser,0,1);
-            layout.add(reportUser_TextField,1,3,2,1);
+            layout.add(reportUser_TextField,1,1,2,1);
             layout.add(reasonForReport,0,2);
             layout.add(mainReason_TextField,1,2,2,1);
-            layout.add(reasonDetails,0,4,3,1);
-            layout.add(reasonTextField,0,5,4,3);
-            layout.add(submitBtn,1,4);
-            layout.add(cancelBtn,0,4);
+            layout.add(reasonDetails,0,5,3,1);
+            layout.add(reasonTextField,0,6,4,3);
+            layout.add(submitBtn,1,10);
+            layout.add(cancelBtn,0,10);
         }
     }
 
