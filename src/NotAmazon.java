@@ -1892,6 +1892,25 @@ public class NotAmazon extends Application{
                         window.setScene(pendItemScene);
                     }
                 }
+                		"Item Name: "+itemName
+                		+"\nSeller: "+seller
+                		+"\nPrice: $"+price
+                		+"\nItem Condition: "+itemCondition
+                		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+            	if(itemListView.getSelectionModel().getSelectedItem() != null){
+            		confirm.showAndWait();
+            		if(confirm.getResult() == ButtonType.YES) {
+            			DataManager.addNewItem(itemName);
+                		DataManager.deleteItemApp(itemName);
+                		pendItemScene = new PendItemPage();
+                		window.setScene(pendItemScene);
+            		}
+            		else if(confirm.getResult() == ButtonType.NO) {
+            			DataManager.deleteItemApp(currentApp);
+                    	pendItemScene = new PendItemPage();
+                    	window.setScene(pendItemScene);
+            		}
+            	}
             });
 
             backBtn = new Button("Back");
@@ -2096,7 +2115,11 @@ public class NotAmazon extends Application{
             });
 
             submitBtn.setOnAction(e->{
-            	if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
+            	if(upload == null) {
+            		error = new Alert(AlertType.WARNING,"Please upload an image of your item.",ButtonType.OK);
+            		error.showAndWait();
+            	}
+            	else if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
             			priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
             			timeTF.getText().isEmpty()) {
             		error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
