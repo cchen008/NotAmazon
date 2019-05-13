@@ -94,9 +94,12 @@ public class DataManager{
     public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time) {
     	try {
     		String insertItemApp = "INSERT INTO item_application VALUES(\""
-    				+item_name+"\",\""+username+"\",\""
-    				+item_type+"\",\""+price+"\",\""
-    				+item_condition+"\",\""+time+");";
+    				+item_name+"\",\""
+    				+username+"\",\""
+    				+item_type+"\",\""
+    				+price+"\",\""
+    				+item_condition+"\",\""
+    				+time+"\");";
     		statement.executeUpdate(insertItemApp);
     	}catch(Exception expt) {
     		expt.printStackTrace();

@@ -1816,6 +1816,7 @@ public class NotAmazon extends Application{
     	TextField item_conditionTF;
     	TextField timeTF;
     	DecimalFormat money;
+    	DecimalFormat time;
     	Alert confirm;
     	Alert error;
     	
@@ -1840,9 +1841,12 @@ public class NotAmazon extends Application{
             item_conditionTF = new TextField();
             timeTF = new TextField();
             
-            money = new DecimalFormat("#.00");
+            money = new DecimalFormat("0.00");
             money.setMinimumFractionDigits(2);
+            money.setMaximumFractionDigits(2);
             money.setRoundingMode(RoundingMode.DOWN);
+            
+            time = new DecimalFormat("#0");
             
             //fileChooser
             fileChooser = new FileChooser();
@@ -1852,6 +1856,24 @@ public class NotAmazon extends Application{
             		new FileChooser.ExtensionFilter("PNG Files", "*.png")
             );
             //fileChooser
+            timeTF.setTextFormatter(new TextFormatter<>(c ->{
+            	if ( c.getControlNewText().isEmpty() )
+                {
+                    return c;
+                }
+
+                ParsePosition parsePosition = new ParsePosition( 0 );
+                Object object = time.parse( c.getControlNewText(), parsePosition );
+
+                if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
+                {
+                    return null;
+                }
+                else
+                {
+                    return c;
+                }
+            }));
             
             priceTF.setTextFormatter(new TextFormatter<>(c ->{
             	if ( c.getControlNewText().isEmpty() )
@@ -1918,7 +1940,7 @@ public class NotAmazon extends Application{
             				+"\nItem Name: "+itemTF.getText()
             				+"\nSeller: "+thisUser
             				+"\nItem Type: "+item_typeTF.getText()
-            				+"\nPrice: "+priceDouble
+            				+"\nPrice: $"+money.format(priceDouble)
             				+"\nItem Condition: "+item_conditionTF.getText()
             				+"\nTime: "+timeTF.getText()
             				+"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
