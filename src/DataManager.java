@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "@Fcrt39jiv9";
+            String password = "cody1234";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -105,6 +105,31 @@ public class DataManager{
     		expt.printStackTrace();
     	}
     }
+    
+    public static String [] getItemAppInfo(String item){
+        String [] itemAppInfo = {"","","",""};
+
+        try{
+            String selectItemInfo = "SELECT * FROM item_application WHERE item_name=\"" +item+ "\";";
+
+            ResultSet thisItem = statement.executeQuery(selectItemInfo);
+             if(thisItem.next()){
+                 itemAppInfo[0] = thisItem.getString("item_name");
+                 itemAppInfo[1] = thisItem.getString("price");
+                 itemAppInfo[2] = thisItem.getString("item_condition");
+                 itemAppInfo[3] = thisItem.getString("seller");
+
+                 thisItem.close();
+
+                 return itemAppInfo;
+             }
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+
+        return (itemAppInfo);
+    }
+    
     //sets user's password to the default password
     public static void defaultUserPass(String username) {
     	try {
@@ -184,6 +209,7 @@ public class DataManager{
                  itemInfo[0] = thisItem.getString("item_name");
                  itemInfo[1] = thisItem.getString("price");
                  itemInfo[2] = thisItem.getString("item_condition");
+                 itemInfo[3] = thisItem.getString("seller");
 
                  thisItem.close();
 
@@ -196,6 +222,24 @@ public class DataManager{
         return (itemInfo);
     }
 
+    public static void addNewItem(String item) {
+    	try {
+    		String addItem = "INSERT INTO item SELECT * FROM item_application WHERE item_name = \"" +item+ "\";";
+    		statement.executeUpdate(addItem);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
+    public static void deleteItemApp(String item) {
+    	try {
+    		String deleteItem = "DELETE FROM Item_Application WHERE item_name = \"" +item+ "\";";
+    		statement.executeUpdate(deleteItem);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
     //create new user
     public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum,
                                      String creditNum){
