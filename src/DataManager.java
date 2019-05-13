@@ -91,6 +91,18 @@ public class DataManager{
         
     }
     //setup
+    public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time) {
+    	try {
+    		String insertItemApp = "INSERT INTO item_application VALUES(\""
+    				+item_name+"\",\""+username+"\",\""
+    				+item_type+"\",\""+price+"\",\""
+    				+item_condition+"\",\""+time+");";
+    		statement.executeUpdate(insertItemApp);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    //sets user's password to the default password
     public static void defaultUserPass(String username) {
     	try {
     		String defaultPassword = "UPDATE user SET password = '" + username +"' WHERE user_id = \"" +username+ "\";";
@@ -335,7 +347,7 @@ public class DataManager{
             expt.printStackTrace();
         }
     }
-
+    
     public static void updateUserPass(String username, String newPass){
         try{
             String updateQuery = "UPDATE User SET password=\"" +newPass+ "\" WHERE user_id=\"" +username+ "\";";
