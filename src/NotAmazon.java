@@ -61,7 +61,7 @@ public class NotAmazon extends Application{
     private String thisItem;
     private String currentApp;
     private String currentReport;
-
+    
     public static void main(String[]args){
         launch(args);
     }
@@ -539,7 +539,7 @@ public class NotAmazon extends Application{
                 
                 friendWindow.show();
             });
-
+            
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
@@ -1295,7 +1295,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,4);
         }
     }
-
+    
     class ReportAppPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1307,50 +1307,50 @@ public class NotAmazon extends Application{
         TextField reasonTextField;
         Button submitBtn;
         Button cancelBtn;
-
+        
         private boolean validateFields() {
             if (reportUser_TextField.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("No user being reported.");
                 warnUsr.setContentText("Please fill in the empty field and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             else if (mainReason_TextField.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("A reason for reporting the user has not been selected.");
                 warnUsr.setContentText("Please select a reason and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public ReportAppPage() {
             super(new GridPane(),500,500);
             layout = (GridPane)this.getRoot();
-
+            
             sceneTitle = new Text("Report User");
-
+            
             reportUser = new Text("User to report: ");
             reasonForReport = new Text("Reason: ");
             reasonDetails = new Text("If possible, provide an explanation as to your reason. More details in your " +
-                    "explanation\nmay help aid the administrators in their decision.");
-
+                                     "explanation\nmay help aid the administrators in their decision.");
+            
             mainReason_TextField = new TextField();
             mainReason_TextField.setPromptText("e.g. User misconduct");
             reasonTextField = new TextField();
             reportUser_TextField = new TextField();
-
+            
             submitBtn = new Button("Submit");
             cancelBtn = new Button("Cancel");
-
+            
             submitBtn.setOnAction(event -> {
                 if(validateFields()) {
                     String reportThisUser = reportUser_TextField.getText();
@@ -1360,20 +1360,20 @@ public class NotAmazon extends Application{
                     window.setScene(ouMainScene);
                 }
             });
-
+            
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
             cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(reportUser,0,1);
             layout.add(reportUser_TextField,1,1,2,1);
@@ -1385,7 +1385,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,10);
         }
     }
-
+    
     class GUSearchItemPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1456,7 +1456,7 @@ public class NotAmazon extends Application{
             searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
             
             searchBtn = new Button("Search");
-
+            
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
@@ -1542,19 +1542,19 @@ public class NotAmazon extends Application{
             myTranHist = new MenuItem("My Transaction History");
             item = new MenuItem("Item");
             signOut = new MenuItem("Sign Out");
-
+            
             menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
-
+            
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
             });
-
+            
             myAcc.setOnAction((event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             }));
-
+            
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
@@ -1587,41 +1587,41 @@ public class NotAmazon extends Application{
             timeLeft = new Text("Time left:  "); //itemInfo[4]
             currentBid = new Text("Current bid:  "); //itemInfo[2]
             myBid = new TextField();
-
+            
             Tooltip t1 = new Tooltip("Input an price higher than the current bid.");
             t1.setFont(Font.font("Seogoe UI Bold",10));
-
+            
             myBid.textProperty().addListener(new ChangeListener<String>() {
-                 @Override
-                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                     if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
-                         myBid.setText(oldValue);
-                     }
-                 }
-             });
-
+                @Override
+                public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                    if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
+                        myBid.setText(oldValue);
+                    }
+                }
+            });
+            
             placeBidBtn = new Button("Place bid");
             /*placeBidBtn.setOnAction(event -> {
-                if(placedBidPrice < currentBidPrice) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Invalid Input");
-                    alert.setHeaderText(null);
-                    alert.setContentText("ERROR: Invalid input. Please try again.");
-                    alert.showAndWait();
-                }else{
-                    DataManager.updateItemBid(thisItem, placedBidPrice);
-                    viewItemScene = new ViewItemPage();
-                    window.setScene(viewItemScene);
-                }
-            });*/
-
+             if(placedBidPrice < currentBidPrice) {
+             Alert alert = new Alert(AlertType.ERROR);
+             alert.setTitle("Invalid Input");
+             alert.setHeaderText(null);
+             alert.setContentText("ERROR: Invalid input. Please try again.");
+             alert.showAndWait();
+             }else{
+             DataManager.updateItemBid(thisItem, placedBidPrice);
+             viewItemScene = new ViewItemPage();
+             window.setScene(viewItemScene);
+             }
+             });*/
+            
             reportBtn = new Button("Report?");
             reportBtn.setOnAction(event -> {
                 reportAppScene = new ReportAppPage();
                 window.setScene(reportAppScene);
             });
-
-            itemLabel.setFont(Font.font("Segoe UI Bold",15));
+            
+            //itemLabel.setFont(Font.font("Segoe UI Bold",15));
             itemCondition.setFont(Font.font("Segoe UI",13));
             timeLeft.setFont(Font.font("Segoe UI",13));
             currentBid.setFont(Font.font("Segoe UI",13));
@@ -1631,7 +1631,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             layout.add(sceneTitle,0,0,2,1);
-            layout.add(searchBar, 0, 2, 2, 1);
+            //layout.add(searchBar, 0, 2, 2, 1);
             layout.add(searchBtn, 2, 2, 2, 1);
             layout.add(menu, 4, 2);
             //layout.add(itemLabel,0,5,2,1);
@@ -1853,9 +1853,9 @@ public class NotAmazon extends Application{
         String itemName;
         String price;
         String itemCondition;
-
-    	public PendItemPage() {
-    		super(new GridPane(),700,700);
+        
+        public PendItemPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             listOfItem = FXCollections.observableArrayList(DataManager.getListOfItemApp());
             itemListView = new ListView<>(listOfItem);
@@ -1875,7 +1875,7 @@ public class NotAmazon extends Application{
                 confirm = new Alert(AlertType.CONFIRMATION,
                                     "Item Name: "+itemName
                                     +"\nSeller: "+seller
-                                    +"\nPrice: "+price
+                                    +"\nPrice: $"+price
                                     +"\nItem Condition: "+itemCondition
                                     +"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
                 if(itemListView.getSelectionModel().getSelectedItem() != null){
@@ -1892,27 +1892,8 @@ public class NotAmazon extends Application{
                         window.setScene(pendItemScene);
                     }
                 }
-                		"Item Name: "+itemName
-                		+"\nSeller: "+seller
-                		+"\nPrice: $"+price
-                		+"\nItem Condition: "+itemCondition
-                		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-            	if(itemListView.getSelectionModel().getSelectedItem() != null){
-            		confirm.showAndWait();
-            		if(confirm.getResult() == ButtonType.YES) {
-            			DataManager.addNewItem(itemName);
-                		DataManager.deleteItemApp(itemName);
-                		pendItemScene = new PendItemPage();
-                		window.setScene(pendItemScene);
-            		}
-            		else if(confirm.getResult() == ButtonType.NO) {
-            			DataManager.deleteItemApp(currentApp);
-                    	pendItemScene = new PendItemPage();
-                    	window.setScene(pendItemScene);
-            		}
-            	}
             });
-
+            
             backBtn = new Button("Back");
             backBtn.setOnAction(event -> {
                 suMainScene = new SUMainPage();
@@ -1928,7 +1909,7 @@ public class NotAmazon extends Application{
             layout.add(itemListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
             layout.add(viewBtn, 0, 2, 2, 1);
-    	}
+        }
     }
     
     class ReportPage extends Scene{
@@ -2000,58 +1981,58 @@ public class NotAmazon extends Application{
     }
     
     class SellPage extends Scene{
-    	GridPane layout;
-    	Text sellTitle;
-    	Button browseBtn;
-    	Button backBtn;
-    	Button submitBtn;
-    	FileChooser fileChooser;
-    	File upload;
-    	Image item;
-    	ImageView itemupload;
-    	Label itemLabel;
-    	Label item_typeLabel;
-    	Label priceLabel;
-    	Label item_conditionLabel;
-    	Label timeLabel;
-    	TextField itemTF;
-    	TextField item_typeTF;
-    	TextField priceTF;
-    	TextField item_conditionTF;
-    	TextField timeTF;
-    	DecimalFormat money;
-    	DecimalFormat time;
-    	Alert confirm;
-    	Alert error;
-
-    	public SellPage() {
-    		super(new GridPane(),700,700);
+        GridPane layout;
+        Text sellTitle;
+        Button browseBtn;
+        Button backBtn;
+        Button submitBtn;
+        FileChooser fileChooser;
+        File upload;
+        Image item;
+        ImageView itemupload;
+        Label itemLabel;
+        Label item_typeLabel;
+        Label priceLabel;
+        Label item_conditionLabel;
+        Label timeLabel;
+        TextField itemTF;
+        TextField item_typeTF;
+        TextField priceTF;
+        TextField item_conditionTF;
+        TextField timeTF;
+        DecimalFormat money;
+        DecimalFormat time;
+        Alert confirm;
+        Alert error;
+        
+        public SellPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             sellTitle = new Text("Sell/Auction");
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
             browseBtn = new Button("Browse");
             backBtn = new Button("Back");
             submitBtn = new Button("Submit Application");
-
+            
             itemLabel = new Label("Item Name:");
             item_typeLabel = new Label("Sell or Auction:");
             priceLabel = new Label("Price:");
             item_conditionLabel = new Label("Item Condition:");
             timeLabel = new Label("Time in Minutes:");
-
+            
             itemTF = new TextField();
             item_typeTF = new TextField();
             priceTF = new TextField();
             item_conditionTF = new TextField();
             timeTF = new TextField();
-
+            
             money = new DecimalFormat("0.00");
             money.setMinimumFractionDigits(2);
             money.setMaximumFractionDigits(2);
             money.setRoundingMode(RoundingMode.DOWN);
-
+            
             time = new DecimalFormat("#0");
-
+            
             //fileChooser
             fileChooser = new FileChooser();
             fileChooser.setTitle("Upload Image");
@@ -2078,7 +2059,7 @@ public class NotAmazon extends Application{
                     return c;
                 }
             }));
-
+            
             priceTF.setTextFormatter(new TextFormatter<>(c ->{
                 if ( c.getControlNewText().isEmpty() )
                 {
@@ -2097,7 +2078,7 @@ public class NotAmazon extends Application{
                     return c;
                 }
             }));
-
+            
             browseBtn.setOnAction(e->{
                 upload = fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
                 if(upload != null) {
@@ -2113,61 +2094,61 @@ public class NotAmazon extends Application{
             backBtn.setOnAction(e->{
                 window.setScene(ouMainScene);
             });
-
+            
             submitBtn.setOnAction(e->{
-            	if(upload == null) {
-            		error = new Alert(AlertType.WARNING,"Please upload an image of your item.",ButtonType.OK);
-            		error.showAndWait();
-            	}
-            	else if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
-            			priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
-            			timeTF.getText().isEmpty()) {
-            		error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
+                if(upload == null) {
+                    error = new Alert(AlertType.WARNING,"Please upload an image of your item.",ButtonType.OK);
+                    error.showAndWait();
+                }
+                else if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
+                        priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
+                        timeTF.getText().isEmpty()) {
+                    error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
                     error.setTitle("Empty Field Error");
                     error.showAndWait();
-            	}
-            	else if(!item_typeTF.getText().toLowerCase().equals("sell")
-            			&& !item_typeTF.getText().toLowerCase().equals("auction")) {
-
-            		error = new Alert(AlertType.WARNING,"Invalid input, must be either Sell or Auction",ButtonType.OK);
-            		error.setTitle("Invalid Input");
-            		error.showAndWait();
-            	}
-            	else {
-            		double priceDouble=0;
-            		int timeInt=0;
-            		try {
-            			priceDouble = Double.parseDouble(priceTF.getText());
-            			priceDouble = Double.parseDouble(money.format(priceDouble));
-            			timeInt= Integer.parseInt(timeTF.getText());
-            		}catch(NumberFormatException x){
-            			x.printStackTrace();
-            		}
-            		confirm = new Alert(AlertType.CONFIRMATION,
-                    		"Please confirm your item application."
-            				+"\nItem Name: "+itemTF.getText()
-            				+"\nSeller: "+thisUser
-            				+"\nItem Type: "+item_typeTF.getText()
-            				+"\nPrice: $"+money.format(priceDouble)
-            				+"\nItem Condition: "+item_conditionTF.getText()
-            				+"\nTime: "+timeTF.getText()
-            				+"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-            		confirm.showAndWait();
-            		if(confirm.getResult() == ButtonType.YES){
-            			if(item_typeTF.getText().toLowerCase().equals("sell")) {
-            				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,0,priceDouble,item_conditionTF.getText(),timeInt);
-            			}
-            			if(item_typeTF.getText().toLowerCase().equals("auction")) {
-            				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,1,priceDouble,item_conditionTF.getText(),timeInt);
-            			}
-                		sellScene = new SellPage();
-                		window.setScene(sellScene);
-            		}
-            	}
+                }
+                else if(!item_typeTF.getText().toLowerCase().equals("sell")
+                        && !item_typeTF.getText().toLowerCase().equals("auction")) {
+                    
+                    error = new Alert(AlertType.WARNING,"Invalid input, must be either Sell or Auction",ButtonType.OK);
+                    error.setTitle("Invalid Input");
+                    error.showAndWait();
+                }
+                else {
+                    double priceDouble=0;
+                    int timeInt=0;
+                    try {
+                        priceDouble = Double.parseDouble(priceTF.getText());
+                        priceDouble = Double.parseDouble(money.format(priceDouble));
+                        timeInt= Integer.parseInt(timeTF.getText());
+                    }catch(NumberFormatException x){
+                        x.printStackTrace();
+                    }
+                    confirm = new Alert(AlertType.CONFIRMATION,
+                                        "Please confirm your item application."
+                                        +"\nItem Name: "+itemTF.getText()
+                                        +"\nSeller: "+thisUser
+                                        +"\nItem Type: "+item_typeTF.getText()
+                                        +"\nPrice: $"+money.format(priceDouble)
+                                        +"\nItem Condition: "+item_conditionTF.getText()
+                                        +"\nTime: "+timeTF.getText()
+                                        +"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                    confirm.showAndWait();
+                    if(confirm.getResult() == ButtonType.YES){
+                        if(item_typeTF.getText().toLowerCase().equals("sell")) {
+                            DataManager.itemApplication(thisUser, itemTF.getText()
+                                                        ,0,priceDouble,item_conditionTF.getText(),timeInt);
+                        }
+                        if(item_typeTF.getText().toLowerCase().equals("auction")) {
+                            DataManager.itemApplication(thisUser, itemTF.getText()
+                                                        ,1,priceDouble,item_conditionTF.getText(),timeInt);
+                        }
+                        sellScene = new SellPage();
+                        window.setScene(sellScene);
+                    }
+                }
             });
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
