@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "cody1234";
+            String password = "@Fcrt39jiv9";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -63,6 +63,10 @@ public class DataManager{
             + "FOREIGN KEY (buyer_id) REFERENCES user(user_id),"
             + "FOREIGN KEY (seller_id) REFERENCES item(seller_id));";
 
+            String createFriendReqTable = "CREATE TABLE IF NOT EXISTS friend_request("
+            + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
+            + "friend_request VARCHAR(30));";
+            
             String createReportsTable = "CREATE TABLE IF NOT EXISTS reports("
             + "reported_user VARCHAR(30) PRIMARY KEY,"
             + "reported_by VARCHAR(30),"
@@ -80,7 +84,7 @@ public class DataManager{
             + "FOREIGN KEY (rated_by) REFERENCES user(user_id));";
 
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
-            //String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
+            String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
 
             connection = DriverManager.getConnection(hostLoc,user,password);
             statement = connection.createStatement();
@@ -97,7 +101,8 @@ public class DataManager{
             statement.executeUpdate(createItemTable);
             statement.executeUpdate(createtransactionTable);
             statement.executeUpdate(insertAdmin);
-            //statement.executeUpdate(insertSecondAdmin);
+            statement.executeUpdate(insertSecondAdmin);
+            statement.executeUpdate(createFriendReqTable);
         }
 
         catch(Exception e){
@@ -529,6 +534,15 @@ public class DataManager{
         return listOfItemApp;
     }
 
+    public static void addNewFriend(String username, String friend) {
+        try {
+            String addFriend = "INSERT INTO friend_request VALUES(\""+username+"\", \"" +friend+"\");";
+            statement.executeUpdate(addFriend);
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+    
     public static void shutdown(){
         try{
             if(connection!= null)

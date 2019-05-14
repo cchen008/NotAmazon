@@ -459,12 +459,14 @@ public class NotAmazon extends Application{
         Button searchBtn;
         Button sellBtn;
         Button friendBtn;
+        Button addFriendBtn;
         ObservableList<String> sellingList;
         ListView<String> sellListView;
         ObservableList<String> biddingList;
         ListView<String> bidListView;
         ObservableList<String> friendList;
         ListView<String> friendListView;
+        String friend;
 
         public OUMainPage() {
             super(new GridPane(),900,800);
@@ -500,6 +502,7 @@ public class NotAmazon extends Application{
             searchBtn = new Button("Search");
             sellBtn = new Button("+");
             friendBtn = new Button("+");
+            addFriendBtn = new Button("Add");
 
             searchBtn.setOnAction(event -> {
                 ouSearchItemScene = new OUSearchItemPage();
@@ -509,6 +512,12 @@ public class NotAmazon extends Application{
             sellBtn.setOnAction(event -> {
             	sellScene = new SellPage();
             	window.setScene(sellScene);
+            });
+            
+            addFriendBtn.setOnAction(e->{
+            	friend = friendTextField.getText();
+            	DataManager.addNewFriend(thisUser, friend);
+            	friendTextField = new TextField("");
             });
             
             friendBtn.setOnAction(event -> {
@@ -527,6 +536,7 @@ public class NotAmazon extends Application{
                 friendLayout.add(addFriendTitle, 2, 0, 2, 1);
                 friendLayout.add(friendName, 0, 1, 2, 1);
                 friendLayout.add(friendTextField, 2, 1, 2, 1);
+                friendLayout.add(addFriendBtn, 0, 3, 1, 2);
                 
                 friendWindow.show();
             });
@@ -1909,7 +1919,7 @@ public class NotAmazon extends Application{
                 confirm = new Alert(AlertType.CONFIRMATION,
                 		"Item Name: "+itemName
                 		+"\nSeller: "+seller
-                		+"\nPrice: "+price
+                		+"\nPrice: $"+price
                 		+"\nItem Condition: "+itemCondition
                 		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
             	if(itemListView.getSelectionModel().getSelectedItem() != null){
@@ -2039,6 +2049,7 @@ public class NotAmazon extends Application{
     	DecimalFormat time;
     	Alert confirm;
     	Alert error;
+    	String imageAddr;
 
     	public SellPage() {
     		super(new GridPane(),700,700);
@@ -2117,7 +2128,8 @@ public class NotAmazon extends Application{
             browseBtn.setOnAction(e->{
             	upload = fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
             	if(upload != null) {
-            		item = new Image(upload.toURI().toString());
+            		imageAddr = upload.toURI().toString();
+            		item = new Image(imageAddr);
             		itemupload = new ImageView();
             		itemupload.setImage(item);
             		itemupload.setFitHeight(200);
@@ -2131,7 +2143,11 @@ public class NotAmazon extends Application{
             });
 
             submitBtn.setOnAction(e->{
-            	if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
+            	if(upload == null) {
+            		error = new Alert(AlertType.WARNING,"Please upload an image of your item.",ButtonType.OK);
+            		error.showAndWait();
+            	}
+            	else if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
             			priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
             			timeTF.getText().isEmpty()) {
             		error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
