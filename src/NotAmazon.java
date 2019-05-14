@@ -23,6 +23,7 @@ import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -279,7 +280,7 @@ public class NotAmazon extends Application{
                         thisUser = tempUsername;
                         usr_TextField.setText("");
                         pass_TextField.setText("");
-                        suMainScene = new SUMainPage();
+                        ouMainScene = new OUMainPage();
                         window.setScene(ouMainScene);
                     }else {
                         pass_TextField.setText("");
@@ -518,6 +519,7 @@ public class NotAmazon extends Application{
         ObservableList<String> friendList;
         ListView<String> friendListView;
         String friend;
+        String itemName;
 
         public OUMainPage() {
             super(new GridPane(),900,800);
@@ -550,6 +552,17 @@ public class NotAmazon extends Application{
             friendTitle.setFont(Font.font("Segoe UI Bold",25));
             addFriendTitle.setFont(Font.font("Segoe UI Bold",25));
 
+            sellListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            	@Override
+            	public void handle(MouseEvent click) {
+            		if (click.getClickCount()==2) {
+            			thisItem = sellListView.getSelectionModel().getSelectedItem().toString();
+            			viewItemScene = new ViewItemPage();
+            			window.setScene(viewItemScene);
+            		}
+            	}
+            });
+            
             searchBtn = new Button("Search");
             sellBtn = new Button("+");
             friendBtn = new Button("+");
@@ -1681,6 +1694,8 @@ public class NotAmazon extends Application{
         Text itemCondition;
         Text timeLeft;
         Text currentBid;
+        Text displayCondition;
+        Text displayTime;
         TextField myBid;
         TextField searchBar;
         Button placeBidBtn;
@@ -1768,11 +1783,13 @@ public class NotAmazon extends Application{
             });
 
             itemInfo = DataManager.getItemInfo(thisItem);
-
+            
             itemLabel = new Text(itemInfo[0]);
             seller = new Text(itemInfo[1]);
-            itemCondition = new Text("Condition:  "); //itemInfo[3]
-            timeLeft = new Text("Time left:  "); //itemInfo[4]
+            displayCondition = new Text(itemInfo[4]);
+            displayTime = new Text(itemInfo[5]);
+            itemCondition = new Text("Condition:  "); //itemInfo[4]
+            timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
             currentBid = new Text("Current bid:  "); //itemInfo[2]
             myBid = new TextField();
 
@@ -1827,10 +1844,12 @@ public class NotAmazon extends Application{
             layout.add(menu, 4, 2);
             //layout.add(itemLabel,0,5,2,1);
             layout.add(itemCondition,0,7);
+            layout.add(displayCondition, 1, 7);
             layout.add(timeLeft,0,8);
+            layout.add(displayTime, 1, 8);
             layout.add(currentBid,0,9);
             layout.add(myBid,0,10,2,1);
-            layout.add(placeBidBtn,0,11);
+            //layout.add(placeBidBtn,0,11);
             layout.add(reportBtn,1,13);
             layout.add(rateBtn,0,13);
         }
