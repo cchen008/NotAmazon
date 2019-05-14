@@ -455,6 +455,7 @@ public class NotAmazon extends Application{
         MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem signOut;
+        MenuItem item;
         TextField searchBar;
         TextField friendTextField;
         Button searchBtn;
@@ -474,7 +475,7 @@ public class NotAmazon extends Application{
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             
-            sellingList = FXCollections.observableArrayList();
+            sellingList = FXCollections.observableArrayList(DataManager.getListOfItems(thisUser));
             sellListView = new ListView<>(sellingList);
             biddingList = FXCollections.observableArrayList();
             bidListView = new ListView<>(biddingList);
@@ -571,7 +572,8 @@ public class NotAmazon extends Application{
             myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
+            item = new MenuItem("Item");
+            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
 
 
             profile.setOnAction(event -> {
@@ -588,7 +590,12 @@ public class NotAmazon extends Application{
                 transScene = new TransactionPage();
                 window.setScene(transScene);
             });
-
+            
+            item.setOnAction(event -> {
+            	viewItemScene = new ViewItemPage();
+            	window.setScene(viewItemScene);
+            });
+            
             signOut.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
@@ -733,8 +740,17 @@ public class NotAmazon extends Application{
             });
 
             searchBtn.setOnAction(event ->{
-                ouSearchItemScene = new OUSearchItemPage();
-                window.setScene(ouSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             backBtn.setOnAction(event -> {
@@ -1680,8 +1696,17 @@ public class NotAmazon extends Application{
             });
 
             searchBtn.setOnAction(event ->{
-                guSearchItemScene = new GUSearchItemPage();
-                window.setScene(guSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             backBtn.setOnAction(event -> {
