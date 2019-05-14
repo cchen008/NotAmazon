@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "@Fcrt39jiv9";
+            String password = "cody1234";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -63,9 +63,10 @@ public class DataManager{
             + "FOREIGN KEY (buyer_id) REFERENCES user(user_id),"
             + "FOREIGN KEY (seller_id) REFERENCES item(seller_id));";
 
-            String createFriendReqTable = "CREATE TABLE IF NOT EXISTS friend_request("
-            + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
-            + "friend_request VARCHAR(30));";
+            String createFriendReqTable = "CREATE TABLE IF NOT EXISTS friend("
+            + "username VARCHAR(30),"
+            + "friend_request VARCHAR(30) NOT NULL,"
+            + "PRIMARY KEY(username,friend_request));";
 
             String createReportsTable = "CREATE TABLE IF NOT EXISTS reports("
             + "reported_user VARCHAR(30) PRIMARY KEY,"
@@ -547,13 +548,31 @@ public class DataManager{
 
     public static void addNewFriend(String username, String friend) {
         try {
-            String addFriend = "INSERT INTO friend_request VALUES(\""+username+"\", \"" +friend+"\");";
+            String addFriend = "INSERT INTO friend (username, friend_request) VALUES(\""+username+"\", \"" +friend+"\");";
             statement.executeUpdate(addFriend);
         }catch(Exception expt){
             expt.printStackTrace();
         }
     }
+    
+    public static boolean checkValidFriend(String username, String friend) {
+    	try{
+            int numberOfUsername = 0;
+            String countUsername = "SELECT COUNT(1) FROM friend WHERE username=\""+ username +"\" AND friend_request= \""+friend+"\";";
+            ResultSet countInfo = statement.executeQuery(countUsername);
 
+            if(countInfo.next()){
+                numberOfUsername = countInfo.getInt("COUNT(1)");
+            }
+
+            return numberOfUsername == 0;
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    	return false;
+    }
+    
     public static void shutdown(){
         try{
             if(connection!= null)
