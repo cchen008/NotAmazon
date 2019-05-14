@@ -131,8 +131,17 @@ public class NotAmazon extends Application{
             signUpBtn = new Button("Sign Up");
 
             searchBtn.setOnAction(event ->{
-                guSearchItemScene = new GUSearchItemPage();
-                window.setScene(guSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		guSearchItemScene = new GUSearchItemPage();
+                    window.setScene(guSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             loginBtn.setOnAction(e -> {
@@ -497,8 +506,17 @@ public class NotAmazon extends Application{
             addFriendBtn = new Button("Add");
 
             searchBtn.setOnAction(event -> {
-                ouSearchItemScene = new OUSearchItemPage();
-                window.setScene(ouSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
             
             sellBtn.setOnAction(event -> {
@@ -1821,8 +1839,17 @@ public class NotAmazon extends Application{
 
             searchBtn = new Button("Search");
             searchBtn.setOnAction(event -> {
-                ouSearchItemScene = new OUSearchItemPage();
-                window.setScene(ouSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             signOutBtn = new Button("Sign Out");
