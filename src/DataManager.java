@@ -84,6 +84,9 @@ public class DataManager{
             + "FOREIGN KEY (user_rated) REFERENCES user(user_id),"
             + "FOREIGN KEY (rated_by) REFERENCES user(user_id));";
 
+            String createBlackListTable = "CREATE TABLE IF NOT EXISTS black_list("
+            		+ "word VARCHAR(30) PRIMARY KEY);";
+            
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
             String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
 
@@ -104,6 +107,7 @@ public class DataManager{
             statement.executeUpdate(insertAdmin);
             statement.executeUpdate(insertSecondAdmin);
             statement.executeUpdate(createFriendReqTable);
+            statement.executeUpdate(createBlackListTable);
         }
 
         catch(Exception e){
@@ -546,6 +550,40 @@ public class DataManager{
         return listOfItemApp;
     }
 
+    public static ArrayList<String> getListOfFriends(String username){
+    	ArrayList<String> listOfFriends = new ArrayList<>();
+    	try{
+            String selectfriend = "SELECT * FROM friend WHERE username= \""+username+"\";";
+            ResultSet friendInfo = statement.executeQuery(selectfriend);
+
+            while(friendInfo.next()){
+                listOfFriends.add(friendInfo.getString("friend_request"));
+            }
+           friendInfo.close();
+            
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return listOfFriends;
+    }
+    
+    public static ArrayList<String> getListOfBListWords(){
+    	ArrayList<String> listOfWords = new ArrayList<>();
+    	try{
+            String selectWords = "SELECT * FROM black_list;";
+            ResultSet wordInfo = statement.executeQuery(selectWords);
+
+            while(wordInfo.next()){
+            	listOfWords.add(wordInfo.getString("word"));
+            }
+            wordInfo.close();
+            
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return listOfWords;
+    }
+    
     public static void addNewFriend(String username, String friend) {
         try {
             String addFriend = "INSERT INTO friend (username, friend_request) VALUES(\""+username+"\", \"" +friend+"\");";
@@ -566,6 +604,42 @@ public class DataManager{
             }
 
             return numberOfUsername == 0;
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    	return false;
+    }
+    
+    public static void addBListWord(String word) {
+    	try {
+            String addFriend = "INSERT INTO black_list (word) VALUES(\""+word+"\");";
+            statement.executeUpdate(addFriend);
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+    
+    public static void deleteBListWord(String word) {
+    	try {
+    		String deleteWord = "DELETE FROM black_list WHERE word = \"" +word+ "\";";
+    		statement.executeUpdate(deleteWord);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
+    public static boolean checkValidBListWord(String word) {
+    	try{
+            int numberOfWords = 0;
+            String countWord = "SELECT COUNT(1) FROM black_list WHERE word=\""+ word +"\";";
+            ResultSet countInfo = statement.executeQuery(countWord);
+
+            if(countInfo.next()){
+            	numberOfWords = countInfo.getInt("COUNT(1)");
+            }
+
+            return numberOfWords == 0;
 
         }catch(Exception expt){
             expt.printStackTrace();
