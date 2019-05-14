@@ -113,10 +113,18 @@ public class NotAmazon extends Application{
         Button searchBtn;
         Button loginBtn;
         Button signUpBtn;
+        Image temp1;
+        Image temp2;
+        Image temp3;
+        Image temp4;
+        ImageView temp1View;
+        ImageView temp2View;
+        ImageView temp3View;
+        ImageView temp4View;
         
 
         public GUMainPage() {
-            super(new GridPane(),700,700);
+            super(new GridPane(),1000,800);
 
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
@@ -126,6 +134,43 @@ public class NotAmazon extends Application{
 
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
 
+            temp1 = new Image("itemApp.png");
+            temp1View = new ImageView();
+            temp1View.setImage(temp1);
+            temp1View.setFitHeight(200);
+            temp1View.setFitWidth(200);
+            temp1View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            temp2 = new Image("itemApp.png");
+            temp2View = new ImageView();
+            temp2View.setImage(temp1);
+            temp2View.setFitHeight(200);
+            temp2View.setFitWidth(200);
+            temp2View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            temp3 = new Image("itemApp.png");
+            temp3View = new ImageView();
+            temp3View.setImage(temp1);
+            temp3View.setFitHeight(200);
+            temp3View.setFitWidth(200);
+            temp3View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            temp4 = new Image("itemApp.png");
+            temp4View = new ImageView();
+            temp4View.setImage(temp1);
+            temp4View.setFitHeight(200);
+            temp4View.setFitWidth(200);
+            temp4View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            
             searchBtn = new Button("Search");
             loginBtn = new Button("Login");
             signUpBtn = new Button("Sign Up");
@@ -165,6 +210,10 @@ public class NotAmazon extends Application{
             layout.add(loginBtn,4,1,2,1);
             layout.add(signUpBtn,6,1,2,1);
             layout.add(popItemTitle, 0, 3, 2, 1);
+            layout.add(temp1View, 0, 4, 2, 1);
+            layout.add(temp2View, 0, 8, 2, 1);
+            layout.add(temp3View, 2, 4, 2, 1);
+            layout.add(temp4View, 2, 8, 2, 1);
         }
     }
     
