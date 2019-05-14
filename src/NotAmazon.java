@@ -2,8 +2,6 @@ import javafx.application.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.*;
@@ -27,7 +25,6 @@ import java.text.DecimalFormat;
 import java.text.ParsePosition;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 public class NotAmazon extends Application{
     
@@ -472,7 +469,7 @@ public class NotAmazon extends Application{
             sellListView = new ListView<>(sellingList);
             biddingList = FXCollections.observableArrayList();
             bidListView = new ListView<>(biddingList);
-            friendList = FXCollections.observableArrayList();
+            friendList = FXCollections.observableArrayList(DataManager.getListOfFriends(thisUser));
             friendListView = new ListView<>(friendList);
             
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
@@ -2051,23 +2048,85 @@ public class NotAmazon extends Application{
     class BlackListPage extends Scene{
     	GridPane layout;
     	Text sceneTitle;
+    	Text addTabooTitle;
+    	Text bListWord;
+    	TextField bListField;
     	Button backBtn;
+    	Button addBtn;
+    	Button addWordBtn;
+    	Button removeBtn;
     	ObservableList<String> blackList;
         ListView<String> blackListView;
+        String currentWord;
 
     	public BlackListPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
-            blackList = FXCollections.observableArrayList();
+            blackList = FXCollections.observableArrayList(DataManager.getListOfBListWords());
             blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
+            addTabooTitle = new Text("Add To List");
+            bListWord = new Text("Blacklist Word: ");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            addTabooTitle.setFont(Font.font("Segoe UI Bold",25));
+            
+            bListField = new TextField();
+            
             backBtn = new Button("Back");
+            addBtn = new Button("Add");
+            removeBtn = new Button("Remove");
+            addWordBtn = new Button("Add");
+            
             backBtn.setOnAction(event -> {
             	suMainScene = new SUMainPage();
             	window.setScene(suMainScene);
+            });
+            
+            addBtn.setOnAction(event -> {
+            	GridPane tabooLayout = new GridPane();
+                Scene tabooScene = new Scene(tabooLayout, 400, 200);
+ 
+                Stage tabooWindow = new Stage();
+                tabooWindow.setTitle("Add Friend");
+                tabooWindow.setScene(tabooScene);
+                
+                tabooLayout.setAlignment(Pos.BASELINE_CENTER);
+                tabooLayout.setHgap(10);
+                tabooLayout.setVgap(10);
+                tabooLayout.setPadding(new Insets(25, 25, 25, 25));
+                tabooLayout.add(addTabooTitle, 2, 0, 2, 1);
+                tabooLayout.add(bListWord, 0, 1, 2, 1);
+                tabooLayout.add(bListField, 2, 1, 2, 1);
+                tabooLayout.add(addWordBtn, 0, 3, 1, 2);
+                
+                tabooWindow.show();
+            });
+            
+            removeBtn.setOnAction(event -> {
+            	currentWord = blackListView.getSelectionModel().getSelectedItem().toString();
+            	DataManager.deleteBListWord(currentWord);
+            	bListScene = new BlackListPage();
+            	window.setScene(bListScene);
+            });
+            
+            addWordBtn.setOnAction(event -> {
+            	if(DataManager.checkValidBListWord(bListField.getText())) {
+            		DataManager.addBListWord(bListField.getText());
+            		Alert success = new Alert(AlertType.INFORMATION);
+            		success.setTitle("Valid Word");
+            		success.setHeaderText(null);
+            		success.setContentText("Valid word.");
+            		success.showAndWait();
+            	}
+            	else {
+            		Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Error! Word not added.");
+            		fail.showAndWait();
+            	}
+            		
             });
 
             layout.setAlignment(Pos.BASELINE_CENTER);
@@ -2078,7 +2137,8 @@ public class NotAmazon extends Application{
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(blackListView, 0, 1, 2, 1);
             layout.add(backBtn, 2, 0, 2, 1);
-
+            layout.add(removeBtn, 0, 2, 2, 1);
+            layout.add(addBtn, 2, 2, 2, 1);
     	}
     }
 
