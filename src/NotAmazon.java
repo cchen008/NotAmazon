@@ -48,7 +48,7 @@ public class NotAmazon extends Application{
     private BlackListPage bListScene;
     private SellPage sellScene;
     private ViewItemPage viewItemScene;
-    //private RateUserPage rateUserScene;
+    private RateUserPage rateUserScene;
     private MyAccountPage myAccountScene;
     private EditAddressPage editAddrScene;
     private EditNamePage editNameScene;
@@ -94,7 +94,7 @@ public class NotAmazon extends Application{
         pendReportScene = new ReportPage();
         bListScene = new BlackListPage();
         viewItemScene = new ViewItemPage();
-        //rateUserScene = new RateUserPage();
+        rateUserScene = new RateUserPage();
         myAccountScene = new MyAccountPage();
         editAddrScene = new EditAddressPage();
         editNameScene = new EditNamePage();
@@ -1346,7 +1346,9 @@ public class NotAmazon extends Application{
             mainReason_TextField = new TextField();
             mainReason_TextField.setPromptText("e.g. User misconduct");
             reasonTextField = new TextField();
+            reasonTextField.setPrefSize(450,200);
             reportUser_TextField = new TextField();
+
 
             submitBtn = new Button("Submit");
             cancelBtn = new Button("Cancel");
@@ -1376,45 +1378,80 @@ public class NotAmazon extends Application{
 
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(reportUser,0,1);
-            layout.add(reportUser_TextField,1,1,2,1);
+            layout.add(reportUser_TextField,1,1);
             layout.add(reasonForReport,0,2);
-            layout.add(mainReason_TextField,1,2,2,1);
+            layout.add(mainReason_TextField,1,2);
             layout.add(reasonDetails,0,5,3,1);
-            layout.add(reasonTextField,0,6,4,3);
+            layout.add(reasonTextField,0,6,3,3);
             layout.add(submitBtn,1,10);
             layout.add(cancelBtn,0,10);
         }
     }
 
-    /*class RateUserPage extends Scene{
+    class RateUserPage extends Scene{
         GridPane layout;
-        Text sceneTitle;
-        Text commentUser;
-        TextField commentUser_TextField;
+        Text rateUser;
+        Text commnt;
+        TextField rateUser_TextField;
+        TextField commnt_TextField;
         Button submitBtn;
         Button cancelBtn;
+        Slider ratingsBar;
+
+        private boolean validateFields() {
+            if (commnt_TextField.getText().isEmpty()){
+
+                Alert warnUsr = new Alert(AlertType.WARNING);
+                warnUsr.setTitle("Warning");
+                warnUsr.setHeaderText("No user being reported.");
+                warnUsr.setContentText("Please fill in the empty field and try again.");
+                warnUsr.showAndWait();
+
+                return false;
+            }
+            return true;
+        }
 
         public RateUserPage() {
-            super(new GridPane(),500,500);
+            super(new GridPane(),500,350);
             layout = (GridPane)this.getRoot();
 
-            sceneTitle = new Text("Report User");
+            rateUser = new Text("User being rated: ");
+            commnt = new Text("Comment");
+            rateUser_TextField = new TextField();
+            commnt_TextField = new TextField();
 
-            commentUser = new Text("User to report: ");
+            commnt_TextField.setPrefSize(525,150);
+
+            ratingsBar = new Slider(1, 5, 3);
+            ratingsBar.setShowTickMarks(true);
+            ratingsBar.setShowTickLabels(true);
+            ratingsBar.setMajorTickUnit(1);
+            ratingsBar.setMinorTickCount(0);
+            ratingsBar.setBlockIncrement(0.5);
+            ratingsBar.setSnapToTicks(true);
 
             submitBtn = new Button("Submit");
             cancelBtn = new Button("Cancel");
 
-            /*submitBtn.setOnAction(event -> {
-
-            });*/
+            submitBtn.setOnAction(event -> {
+                if(validateFields()){
+                    String whichUser = rateUser_TextField.getText();
+                    String comment = commnt_TextField.getText();
+                    double userRating = ratingsBar.getValue();
+                    DataManager.addRating(whichUser,thisUser,userRating,comment);
+                    rateUser_TextField.setText("");
+                    ratingsBar.setValue(3);
+                    commnt_TextField.setText("");
+                }
+            });
 
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
 
-            submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            submitBtn.setAlignment(Pos.BOTTOM_LEFT);
             cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
 
             layout.setAlignment(Pos.BASELINE_LEFT);
@@ -1422,12 +1459,15 @@ public class NotAmazon extends Application{
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
 
-            layout.add(sceneTitle, 0, 0, 2, 1);
-
-            layout.add(submitBtn,1,10);
-            layout.add(cancelBtn,0,10);
+            layout.add(rateUser,0,1);
+            layout.add(rateUser_TextField,1,2);
+            layout.add(ratingsBar,1,4);
+            layout.add(commnt,0,6);
+            layout.add(commnt_TextField,0,7,3,3);
+            layout.add(submitBtn,1,14);
+            layout.add(cancelBtn,0,14);
         }
-    }*/
+    }
 
     class GUSearchItemPage extends Scene{
         GridPane layout;
@@ -1558,6 +1598,7 @@ public class NotAmazon extends Application{
         Button searchBtn;
         Button backBtn;
         Button reportBtn;
+        Button rateBtn;
         MenuButton menu;
         MenuItem profile;
         MenuItem myAcc;
@@ -1577,6 +1618,7 @@ public class NotAmazon extends Application{
 
             searchBtn = new Button("Search");
             backBtn = new Button("Back");
+            rateBtn = new Button("Rate");
 
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
@@ -1620,6 +1662,11 @@ public class NotAmazon extends Application{
             backBtn.setOnAction(event -> {
                 ouMainScene = new OUMainPage();
                 window.setScene(ouMainScene);
+            });
+
+            rateBtn.setOnAction(event -> {
+                rateUserScene = new RateUserPage();
+                window.setScene(rateUserScene);
             });
 
             //itemInfo = DataManager.getItemInfo(thisItem);
@@ -1683,7 +1730,8 @@ public class NotAmazon extends Application{
             layout.add(currentBid,0,9);
             layout.add(myBid,0,10,2,1);
             layout.add(placeBidBtn,0,11);
-            layout.add(reportBtn,0,13);
+            layout.add(reportBtn,1,13);
+            layout.add(rateBtn,0,13);
         }
     }
 

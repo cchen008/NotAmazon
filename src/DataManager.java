@@ -78,7 +78,7 @@ public class DataManager{
             String createRatingsTable = "CREATE TABLE IF NOT EXISTS ratings("
             + "user_rated VARCHAR(30) PRIMARY KEY,"
             + "rated_by VARCHAR(30),"
-            + "rating INT,"
+            + "rating DOUBLE,"
             + "commnt VARCHAR(128),"
             + "FOREIGN KEY (user_rated) REFERENCES user(user_id),"
             + "FOREIGN KEY (rated_by) REFERENCES user(user_id));";
@@ -354,6 +354,17 @@ public class DataManager{
             String insertNewReport = "INSERT IGNORE INTO reports VALUES(\"" +reportUser+ "\",\"" +reported_by+ "\",\""
                     +reasonBox+ "\",\"" +reasonDetails+ "\");";
             statement.executeUpdate(insertNewReport);
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
+
+    public static void addRating(String rateUser, String rated_by, double rating, String commnt){
+        try{
+            String insertNewRate = "INSERT IGNORE INTO ratings VALUES(\"" +rateUser+ "\",\"" +rated_by+ "\",\""
+                    +rating+ "\",\"" +commnt+ "\");";
+            statement.executeUpdate(insertNewRate);
 
         }catch(Exception expt){
             expt.printStackTrace();
