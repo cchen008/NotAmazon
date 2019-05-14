@@ -16,7 +16,6 @@ import javafx.scene.paint.*;
 import javafx.collections.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.*;
-import javafx.scene.control.Dialog.*;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.*;
@@ -1408,7 +1407,7 @@ public class NotAmazon extends Application{
 
             /*submitBtn.setOnAction(event -> {
 
-            });
+            });*/
 
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
@@ -1850,12 +1849,12 @@ public class NotAmazon extends Application{
             		if(confirm.getResult() == ButtonType.YES) {
             			DataManager.addNewUser(currentApp);
             			DataManager.defaultUserPass(currentApp);
-                		DataManager.deleteNewUser(currentApp);
+                		DataManager.deleteUserApp(currentApp);
                 		pendAppScene = new PendAppPage();
                 		window.setScene(pendAppScene);
             		}
             		else if(confirm.getResult() == ButtonType.NO) {
-            			DataManager.deleteNewUser(currentApp);
+            			DataManager.deleteUserApp(currentApp);
                     	pendAppScene = new PendAppPage();
                     	window.setScene(pendAppScene);
             		}

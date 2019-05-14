@@ -66,7 +66,7 @@ public class DataManager{
             String createFriendReqTable = "CREATE TABLE IF NOT EXISTS friend_request("
             + "username VARCHAR(30) PRIMARY KEY NOT NULL,"
             + "friend_request VARCHAR(30));";
-            
+
             String createReportsTable = "CREATE TABLE IF NOT EXISTS reports("
             + "reported_user VARCHAR(30) PRIMARY KEY,"
             + "reported_by VARCHAR(30),"
@@ -340,7 +340,7 @@ public class DataManager{
     	}
     }
       
-    public static void deleteNewUser(String username) {
+    public static void deleteUserApp(String username) {
     	try {
     		String deleteUser = "DELETE FROM User_Application WHERE user_id = \"" +username+ "\";";
     		statement.executeUpdate(deleteUser);
@@ -542,7 +542,7 @@ public class DataManager{
             expt.printStackTrace();
         }
     }
-    
+
     public static void shutdown(){
         try{
             if(connection!= null)
