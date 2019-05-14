@@ -586,6 +586,23 @@ public class DataManager{
         return listOfWords;
     }
 
+    public static ArrayList<String> getListOfItems(String username){
+    	ArrayList<String> listOfItems = new ArrayList<>();
+    	try{
+            String selectItems = "SELECT * FROM item WHERE seller_id= \""+username+"\";";
+            ResultSet itemInfos = statement.executeQuery(selectItems);
+
+            while(itemInfos.next()){
+            	listOfItems.add(itemInfos.getString("item_name"));
+            }
+            itemInfos.close();
+
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return listOfItems;
+    }
+
     public static void addNewFriend(String username, String friend) {
         try {
             String addFriend = "INSERT INTO friend (username, friend_request) VALUES(\""+username+"\", \"" +friend+"\");";

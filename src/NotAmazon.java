@@ -113,10 +113,18 @@ public class NotAmazon extends Application{
         Button searchBtn;
         Button loginBtn;
         Button signUpBtn;
+        Image temp1;
+        Image temp2;
+        Image temp3;
+        Image temp4;
+        ImageView temp1View;
+        ImageView temp2View;
+        ImageView temp3View;
+        ImageView temp4View;
         
 
         public GUMainPage() {
-            super(new GridPane(),700,700);
+            super(new GridPane(),1000,800);
 
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
@@ -126,13 +134,59 @@ public class NotAmazon extends Application{
 
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
 
+            temp1 = new Image("itemApp.png");
+            temp1View = new ImageView();
+            temp1View.setImage(temp1);
+            temp1View.setFitHeight(200);
+            temp1View.setFitWidth(200);
+            temp1View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            temp2 = new Image("itemApp.png");
+            temp2View = new ImageView();
+            temp2View.setImage(temp1);
+            temp2View.setFitHeight(200);
+            temp2View.setFitWidth(200);
+            temp2View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            temp3 = new Image("itemApp.png");
+            temp3View = new ImageView();
+            temp3View.setImage(temp1);
+            temp3View.setFitHeight(200);
+            temp3View.setFitWidth(200);
+            temp3View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            temp4 = new Image("itemApp.png");
+            temp4View = new ImageView();
+            temp4View.setImage(temp1);
+            temp4View.setFitHeight(200);
+            temp4View.setFitWidth(200);
+            temp4View.setOnMouseClicked((MouseEvent) -> {
+            	
+            });
+            
+            
             searchBtn = new Button("Search");
             loginBtn = new Button("Login");
             signUpBtn = new Button("Sign Up");
 
             searchBtn.setOnAction(event ->{
-                guSearchItemScene = new GUSearchItemPage();
-                window.setScene(guSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		guSearchItemScene = new GUSearchItemPage();
+                    window.setScene(guSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             loginBtn.setOnAction(e -> {
@@ -156,6 +210,10 @@ public class NotAmazon extends Application{
             layout.add(loginBtn,4,1,2,1);
             layout.add(signUpBtn,6,1,2,1);
             layout.add(popItemTitle, 0, 3, 2, 1);
+            layout.add(temp1View, 0, 4, 2, 1);
+            layout.add(temp2View, 0, 8, 2, 1);
+            layout.add(temp3View, 2, 4, 2, 1);
+            layout.add(temp4View, 2, 8, 2, 1);
         }
     }
     
@@ -446,6 +504,7 @@ public class NotAmazon extends Application{
         MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem signOut;
+        MenuItem item;
         TextField searchBar;
         TextField friendTextField;
         Button searchBtn;
@@ -465,7 +524,7 @@ public class NotAmazon extends Application{
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             
-            sellingList = FXCollections.observableArrayList();
+            sellingList = FXCollections.observableArrayList(DataManager.getListOfItems(thisUser));
             sellListView = new ListView<>(sellingList);
             biddingList = FXCollections.observableArrayList();
             bidListView = new ListView<>(biddingList);
@@ -497,8 +556,17 @@ public class NotAmazon extends Application{
             addFriendBtn = new Button("Add");
 
             searchBtn.setOnAction(event -> {
-                ouSearchItemScene = new OUSearchItemPage();
-                window.setScene(ouSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
             
             sellBtn.setOnAction(event -> {
@@ -553,7 +621,8 @@ public class NotAmazon extends Application{
             myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
+            item = new MenuItem("Item");
+            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
 
 
             profile.setOnAction(event -> {
@@ -570,7 +639,12 @@ public class NotAmazon extends Application{
                 transScene = new TransactionPage();
                 window.setScene(transScene);
             });
-
+            
+            item.setOnAction(event -> {
+            	viewItemScene = new ViewItemPage();
+            	window.setScene(viewItemScene);
+            });
+            
             signOut.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
@@ -715,8 +789,17 @@ public class NotAmazon extends Application{
             });
 
             searchBtn.setOnAction(event ->{
-                ouSearchItemScene = new OUSearchItemPage();
-                window.setScene(ouSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             backBtn.setOnAction(event -> {
@@ -1661,8 +1744,17 @@ public class NotAmazon extends Application{
             });
 
             searchBtn.setOnAction(event ->{
-                guSearchItemScene = new GUSearchItemPage();
-                window.setScene(guSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             backBtn.setOnAction(event -> {
@@ -1823,8 +1915,17 @@ public class NotAmazon extends Application{
 
             searchBtn = new Button("Search");
             searchBtn.setOnAction(event -> {
-                ouSearchItemScene = new OUSearchItemPage();
-                window.setScene(ouSearchItemScene);
+            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            		ouSearchItemScene = new OUSearchItemPage();
+                    window.setScene(ouSearchItemScene);
+            	}
+                else {
+                	Alert fail = new Alert(AlertType.ERROR);
+            		fail.setTitle("Error");
+            		fail.setHeaderText(null);
+            		fail.setContentText("Invalid input. Please try again.");
+            		fail.showAndWait();
+                }
             });
 
             signOutBtn = new Button("Sign Out");
