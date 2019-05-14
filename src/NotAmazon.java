@@ -49,6 +49,7 @@ public class NotAmazon extends Application{
     private BlackListPage bListScene;
     private SellPage sellScene;
     private ViewItemPage viewItemScene;
+    //private RateUserPage rateUserScene;
     private MyAccountPage myAccountScene;
     private EditAddressPage editAddrScene;
     private EditNamePage editNameScene;
@@ -94,6 +95,7 @@ public class NotAmazon extends Application{
         pendReportScene = new ReportPage();
         bListScene = new BlackListPage();
         viewItemScene = new ViewItemPage();
+        //rateUserScene = new RateUserPage();
         myAccountScene = new MyAccountPage();
         editAddrScene = new EditAddressPage();
         editNameScene = new EditNamePage();
@@ -1374,6 +1376,49 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,10);
         }
     }
+
+    /*class RateUserPage extends Scene{
+        GridPane layout;
+        Text sceneTitle;
+        Text commentUser;
+        TextField commentUser_TextField;
+        Button submitBtn;
+        Button cancelBtn;
+
+        public RateUserPage() {
+            super(new GridPane(),500,500);
+            layout = (GridPane)this.getRoot();
+
+            sceneTitle = new Text("Report User");
+
+            commentUser = new Text("User to report: ");
+
+            submitBtn = new Button("Submit");
+            cancelBtn = new Button("Cancel");
+
+            /*submitBtn.setOnAction(event -> {
+
+            });
+
+            cancelBtn.setOnAction(event -> {
+                myAccountScene = new MyAccountPage();
+                window.setScene(myAccountScene);
+            });
+
+            submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
+
+            layout.setAlignment(Pos.BASELINE_LEFT);
+            layout.setHgap(10);
+            layout.setVgap(5);
+            layout.setPadding(new Insets(25, 25, 25, 25));
+
+            layout.add(sceneTitle, 0, 0, 2, 1);
+
+            layout.add(submitBtn,1,10);
+            layout.add(cancelBtn,0,10);
+        }
+    }*/
 
     class GUSearchItemPage extends Scene{
         GridPane layout;
