@@ -588,12 +588,12 @@ public class DataManager{
     	ArrayList<String> listOfItems = new ArrayList<>();
     	try{
             String selectItems = "SELECT * FROM item WHERE seller_id= \""+username+"\";";
-            ResultSet itemInfo = statement.executeQuery(selectItems);
+            ResultSet itemInfos = statement.executeQuery(selectItems);
 
-            while(itemInfo.next()){
-            	listOfItems.add(itemInfo.getString("item_name"));
+            while(itemInfos.next()){
+            	listOfItems.add(itemInfos.getString("item_name"));
             }
-            itemInfo.close();
+            itemInfos.close();
             
         }catch(Exception expt){
             expt.printStackTrace();
