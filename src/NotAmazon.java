@@ -513,7 +513,7 @@ public class NotAmazon extends Application{
             		Alert success = new Alert(AlertType.INFORMATION);
                     success.setTitle("Valid Username");
                     success.setHeaderText(null);
-                    success.setContentText("Valid username.");
+                    success.setContentText("Valid username. The user has been added.");
                     success.showAndWait();
             		friendTextField = new TextField();
             	}
@@ -1458,8 +1458,7 @@ public class NotAmazon extends Application{
                 window.setScene(myAccountScene);
             });
 
-            submitBtn.setAlignment(Pos.BOTTOM_LEFT);
-            cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
+            submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
 
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
@@ -1676,10 +1675,10 @@ public class NotAmazon extends Application{
                 window.setScene(rateUserScene);
             });
 
-            //itemInfo = DataManager.getItemInfo(thisItem);
+            itemInfo = DataManager.getItemInfo(thisItem);
 
-            //itemLabel = new Text(itemInfo[0]);
-            //seller = new Text(itemInfo[1]);
+            itemLabel = new Text(itemInfo[0]);
+            seller = new Text(itemInfo[1]);
             itemCondition = new Text("Condition:  "); //itemInfo[3]
             timeLeft = new Text("Time left:  "); //itemInfo[4]
             currentBid = new Text("Current bid:  "); //itemInfo[2]
@@ -1697,20 +1696,23 @@ public class NotAmazon extends Application{
                  }
              });
 
-            placeBidBtn = new Button("Place bid");
-            /*placeBidBtn.setOnAction(event -> {
-                if(placedBidPrice < currentBidPrice) {
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Invalid Input");
-                    alert.setHeaderText(null);
-                    alert.setContentText("ERROR: Invalid input. Please try again.");
-                    alert.showAndWait();
-                }else{
-                    DataManager.updateItemBid(thisItem, placedBidPrice);
-                    viewItemScene = new ViewItemPage();
-                    window.setScene(viewItemScene);
-                }
-            });*/
+            /*if(itemInfo[3].equals("1")) {
+                placeBidBtn = new Button("Place bid");
+
+                placeBidBtn.setOnAction(event -> {
+                    if(placedBidPrice < currentBidPrice) {
+                        Alert alert = new Alert(AlertType.ERROR);
+                        alert.setTitle("Invalid Input");
+                        alert.setHeaderText(null);
+                        alert.setContentText("ERROR: Invalid input. Please try again.");
+                        alert.showAndWait();
+                    }else{
+                        DataManager.updateItemBid(thisItem, placedBidPrice);
+                        viewItemScene = new ViewItemPage();
+                        window.setScene(viewItemScene);
+                    }
+                });
+            }*/
 
             reportBtn = new Button("Report?");
             reportBtn.setOnAction(event -> {
@@ -1933,8 +1935,8 @@ public class NotAmazon extends Application{
 
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(appListView, 0, 1, 2, 1);
-            layout.add(backBtn, 2, 0, 2, 1);
-            layout.add(viewBtn, 0, 2, 2, 1);
+            layout.add(backBtn,0,2,2,1);
+            layout.add(viewBtn, 2, 2, 2, 1);
     	}
     }
 
@@ -2005,8 +2007,8 @@ public class NotAmazon extends Application{
             
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(itemListView, 0, 1, 2, 1);
-            layout.add(backBtn, 2, 0, 2, 1);
-            layout.add(viewBtn, 0, 2, 2, 1);
+            layout.add(backBtn, 0, 2, 2, 1);
+            layout.add(viewBtn, 2, 2, 2, 1);
 
     	}
     }
@@ -2040,7 +2042,7 @@ public class NotAmazon extends Application{
 
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(reportListView, 0, 1, 2, 1);
-            layout.add(backBtn, 2, 0, 2, 1);
+            layout.add(backBtn, 0, 2, 2, 1);
 
     	}
     }
@@ -2065,7 +2067,7 @@ public class NotAmazon extends Application{
             blackList = FXCollections.observableArrayList(DataManager.getListOfBListWords());
             blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
-            addTabooTitle = new Text("Add To List");
+            addTabooTitle = new Text("Add to List");
             bListWord = new Text("Blacklist Word: ");
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
@@ -2088,7 +2090,7 @@ public class NotAmazon extends Application{
                 Scene tabooScene = new Scene(tabooLayout, 400, 200);
  
                 Stage tabooWindow = new Stage();
-                tabooWindow.setTitle("Add Friend");
+                tabooWindow.setTitle("Blacklisting Word");
                 tabooWindow.setScene(tabooScene);
                 
                 tabooLayout.setAlignment(Pos.BASELINE_CENTER);
@@ -2126,8 +2128,9 @@ public class NotAmazon extends Application{
             		fail.setContentText("Error! Word not added.");
             		fail.showAndWait();
             	}
-            		
             });
+
+            addBtn.setAlignment(Pos.BOTTOM_RIGHT);
 
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
@@ -2136,9 +2139,9 @@ public class NotAmazon extends Application{
 
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(blackListView, 0, 1, 2, 1);
-            layout.add(backBtn, 2, 0, 2, 1);
+            layout.add(backBtn, 0, 3, 2, 1);
             layout.add(removeBtn, 0, 2, 2, 1);
-            layout.add(addBtn, 2, 2, 2, 1);
+            layout.add(addBtn, 3, 2, 2, 1);
     	}
     }
 
@@ -2157,6 +2160,7 @@ public class NotAmazon extends Application{
     	Label priceLabel;
     	Label item_conditionLabel;
     	Label timeLabel;
+    	Label attachImageLabel;
     	TextField itemTF;
     	TextField item_typeTF;
     	TextField priceTF;
@@ -2173,18 +2177,20 @@ public class NotAmazon extends Application{
             layout = (GridPane)this.getRoot();
             sellTitle = new Text("Sell/Auction");
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
-            browseBtn = new Button("Browse");
+            browseBtn = new Button("Upload");
             backBtn = new Button("Back");
-            submitBtn = new Button("Submit Application");
+            submitBtn = new Button("Submit");
 
+            attachImageLabel = new Label("Attach image of item:");
             itemLabel = new Label("Item Name:");
-            item_typeLabel = new Label("Sell or Auction:");
+            item_typeLabel = new Label("Sell/Auction?");
             priceLabel = new Label("Price:");
             item_conditionLabel = new Label("Item Condition:");
-            timeLabel = new Label("Time in Minutes:");
+            timeLabel = new Label("Time (in minutes):");
 
             itemTF = new TextField();
             item_typeTF = new TextField();
+            item_typeTF.setPromptText("Type \"Sell\" or \"Auction\"");
             priceTF = new TextField();
             item_conditionTF = new TextField();
             timeTF = new TextField();
@@ -2198,7 +2204,7 @@ public class NotAmazon extends Application{
 
             //fileChooser
             fileChooser = new FileChooser();
-            fileChooser.setTitle("Upload Image");
+            fileChooser.setTitle("Uploading image...");
             fileChooser.getExtensionFilters().addAll(
             		new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
             		new FileChooser.ExtensionFilter("PNG Files", "*.png")
@@ -2274,7 +2280,7 @@ public class NotAmazon extends Application{
             	else if(!item_typeTF.getText().toLowerCase().equals("sell")
             			&& !item_typeTF.getText().toLowerCase().equals("auction")) {
 
-            		error = new Alert(AlertType.WARNING,"Invalid input, must be either Sell or Auction",ButtonType.OK);
+            		error = new Alert(AlertType.WARNING,"Invalid input, must be either \"Sell\" or \"Auction\"",ButtonType.OK);
             		error.setTitle("Invalid Input");
             		error.showAndWait();
             	}
@@ -2313,13 +2319,16 @@ public class NotAmazon extends Application{
             	}
             });
 
+            submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
+
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             layout.add(sellTitle, 0, 0, 2, 1);
-            layout.add(browseBtn, 0, 1, 2, 1);
+            layout.add(attachImageLabel,0,1);
+            layout.add(browseBtn, 1, 1, 2, 1);
             layout.add(itemLabel, 0, 3);
             layout.add(itemTF, 1, 3);
             layout.add(item_typeLabel, 0, 4);
@@ -2330,11 +2339,8 @@ public class NotAmazon extends Application{
             layout.add(item_conditionTF, 1, 6);
             layout.add(timeLabel, 0, 7);
             layout.add(timeTF, 1, 7);
-            layout.add(submitBtn, 0, 8, 2, 1);
-            layout.add(backBtn, 0, 9, 2, 1);
+            layout.add(submitBtn, 1, 8);
+            layout.add(backBtn, 0, 8);
             }
-            
-    	
     }
-
 }

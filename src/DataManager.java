@@ -51,6 +51,7 @@ public class DataManager{
             + "seller_id VARCHAR(30) NOT NULL,"
             + "item_type BOOLEAN NOT NULL,"
             + "price DECIMAL(10,2),"
+            + "bidding_price DECIMAL(10,2),"
             + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
             + "FOREIGN KEY (seller_id) REFERENCES user(user_id));";
@@ -86,7 +87,7 @@ public class DataManager{
 
             String createBlackListTable = "CREATE TABLE IF NOT EXISTS black_list("
             		+ "word VARCHAR(30) PRIMARY KEY);";
-            
+
             String insertAdmin = "INSERT IGNORE INTO super_user VALUES(\"admin\",\"password\", \"Super User\");";
             String insertSecondAdmin = "INSERT IGNORE INTO super_user VALUES(\"steinsgate\",\"database\", \"Dai\");";
 
@@ -279,7 +280,7 @@ public class DataManager{
         String [] itemInfo = {"","","","",""};
 
         try{
-            String selectItemInfo = "SELECT item_name, seller_id, price, item_condition, time FROM item " +
+            String selectItemInfo = "SELECT item_name, seller_id, item_condition, price, item_condition, time FROM item " +
                     "WHERE item_name=\"" +item+ "\";";
 
             ResultSet thisItem = statement.executeQuery(selectItemInfo);
@@ -287,8 +288,9 @@ public class DataManager{
                  itemInfo[0] = thisItem.getString("item_name");
                  itemInfo[1] = thisItem.getString("seller_id");
                  itemInfo[2] = thisItem.getString("price");
-                 itemInfo[3] = thisItem.getString("item_condition");
-                 itemInfo[4] = thisItem.getString("time");
+                 itemInfo[3] = thisItem.getString("item_type");
+                 itemInfo[4] = thisItem.getString("item_condition");
+                 itemInfo[5] = thisItem.getString("time");
 
                  thisItem.close();
 
@@ -560,13 +562,13 @@ public class DataManager{
                 listOfFriends.add(friendInfo.getString("friend_request"));
             }
            friendInfo.close();
-            
+
         }catch(Exception expt){
             expt.printStackTrace();
         }
         return listOfFriends;
     }
-    
+
     public static ArrayList<String> getListOfBListWords(){
     	ArrayList<String> listOfWords = new ArrayList<>();
     	try{
@@ -577,13 +579,13 @@ public class DataManager{
             	listOfWords.add(wordInfo.getString("word"));
             }
             wordInfo.close();
-            
+
         }catch(Exception expt){
             expt.printStackTrace();
         }
         return listOfWords;
     }
-    
+
     public static void addNewFriend(String username, String friend) {
         try {
             String addFriend = "INSERT INTO friend (username, friend_request) VALUES(\""+username+"\", \"" +friend+"\");";
@@ -592,7 +594,7 @@ public class DataManager{
             expt.printStackTrace();
         }
     }
-    
+
     public static boolean checkValidFriend(String username, String friend) {
     	try{
             int numberOfUsername = 0;
@@ -610,7 +612,7 @@ public class DataManager{
         }
     	return false;
     }
-    
+
     public static void addBListWord(String word) {
     	try {
             String addFriend = "INSERT INTO black_list (word) VALUES(\""+word+"\");";
@@ -619,7 +621,7 @@ public class DataManager{
             expt.printStackTrace();
         }
     }
-    
+
     public static void deleteBListWord(String word) {
     	try {
     		String deleteWord = "DELETE FROM black_list WHERE word = \"" +word+ "\";";
@@ -628,7 +630,7 @@ public class DataManager{
     		expt.printStackTrace();
     	}
     }
-    
+
     public static boolean checkValidBListWord(String word) {
     	try{
             int numberOfWords = 0;
@@ -646,7 +648,7 @@ public class DataManager{
         }
     	return false;
     }
-    
+
     public static void shutdown(){
         try{
             if(connection!= null)
