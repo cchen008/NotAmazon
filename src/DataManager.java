@@ -277,10 +277,10 @@ public class DataManager{
     }
 
     public static String [] getItemInfo(String item){
-        String [] itemInfo = {"","","","",""};
+        String [] itemInfo = {"","","","","",""};
 
         try{
-            String selectItemInfo = "SELECT item_name, seller_id, item_condition, price, item_condition, time FROM item " +
+            String selectItemInfo = "SELECT item_name, seller_id, price, item_type, item_condition, time FROM item " +
                     "WHERE item_name=\"" +item+ "\";";
 
             ResultSet thisItem = statement.executeQuery(selectItemInfo);
