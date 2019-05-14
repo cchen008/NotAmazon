@@ -515,13 +515,27 @@ public class NotAmazon extends Application{
             
             addFriendBtn.setOnAction(e->{
             	friend = friendTextField.getText();
-            	DataManager.addNewFriend(thisUser, friend);
-            	friendTextField = new TextField("");
+            	if(DataManager.isValidUsername(friend) && !(friend.equals(thisUser)) && DataManager.checkValidFriend(thisUser,friend)) {
+            		DataManager.addNewFriend(thisUser, friend);
+            		Alert success = new Alert(AlertType.INFORMATION);
+                    success.setTitle("Valid Username");
+                    success.setHeaderText(null);
+                    success.setContentText("Valid username.");
+                    success.showAndWait();
+            		friendTextField = new TextField();
+            	}
+            	else {
+            		Alert warning = new Alert(AlertType.WARNING);
+                    warning.setTitle("Invalid Username");
+                    warning.setHeaderText(null);
+                    warning.setContentText("Invalid username. Please try again.");
+                    warning.showAndWait();
+            	}
             });
             
             friendBtn.setOnAction(event -> {
                 GridPane friendLayout = new GridPane();
-                Scene friendScene = new Scene(friendLayout, 400, 300);
+                Scene friendScene = new Scene(friendLayout, 400, 200);
  
                 // New window (Stage)
                 Stage friendWindow = new Stage();
@@ -1386,7 +1400,7 @@ public class NotAmazon extends Application{
         }
     }
 
-    /*class RateUserPage extends Scene{
+    class RateUserPage extends Scene{
         GridPane layout;
         Text sceneTitle;
         Text commentUser;
@@ -1427,7 +1441,7 @@ public class NotAmazon extends Application{
             layout.add(submitBtn,1,10);
             layout.add(cancelBtn,0,10);
         }
-    }*/
+    }
 
     class GUSearchItemPage extends Scene{
         GridPane layout;
