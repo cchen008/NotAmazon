@@ -111,7 +111,6 @@ public class NotAmazon extends Application{
     class GUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
-        Text recItemTitle;
         Text popItemTitle;
         TextField searchBar;
         Button searchBtn;
@@ -125,11 +124,9 @@ public class NotAmazon extends Application{
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
-            recItemTitle = new Text("Recommended");
             popItemTitle = new Text("Popular");
             searchBar = new TextField();
 
-            recItemTitle.setFont(Font.font("Segoe UI Bold",25));
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
 
             searchBtn = new Button("Search");
@@ -161,8 +158,7 @@ public class NotAmazon extends Application{
             layout.add(searchBtn, 2, 1, 2, 1);
             layout.add(loginBtn,4,1,2,1);
             layout.add(signUpBtn,6,1,2,1);
-            layout.add(recItemTitle, 0, 3, 2, 1);
-            layout.add(popItemTitle, 0, 26, 2, 1);
+            layout.add(popItemTitle, 0, 3, 2, 1);
         }
     }
     
@@ -669,8 +665,8 @@ public class NotAmazon extends Application{
             ratings.setFont(Font.font("Segoe UI Bold",25));
 
             DropShadow dropShadow = new DropShadow();
-            dropShadow.setOffsetX(5);
-            dropShadow.setOffsetY(5);
+            dropShadow.setOffsetX(2);
+            dropShadow.setOffsetY(2);
 
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
@@ -1608,7 +1604,7 @@ public class NotAmazon extends Application{
         String [] itemInfo;
 
         public ViewItemPage(){
-            super(new GridPane(),700,700);
+            super(new GridPane(),500,500);
             layout = (GridPane)this.getRoot();
 
             sceneTitle = new Text("<NotAmazon logo>");
