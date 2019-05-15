@@ -120,6 +120,19 @@ public class DataManager{
         
     }
     //setup
+    public static void addTransaction(String item_name, String seller_id, Double price, String buyer_id) {
+    	try {
+    		String addTransaction = "INSERT INTO transactions VALUES(\""
+    				+item_name+"\",\""
+    				+seller_id+"\",\""
+    				+price+"\",\""
+    				+buyer_id+"\");";
+    		statement.executeUpdate(addTransaction);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
     public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time, String imageAddr) {
     	try {
     		String insertItemApp = "INSERT INTO item_application VALUES(\""
