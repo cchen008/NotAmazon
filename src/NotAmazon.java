@@ -314,7 +314,9 @@ public class NotAmazon extends Application{
                             thisUser = tempUsername;
                             usr_TextField.setText("");
                             pass_TextField.setText("");
-                            suMainScene = new SUMainPage();
+                            //suMainScene = new SUMainPage();
+                            //REMOVED, NOT INITIALIZING CORRECT SCENE
+                            ouMainScene = new OUMainPage();
                             window.setScene(ouMainScene);
                         }else {
                             pass_TextField.setText("");
@@ -699,7 +701,7 @@ public class NotAmazon extends Application{
             layout.add(friendBtn, 3, 7, 2, 1);
         }
     }
-
+    
     class TransactionPage extends Scene{
         GridPane layout;
         Text transTitle;
@@ -2505,16 +2507,17 @@ public class NotAmazon extends Application{
             				+"\nPrice: $"+money.format(priceDouble)
             				+"\nItem Condition: "+item_conditionTF.getText()
             				+"\nTime: "+timeTF.getText()
+            				+"\nItem Image Location: "+imageAddr
             				+"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES){
             			if(item_typeTF.getText().toLowerCase().equals("sell")) {
             				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,0,priceDouble,item_conditionTF.getText(),timeInt);
+                					,0,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
             			}
             			if(item_typeTF.getText().toLowerCase().equals("auction")) {
             				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,1,priceDouble,item_conditionTF.getText(),timeInt);
+                					,1,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
             			}
                 		ouMainScene = new OUMainPage();
                 		window.setScene(ouMainScene);
