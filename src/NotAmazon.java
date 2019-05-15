@@ -849,6 +849,8 @@ public class NotAmazon extends Application{
         String [] personalInfo;
         ObservableList searchResultList;
         ListView searchResultListView;
+        ObservableList sellingList;
+        ListView sellListView;
         
         
         public MyProfilePage() {
@@ -860,6 +862,8 @@ public class NotAmazon extends Application{
             searchBar = new TextField();
             
             personalInfo = DataManager.getPersonalInfo(thisUser);
+            sellingList = FXCollections.observableArrayList(DataManager.getListOfItems(thisUser));
+            sellListView = new ListView<>(sellingList);
             
             searchBtn = new Button("Search");
             backBtn = new Button("Back");
@@ -874,6 +878,17 @@ public class NotAmazon extends Application{
                     if (click.getClickCount()==2) {
                         ouMainScene = new OUMainPage();
                         window.setScene(ouMainScene);
+                    }
+                }
+            });
+
+            sellListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+                @Override
+                public void handle(MouseEvent click) {
+                    if (click.getClickCount()==2) {
+                        thisItem = sellListView.getSelectionModel().getSelectedItem().toString();
+                        viewItemScene = new ViewItemPage();
+                        window.setScene(viewItemScene);
                     }
                 }
             });
@@ -990,6 +1005,9 @@ public class NotAmazon extends Application{
             StackPane stack_pane = new StackPane(rectangle, username, name);
             StackPane.setAlignment(username, Pos.TOP_LEFT);
             StackPane.setAlignment(name,Pos.CENTER_LEFT);
+
+            sellListView.setPrefSize(600,200);
+            sellListView.setOrientation(Orientation.VERTICAL);
             
             username.setFont(Font.font("Segoe UI Bold", 15));
             name.setFont(Font.font("Segoe UI Bold", 15));
@@ -1005,6 +1023,7 @@ public class NotAmazon extends Application{
             layout.add(stack_pane, 0, 4, 2, 1);
             layout.add(menu, 4, 1);
             layout.add(itemsSale,0,6,2,1);
+            layout.add(sellListView,0,7,4,1);
             layout.add(ratings,0,8,2,1);
             
         }
