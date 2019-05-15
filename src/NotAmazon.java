@@ -578,7 +578,7 @@ public class NotAmazon extends Application{
             
             sellingList = FXCollections.observableArrayList(DataManager.getListOfItems(thisUser));
             sellListView = new ListView<>(sellingList);
-            biddingList = FXCollections.observableArrayList();
+            biddingList = FXCollections.observableArrayList(DataManager.getListOfBids(thisUser,thisItem));
             bidListView = new ListView<>(biddingList);
             friendList = FXCollections.observableArrayList(DataManager.getListOfFriends(thisUser));
             friendListView = new ListView<>(friendList);
