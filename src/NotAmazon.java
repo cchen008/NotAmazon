@@ -2003,7 +2003,7 @@ public class NotAmazon extends Application{
                         alert.setContentText("ERROR: Invalid input. Please try again.");
                         alert.showAndWait();
                     }else{
-                        DataManager.updateItemBid(thisUser, thisItem, placedBidPrice);
+                        DataManager.updateItemBid(thisUser, thisItem, placedBidPrice, String.valueOf(itemInfo[1]));
                         viewItemScene = new ViewItemPage();
                         window.setScene(viewItemScene);
                     }

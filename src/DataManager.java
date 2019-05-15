@@ -88,6 +88,12 @@ public class DataManager{
             + "FOREIGN KEY (user_rated) REFERENCES user(user_id),"
             + "FOREIGN KEY (rated_by) REFERENCES user(user_id));";
             
+            String createBidTable = "CREATE TABLE IF NOT EXISTS bids("
+            + "seller VARCHAR(30),"
+            + "item_name VARCHAR(30),"
+            + "bidding_price DECIMAL(10,2),"
+            + "bidder VARCHAR(30));";
+            
             String createBlackListTable = "CREATE TABLE IF NOT EXISTS black_list("
             + "word VARCHAR(30) PRIMARY KEY);";
             
@@ -536,9 +542,9 @@ public class DataManager{
         }
     }
     
-    public static void updateItemBid(String username, String item, double bidPrice){
+    public static void updateItemBid(String username, String item, double bidPrice, String seller){
         try{
-            String updateQuery = "UPDATE item SET bidding_price = \"" +bidPrice+ "\" ,bidder =\"" +username+ "\" WHERE item_name =\"" +item+ "\" AND seller_id = \"" +username+ "\" ;";
+            String updateQuery = "UPDATE item SET bidding_price = \"" +bidPrice+ "\" ,bidder =\"" +username+ "\" WHERE item_name =\"" +item+ "\" AND seller_id = \"" +seller+ "\" ;";
             statement.executeUpdate(updateQuery);
         }catch(Exception expt){
             expt.printStackTrace();
