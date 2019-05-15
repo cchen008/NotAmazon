@@ -2271,6 +2271,7 @@ public class NotAmazon extends Application{
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES) {
             			DataManager.addNewItem(itemName);
+            			DataManager.defaultBidPrice(itemName);
                 		DataManager.deleteItemApp(itemName);
                 		pendItemScene = new PendItemPage();
                 		window.setScene(pendItemScene);
