@@ -23,7 +23,6 @@ import java.io.File;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParsePosition;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -44,7 +43,7 @@ public class NotAmazon extends Application{
     private ReportAppPage reportAppScene;
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
-    private SellPage sellScene;
+    private SellItemAppPage sellItemAppScene;
     private ViewItemPage viewItemScene;
     private RateUserPage rateUserScene;
     private MyAccountPage myAccountScene;
@@ -315,7 +314,9 @@ public class NotAmazon extends Application{
                             thisUser = tempUsername;
                             usr_TextField.setText("");
                             pass_TextField.setText("");
-                            suMainScene = new SUMainPage();
+                            //suMainScene = new SUMainPage();
+                            //REMOVED, NOT INITIALIZING CORRECT SCENE
+                            ouMainScene = new OUMainPage();
                             window.setScene(ouMainScene);
                         }else {
                             pass_TextField.setText("");
@@ -593,8 +594,8 @@ public class NotAmazon extends Application{
             });
             
             sellBtn.setOnAction(event -> {
-            	sellScene = new SellPage();
-            	window.setScene(sellScene);
+            	sellItemAppScene = new SellItemAppPage();
+            	window.setScene(sellItemAppScene);
             });
             
             addFriendBtn.setOnAction(e->{
@@ -700,7 +701,7 @@ public class NotAmazon extends Application{
             layout.add(friendBtn, 3, 7, 2, 1);
         }
     }
-
+    
     class TransactionPage extends Scene{
         GridPane layout;
         Text transTitle;
@@ -1740,6 +1741,7 @@ public class NotAmazon extends Application{
         Text currentBid;
         Text displayCondition;
         Text displayTime;
+        Text itemPrice;
         TextField myBid;
         TextField searchBar;
         Button placeBidBtn;
@@ -1747,13 +1749,14 @@ public class NotAmazon extends Application{
         Button backBtn;
         Button reportBtn;
         Button rateBtn;
+        Button purchaseBtn;
         MenuButton menu;
         MenuItem profile;
         MenuItem myAcc;
         MenuItem myTranHist;
-        MenuItem item; //TEMP FOR TESTING
         MenuItem signOut;
         String [] itemInfo;
+        String [] userInfo;
 
         public ViewItemPage(){
             super(new GridPane(),500,500);
@@ -1783,9 +1786,8 @@ public class NotAmazon extends Application{
             profile = new MenuItem("Profile");
             myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
-            item = new MenuItem("Item");
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
@@ -1800,11 +1802,6 @@ public class NotAmazon extends Application{
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
-            });
-
-            item.setOnAction(event -> {
-                viewItemScene = new ViewItemPage();
-                window.setScene(viewItemScene);
             });
 
             signOut.setOnAction(event -> {
@@ -1837,32 +1834,36 @@ public class NotAmazon extends Application{
             });
 
             itemInfo = DataManager.getItemInfo(thisItem);
+            userInfo = DataManager.getPersonalInfo(thisUser);
             
             itemLabel = new Text(itemInfo[0]);
-            seller = new Text(itemInfo[1]);
+            seller = new Text("Seller: " + itemInfo[1]);
             displayCondition = new Text(itemInfo[4]);
-            displayTime = new Text(itemInfo[5]);
             itemCondition = new Text("Condition:  "); //itemInfo[4]
-            timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
-            currentBid = new Text("Current bid:  "); //itemInfo[2]
-            myBid = new TextField();
+            itemPrice = new Text("Price: " + itemInfo[2]);
 
-            Tooltip t1 = new Tooltip("Input an price higher than the current bid.");
-            t1.setFont(Font.font("Seogoe UI Bold",10));
+            if(itemInfo[3].equals("0")) {
+                displayTime = new Text(itemInfo[5]);
+                timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
+                currentBid = new Text("Current bid:  "); //itemInfo[2]
+                myBid = new TextField();
 
-            myBid.textProperty().addListener(new ChangeListener<String>() {
-                 @Override
-                 public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                     if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
-                         myBid.setText(oldValue);
+                Tooltip t1 = new Tooltip("Input a price higher than the current bid.");
+                t1.setFont(Font.font("Segoe UI Bold",10));
+                myBid.setTooltip(t1);
+
+                myBid.textProperty().addListener(new ChangeListener<String>() {
+                     @Override
+                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                         if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
+                             myBid.setText(oldValue);
+                         }
                      }
-                 }
-             });
+                 });
 
-            /*if(itemInfo[3].equals("1")) {
                 placeBidBtn = new Button("Place bid");
 
-                placeBidBtn.setOnAction(event -> {
+                /*placeBidBtn.setOnAction(event -> {
                     if(placedBidPrice < currentBidPrice) {
                         Alert alert = new Alert(AlertType.ERROR);
                         alert.setTitle("Invalid Input");
@@ -1874,8 +1875,42 @@ public class NotAmazon extends Application{
                         viewItemScene = new ViewItemPage();
                         window.setScene(viewItemScene);
                     }
+                });*/
+
+                timeLeft.setFont(Font.font("Segoe UI",13));
+                currentBid.setFont(Font.font("Segoe UI",13));
+
+                layout.add(timeLeft,0,9);
+                layout.add(displayTime, 1, 9);
+                layout.add(currentBid,0,10);
+                layout.add(myBid,0,11,2,1);
+                //layout.add(placeBidBtn,0,12);
+            }else if(itemInfo[3].equals("0")){
+                purchaseBtn = new Button("Purchase");
+
+                purchaseBtn.setOnAction(event -> {
+                    Alert confirm = new Alert(AlertType.CONFIRMATION,"Are you sure you want to make this purchase?",
+                    ButtonType.YES,ButtonType.NO);
+                    confirm.setTitle("Confirming Purchase");
+                    confirm.showAndWait();
+                    if(confirm.getResult() == ButtonType.YES){
+                        Alert address = new Alert(AlertType.CONFIRMATION,"Please confirm your address: " +
+                                userInfo[3],ButtonType.OK,ButtonType.CANCEL);
+                        address.setTitle("Confirming Purchase");
+                        if(address.getResult() == ButtonType.OK){
+
+                        }else if(address.getResult() == ButtonType.CANCEL){
+                            ouMainScene = new OUMainPage();
+                            window.setScene(ouMainScene);
+                        }
+                    }else if(confirm.getResult() == ButtonType.NO){
+                        ouMainScene = new OUMainPage();
+                        window.setScene(ouMainScene);
+                    }
                 });
-            }*/
+
+                layout.add(purchaseBtn,0,9);
+            }
 
             reportBtn = new Button("Report?");
             reportBtn.setOnAction(event -> {
@@ -1883,10 +1918,10 @@ public class NotAmazon extends Application{
                 window.setScene(reportAppScene);
             });
 
-            //itemLabel.setFont(Font.font("Segoe UI Bold",15));
-            itemCondition.setFont(Font.font("Segoe UI",13));
-            timeLeft.setFont(Font.font("Segoe UI",13));
-            currentBid.setFont(Font.font("Segoe UI",13));
+            itemLabel.setFont(Font.font("Segoe UI Bold",15));
+            seller.setFont(Font.font("Segoe UI Bold",15));
+            itemCondition.setFont(Font.font("Segoe UI Bold",13));
+            itemPrice.setFont(Font.font("Segoe UI Bold", 13));
 
             layout.setVgap(5);
             layout.setHgap(10);
@@ -1896,14 +1931,11 @@ public class NotAmazon extends Application{
             layout.add(searchBar, 0, 2, 2, 1);
             layout.add(searchBtn, 2, 2, 2, 1);
             layout.add(menu, 4, 2);
-            //layout.add(itemLabel,0,5,2,1);
+            layout.add(itemLabel,0,5,2,1);
+            layout.add(seller,0,6,2,1);
             layout.add(itemCondition,0,7);
             layout.add(displayCondition, 1, 7);
-            layout.add(timeLeft,0,8);
-            layout.add(displayTime, 1, 8);
-            layout.add(currentBid,0,9);
-            layout.add(myBid,0,10,2,1);
-            //layout.add(placeBidBtn,0,11);
+            layout.add(itemPrice,0,8,2,1);
             layout.add(reportBtn,1,13);
             layout.add(rateBtn,0,13);
         }
@@ -2051,7 +2083,6 @@ public class NotAmazon extends Application{
             listOfApp = FXCollections.observableArrayList(DataManager.getListOfApp());
             appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
-
 
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
 
@@ -2319,7 +2350,7 @@ public class NotAmazon extends Application{
     	}
     }
 
-    class SellPage extends Scene{
+    class SellItemAppPage extends Scene{
     	GridPane layout;
     	Text sellTitle;
     	Button browseBtn;
@@ -2346,7 +2377,7 @@ public class NotAmazon extends Application{
     	Alert error;
     	String imageAddr;
 
-    	public SellPage() {
+    	public SellItemAppPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             sellTitle = new Text("Sell/Auction");
@@ -2476,19 +2507,20 @@ public class NotAmazon extends Application{
             				+"\nPrice: $"+money.format(priceDouble)
             				+"\nItem Condition: "+item_conditionTF.getText()
             				+"\nTime: "+timeTF.getText()
+            				+"\nItem Image Location: "+imageAddr
             				+"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES){
             			if(item_typeTF.getText().toLowerCase().equals("sell")) {
             				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,0,priceDouble,item_conditionTF.getText(),timeInt);
+                					,0,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
             			}
             			if(item_typeTF.getText().toLowerCase().equals("auction")) {
             				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,1,priceDouble,item_conditionTF.getText(),timeInt);
+                					,1,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
             			}
-                		sellScene = new SellPage();
-                		window.setScene(sellScene);
+                		ouMainScene = new OUMainPage();
+                		window.setScene(ouMainScene);
             		}
             	}
             });

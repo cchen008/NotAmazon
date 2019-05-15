@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "cody1234";
+            String password = "@Fcrt39jiv9";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -44,6 +44,7 @@ public class DataManager{
             + "price DECIMAL(10,2),"
             + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
+            + "imageAddr VARCHAR(128),"
             + "FOREIGN KEY (seller) REFERENCES user(user_id));";
 
             String createItemTable = "CREATE TABLE IF NOT EXISTS item("
@@ -68,6 +69,7 @@ public class DataManager{
             String createFriendReqTable = "CREATE TABLE IF NOT EXISTS friend("
             + "username VARCHAR(30),"
             + "friend_request VARCHAR(30) NOT NULL,"
+            + "messages VARCHAR(128),"
             + "PRIMARY KEY(username,friend_request));";
 
             String createReportsTable = "CREATE TABLE IF NOT EXISTS reports("
@@ -118,7 +120,20 @@ public class DataManager{
         
     }
     //setup
-    public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time) {
+    public static void addTransaction(String item_name, String seller_id, Double price, String buyer_id) {
+    	try {
+    		String addTransaction = "INSERT INTO transactions VALUES(\""
+    				+item_name+"\",\""
+    				+seller_id+"\",\""
+    				+price+"\",\""
+    				+buyer_id+"\");";
+    		statement.executeUpdate(addTransaction);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
+    public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time, String imageAddr) {
     	try {
     		String insertItemApp = "INSERT INTO item_application VALUES(\""
     				+item_name+"\",\""
@@ -126,7 +141,8 @@ public class DataManager{
     				+item_type+"\",\""
     				+price+"\",\""
     				+item_condition+"\",\""
-    				+time+"\");";
+    				+time+"\",\""
+    				+imageAddr+"\");";
     		statement.executeUpdate(insertItemApp);
     	}catch(Exception expt) {
     		expt.printStackTrace();
