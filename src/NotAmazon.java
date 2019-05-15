@@ -56,7 +56,7 @@ public class NotAmazon extends Application{
     private String thisItem;
     private String currentApp;
     private String currentReport;
-
+    
     public static void main(String[]args){
         launch(args);
     }
@@ -119,26 +119,26 @@ public class NotAmazon extends Application{
         ImageView temp4View;
         ObservableList searchResultList;
         ListView searchResultListView;
-
-
+        
+        
         public GUMainPage() {
             super(new GridPane(),1000,800);
-
+            
             layout = (GridPane)this.getRoot();
             window.setTitle("Not Amazon");
             sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
             popItemTitle = new Text("Popular");
             searchBar = new TextField();
-
+            
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            
             temp1 = new Image("itemApp.png");
             temp1View = new ImageView();
             temp1View.setImage(temp1);
             temp1View.setFitHeight(200);
             temp1View.setFitWidth(200);
             temp1View.setOnMouseClicked((MouseEvent) -> {
-
+                
             });
             
             temp2 = new Image("itemApp.png");
@@ -147,7 +147,7 @@ public class NotAmazon extends Application{
             temp2View.setFitHeight(200);
             temp2View.setFitWidth(200);
             temp2View.setOnMouseClicked((MouseEvent) -> {
-
+                
             });
             
             temp3 = new Image("itemApp.png");
@@ -156,7 +156,7 @@ public class NotAmazon extends Application{
             temp3View.setFitHeight(200);
             temp3View.setFitWidth(200);
             temp3View.setOnMouseClicked((MouseEvent) -> {
-
+                
             });
             
             temp4 = new Image("itemApp.png");
@@ -165,24 +165,24 @@ public class NotAmazon extends Application{
             temp4View.setFitHeight(200);
             temp4View.setFitWidth(200);
             temp4View.setOnMouseClicked((MouseEvent) -> {
-
+                
             });
             
             
             searchBtn = new Button("Search");
             loginBtn = new Button("Login");
             signUpBtn = new Button("Sign Up");
-
+            
             searchBtn.setOnAction(event -> {
                 if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
                     searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
                     searchResultListView = new ListView<>(searchResultList);
-
+                    
                     GridPane ouSearchResults = new GridPane();
                     Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
-
+                    
                     sceneTitle = new Text("<banner>NotAmazon logo<banner>");
-
+                    
                     sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
                         @Override
                         public void handle(MouseEvent click) {
@@ -192,7 +192,7 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
                         @Override
                         public void handle(MouseEvent click) {
@@ -203,30 +203,30 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     Button backBtn = new Button("Back");
-
+                    
                     backBtn.setOnAction(e -> {
                         guMainScene = new GUMainPage();
                         window.setScene(guMainScene);
                     });
-
+                    
                     searchResultListView.setPrefWidth(600);
                     searchResultListView.setPrefHeight(600);
                     searchResultListView.setOrientation(Orientation.VERTICAL);
                     ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
-
+                    
                     // New window (Stage)
                     Stage resultsWindow = new Stage();
                     resultsWindow.setScene(ouSearchResultScene);
-
+                    
                     ouSearchResults.setHgap(10);
                     ouSearchResults.setVgap(10);
                     ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
                     ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
                     ouSearchResults.add(sceneTitle,0,0,2,1);
                     ouSearchResults.add(backBtn,0,2);
-
+                    
                     resultsWindow.show();
                 }
                 else {
@@ -237,17 +237,17 @@ public class NotAmazon extends Application{
                     fail.showAndWait();
                 }
             });
-
+            
             loginBtn.setOnAction(e -> {
                 loginScene = new LoginPage();
                 window.setScene(loginScene);
             });
-
+            
             signUpBtn.setOnAction(e -> {
                 signupScene = new SignupPage();
                 window.setScene(signupScene);
             });
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
@@ -277,16 +277,16 @@ public class NotAmazon extends Application{
         Button cancelBtn;
         HBox aBtn;
         HBox cBtn;
-
+        
         private boolean validateFields(){
             if(usr_TextField.getText().isEmpty() | pass_TextField.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Invalid Credentials");
                 warnUsr.setHeaderText(null);
                 warnUsr.setContentText("An empty field has been detected. Please try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
@@ -312,7 +312,7 @@ public class NotAmazon extends Application{
             
             aBtn.setAlignment(Pos.BOTTOM_RIGHT);
             aBtn.getChildren().add(loginBtn);
-
+            
             loginBtn.setOnAction(event ->{
                 if(validateFields()) {
                     String tempUsername = usr_TextField.getText();
@@ -340,7 +340,7 @@ public class NotAmazon extends Application{
                     }
                 }
             });
-
+            
             cBtn.setAlignment(Pos.BOTTOM_LEFT);
             cBtn.getChildren().add(cancelBtn);
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
@@ -378,13 +378,13 @@ public class NotAmazon extends Application{
                     }
                 }
             };
-
+            
             // when enter is pressed
             pass_TextField.setOnAction(pressEnter);
             
-
+            
             cancelBtn.setOnAction(e -> window.setScene(guMainScene));
-
+            
             layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
@@ -423,17 +423,17 @@ public class NotAmazon extends Application{
         HBox aBtn;
         HBox cBtn;
         Tooltip t1,t2,t3;
-
+        
         private boolean validateFields(){
             if(usr_TextField.getText().isEmpty() | first_TextField.getText().isEmpty() | last_TextField.getText().isEmpty() |
                addr_TextField.getText().isEmpty() | phone_TextField.getText().isEmpty() | cc_TextField.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("An empty field has been detected.");
                 warnUsr.setContentText("Please complete the application and submit again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
@@ -457,13 +457,13 @@ public class NotAmazon extends Application{
             addr_TextField = new TextField();
             phone_TextField = new TextField();
             cc_TextField = new TextField();
-
+            
             t1 = new Tooltip("Exclude country code and dashes.");
             t2 = new Tooltip("Input your 16-digit card while excluding space.");
-
+            
             phone_TextField.setTooltip(t1);
             cc_TextField.setTooltip(t2);
-
+            
             t1.setFont(Font.font("Segoe UI",12));
             t2.setFont(Font.font("Segoe UI",12));
             
@@ -471,9 +471,9 @@ public class NotAmazon extends Application{
             cancelBtn = new Button("Cancel");
             aBtn = new HBox(5);
             cBtn = new HBox(5);
-
-
-
+            
+            
+            
             applyBtn.setOnAction(e -> {
                 if(validateFields()){
                     String tempUserName = usr_TextField.getText();
@@ -494,7 +494,7 @@ public class NotAmazon extends Application{
                     }
                 }
             });
-
+            
             cancelBtn.setOnAction(e -> {
                 usr_TextField.setText("");
                 first_TextField.setText("");
@@ -504,7 +504,7 @@ public class NotAmazon extends Application{
                 cc_TextField.setText("");
                 window.setScene(guMainScene);
             });
-
+            
             signup.setFont(Font.font("Segoe UI Bold",25));
             
             aBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -539,7 +539,7 @@ public class NotAmazon extends Application{
             
         }
     }
-
+    
     class OUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -570,7 +570,7 @@ public class NotAmazon extends Application{
         ObservableList<String> searchResultList;
         ListView<String> searchResultListView;
         String friend;
-
+        
         public OUMainPage() {
             super(new GridPane(),900,800);
             layout = (GridPane)this.getRoot();
@@ -591,17 +591,17 @@ public class NotAmazon extends Application{
             friendTitle = new Text("Friend");
             addFriendTitle = new Text("Add Friend");
             friendName = new Text("Username:");
-
+            
             searchBar = new TextField();
             friendTextField = new TextField();
-
+            
             recItemTitle.setFont(Font.font("Segoe UI Bold",25));
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
             bidTitle.setFont(Font.font("Segoe UI Bold",25));
             friendTitle.setFont(Font.font("Segoe UI Bold",25));
             addFriendTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            
             sellListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
                 @Override
                 public void handle(MouseEvent click) {
@@ -628,17 +628,17 @@ public class NotAmazon extends Application{
             sellBtn = new Button("+");
             friendBtn = new Button("+");
             addFriendBtn = new Button("Add");
-
+            
             searchBtn.setOnAction(event -> {
                 if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
                     searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
                     searchResultListView = new ListView<>(searchResultList);
-
+                    
                     GridPane ouSearchResults = new GridPane();
                     Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
-
+                    
                     sceneTitle = new Text("<banner>NotAmazon logo<banner>");
-
+                    
                     sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -648,7 +648,7 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -659,30 +659,30 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     Button backBtn = new Button("Back");
-
+                    
                     backBtn.setOnAction(e -> {
                         guMainScene = new GUMainPage();
                         window.setScene(guMainScene);
                     });
-
+                    
                     searchResultListView.setPrefWidth(600);
                     searchResultListView.setPrefHeight(600);
                     searchResultListView.setOrientation(Orientation.VERTICAL);
                     ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
-
+                    
                     // New window (Stage)
                     Stage resultsWindow = new Stage();
                     resultsWindow.setScene(ouSearchResultScene);
-
+                    
                     ouSearchResults.setHgap(10);
                     ouSearchResults.setVgap(10);
                     ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
                     ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
                     ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
                     ouSearchResults.add(backBtn, 0, 2);
-
+                    
                     resultsWindow.show();
                 } else {
                     Alert fail = new Alert(AlertType.ERROR);
@@ -721,7 +721,7 @@ public class NotAmazon extends Application{
             friendBtn.setOnAction(event -> {
                 GridPane friendLayout = new GridPane();
                 Scene friendScene = new Scene(friendLayout, 400, 200);
-
+                
                 // New window (Stage)
                 Stage friendWindow = new Stage();
                 friendWindow.setTitle("Add Friend");
@@ -738,7 +738,7 @@ public class NotAmazon extends Application{
                 
                 friendWindow.show();
             });
-
+            
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
@@ -746,18 +746,18 @@ public class NotAmazon extends Application{
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
             menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
-
-
+            
+            
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
             });
-
+            
             myAcc.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
@@ -778,8 +778,8 @@ public class NotAmazon extends Application{
             friendListView.setPrefWidth(300);
             friendListView.setPrefHeight(400);
             friendListView.setOrientation(Orientation.VERTICAL);
-
-
+            
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
@@ -806,31 +806,31 @@ public class NotAmazon extends Application{
         GridPane layout;
         Text transTitle;
         Button backBtn;
-
+        
         public TransactionPage() {
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             transTitle = new Text("Transaction History");
-
+            
             backBtn = new Button("Back");
-
+            
             transTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            
             backBtn.setOnAction(event -> {
                 ouMainScene = new OUMainPage();
                 window.setScene(ouMainScene);
             });
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(transTitle, 0, 0, 2, 1);
             layout.add(backBtn, 9, 26, 2, 1);
         }
     }
-
+    
     class MyProfilePage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -849,8 +849,8 @@ public class NotAmazon extends Application{
         String [] personalInfo;
         ObservableList searchResultList;
         ListView searchResultListView;
-
-
+        
+        
         public MyProfilePage() {
             super(new GridPane(), 700, 700);
             layout = (GridPane) this.getRoot();
@@ -858,16 +858,16 @@ public class NotAmazon extends Application{
             itemsSale = new Text("Items for sale");
             ratings = new Text("Ratings");
             searchBar = new TextField();
-
+            
             personalInfo = DataManager.getPersonalInfo(thisUser);
-
+            
             searchBtn = new Button("Search");
             backBtn = new Button("Back");
-
+            
             sceneTitle.setFont(Font.font("Segoe UI Bold", 25));
             itemsSale.setFont(Font.font("Segoe UI Bold",25));
             ratings.setFont(Font.font("Segoe UI Bold",25));
-
+            
             sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
                 @Override
                 public void handle(MouseEvent click) {
@@ -881,7 +881,7 @@ public class NotAmazon extends Application{
             DropShadow dropShadow = new DropShadow();
             dropShadow.setOffsetX(2);
             dropShadow.setOffsetY(2);
-
+            
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
@@ -889,37 +889,37 @@ public class NotAmazon extends Application{
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
             menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
-
+            
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
             });
-
+            
             myAcc.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
             });
-
+            
             signOut.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
             });
-
+            
             searchBtn.setOnAction(event -> {
                 if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
                     searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
                     searchResultListView = new ListView<>(searchResultList);
-
+                    
                     GridPane ouSearchResults = new GridPane();
                     Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
-
+                    
                     sceneTitle = new Text("<banner>NotAmazon logo<banner>");
-
+                    
                     sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -929,7 +929,7 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -940,30 +940,30 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     Button backBtn = new Button("Back");
-
+                    
                     backBtn.setOnAction(e -> {
                         guMainScene = new GUMainPage();
                         window.setScene(guMainScene);
                     });
-
+                    
                     searchResultListView.setPrefWidth(600);
                     searchResultListView.setPrefHeight(600);
                     searchResultListView.setOrientation(Orientation.VERTICAL);
                     ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
-
+                    
                     // New window (Stage)
                     Stage resultsWindow = new Stage();
                     resultsWindow.setScene(ouSearchResultScene);
-
+                    
                     ouSearchResults.setHgap(10);
                     ouSearchResults.setVgap(10);
                     ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
                     ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
                     ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
                     ouSearchResults.add(backBtn, 0, 2);
-
+                    
                     resultsWindow.show();
                 }else {
                     Alert fail = new Alert(AlertType.ERROR);
@@ -973,12 +973,12 @@ public class NotAmazon extends Application{
                     fail.showAndWait();
                 }
             });
-
+            
             backBtn.setOnAction(event -> {
                 ouMainScene = new OUMainPage();
                 window.setScene(ouMainScene);
             });
-
+            
             //rectangle for profile info
             username = new Label("  " + personalInfo[0]);
             name = new Label("  " + personalInfo[1] + " " + personalInfo[2]);
@@ -990,15 +990,15 @@ public class NotAmazon extends Application{
             StackPane stack_pane = new StackPane(rectangle, username, name);
             StackPane.setAlignment(username, Pos.TOP_LEFT);
             StackPane.setAlignment(name,Pos.CENTER_LEFT);
-
+            
             username.setFont(Font.font("Segoe UI Bold", 15));
             name.setFont(Font.font("Segoe UI Bold", 15));
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
@@ -1006,10 +1006,10 @@ public class NotAmazon extends Application{
             layout.add(menu, 4, 1);
             layout.add(itemsSale,0,6,2,1);
             layout.add(ratings,0,8,2,1);
-
+            
         }
     }
-
+    
     class MyAccountPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1033,13 +1033,13 @@ public class NotAmazon extends Application{
         String [] personalInfo;
         ObservableList searchResultList;
         ListView searchResultListView;
-
+        
         public MyAccountPage(){
             super(new GridPane(), 700, 350);
             layout = (GridPane) this.getRoot();
             sceneTitle = new Text("<banner>NotAmazon logo<banner>");
             personalInfo = DataManager.getPersonalInfo(thisUser);
-
+            
             searchBar = new TextField();
             searchBtn = new Button("Search");
             backBtn = new Button("Back");
@@ -1048,19 +1048,19 @@ public class NotAmazon extends Application{
             editPhoneBtn = new Button("Change");
             editCCBtn = new Button("Change credit card");
             editPWBtn = new Button("Change password");
-
+            
             sceneTitle.setFont(Font.font("Segoe UI Bold", 20));
-
+            
             username = new Label("Username: " + personalInfo[0]);
             name = new Label("Name: " + personalInfo[1] + " " + personalInfo[2]);
             address = new Label("Address: " + personalInfo[3]);
             phonenum = new Label("Phone Number: " + personalInfo[4]);
-
+            
             username.setFont(Font.font("Segoe UI Bold", 13));
             name.setFont(Font.font("Segoe UI Bold",13));
             address.setFont(Font.font("Segoe UI Bold",13));
             phonenum.setFont(Font.font("Segoe UI Bold",13));
-
+            
             sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
                 @Override
                 public void handle(MouseEvent click) {
@@ -1078,37 +1078,37 @@ public class NotAmazon extends Application{
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
             menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
-
+            
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
             });
-
+            
             myAcc.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
             });
-
+            
             signOut.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
             });
-
+            
             searchBtn.setOnAction(event -> {
                 if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
                     searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
                     searchResultListView = new ListView<>(searchResultList);
-
+                    
                     GridPane ouSearchResults = new GridPane();
                     Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
-
+                    
                     sceneTitle = new Text("<banner>NotAmazon logo<banner>");
-
+                    
                     sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -1118,7 +1118,7 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -1129,30 +1129,30 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     Button backBtn = new Button("Back");
-
+                    
                     backBtn.setOnAction(e -> {
                         guMainScene = new GUMainPage();
                         window.setScene(guMainScene);
                     });
-
+                    
                     searchResultListView.setPrefWidth(600);
                     searchResultListView.setPrefHeight(600);
                     searchResultListView.setOrientation(Orientation.VERTICAL);
                     ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
-
+                    
                     // New window (Stage)
                     Stage resultsWindow = new Stage();
                     resultsWindow.setScene(ouSearchResultScene);
-
+                    
                     ouSearchResults.setHgap(10);
                     ouSearchResults.setVgap(10);
                     ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
                     ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
                     ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
                     ouSearchResults.add(backBtn, 0, 2);
-
+                    
                     resultsWindow.show();
                 }else {
                     Alert fail = new Alert(AlertType.ERROR);
@@ -1162,42 +1162,42 @@ public class NotAmazon extends Application{
                     fail.showAndWait();
                 }
             });
-
+            
             backBtn.setOnAction(event -> {
                 ouMainScene = new OUMainPage();
                 window.setScene(ouMainScene);
             });
-
+            
             editNameBtn.setOnAction(event -> {
                 editNameScene = new EditNamePage();
                 window.setScene(editNameScene);
             });
-
+            
             editAddrBtn.setOnAction(event -> {
                 editAddrScene = new EditAddressPage();
                 window.setScene(editAddrScene);
             });
-
+            
             editPhoneBtn.setOnAction(event -> {
                 editPhoneScene = new EditPhoneNum();
                 window.setScene(editPhoneScene);
             });
-
+            
             editCCBtn.setOnAction(event -> {
                 editCCScene = new EditCCNum();
                 window.setScene(editCCScene);
             });
-
+            
             editPWBtn.setOnAction(event -> {
                 editPWScene = new EditPasswordPage();
                 window.setScene(editPWScene);
             });
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(searchBar, 0, 1, 2, 1);
             layout.add(searchBtn, 2, 1, 2, 1);
@@ -1213,7 +1213,7 @@ public class NotAmazon extends Application{
             layout.add(editCCBtn,0,10);
         }
     }
-
+    
     class EditNamePage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1223,39 +1223,39 @@ public class NotAmazon extends Application{
         TextField lastname_field;
         Button updateBtn;
         Button cancelBtn;
-
+        
         private boolean validateFields(){
             if(firstname_field.getText().isEmpty() | lastname_field.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("An empty field has been detected.");
                 warnUsr.setContentText("Input into the field (you do not wish to change) with the currently existing " +
-                        "information (i.e. if you want to change just your first name, input \"Jane Doe\" if you want " +
-                        "to change it from \"John Doe\").");
+                                       "information (i.e. if you want to change just your first name, input \"Jane Doe\" if you want " +
+                                       "to change it from \"John Doe\").");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public EditNamePage(){
             super(new GridPane(), 300, 200);
             layout = (GridPane) this.getRoot();
-
+            
             sceneTitle = new Text("Update Information: Name");
             firstname = new Text("First name ");
             lastname = new Text("Last name ");
-
+            
             firstname_field = new TextField();
             firstname_field.setPromptText("Enter your first name.");
             lastname_field = new TextField();
             lastname_field.setPromptText("Enter your last name.");
-
+            
             updateBtn = new Button("Update");
             cancelBtn = new Button("Cancel");
-
+            
             updateBtn.setOnAction(event -> {
                 if(validateFields()){
                     DataManager.updateUserName(thisUser,firstname_field.getText(),lastname_field.getText());
@@ -1263,20 +1263,20 @@ public class NotAmazon extends Application{
                     window.setScene(myAccountScene);
                 }
             });
-
+            
             cancelBtn.setOnAction(event-> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             updateBtn.setAlignment(Pos.BOTTOM_LEFT);
             cancelBtn.setAlignment(Pos.BOTTOM_LEFT);
-
+            
             layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 3, 1);
             layout.add(firstname,0,3);
             layout.add(lastname,0,4);
@@ -1286,7 +1286,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,5);
         }
     }
-
+    
     class EditAddressPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1294,34 +1294,34 @@ public class NotAmazon extends Application{
         TextField addr_field;
         Button updateBtn;
         Button cancelBtn;
-
+        
         private boolean validateFields(){
             if(addr_field.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("An empty field has been detected.");
                 warnUsr.setContentText("Please fill in the empty field and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public EditAddressPage(){
             super(new GridPane(), 250, 200);
             layout = (GridPane) this.getRoot();
-
+            
             sceneTitle = new Text("Update Information: Address");
             addr = new Text("Address ");
-
+            
             addr_field = new TextField();
             addr_field.setPromptText("Enter your street address.");
-
+            
             updateBtn = new Button("Update");
             cancelBtn = new Button("Cancel");
-
+            
             updateBtn.setOnAction(event -> {
                 if(validateFields()){
                     DataManager.updateUserAddr(thisUser,addr_field.getText());
@@ -1329,20 +1329,20 @@ public class NotAmazon extends Application{
                     window.setScene(myAccountScene);
                 }
             });
-
+            
             cancelBtn.setOnAction(event-> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             updateBtn.setAlignment(Pos.BOTTOM_LEFT);
             cancelBtn.setAlignment(Pos.BOTTOM_LEFT);
-
+            
             layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(addr,0,3);
             layout.add(addr_field,1,3,2,1);
@@ -1350,7 +1350,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,4);
         }
     }
-
+    
     class EditPasswordPage extends Scene {
         GridPane layout;
         Text sceneTitle;
@@ -1362,11 +1362,11 @@ public class NotAmazon extends Application{
         Button cancelBtn;
         Tooltip t1;
         String [] personalInfo;
-
+        
         private boolean validatePassword() {
             Pattern p = Pattern.compile("((?=.*\\d).{6,15})");
             Matcher m = p.matcher(confirmPass_field.getText());
-
+            
             if(m.matches()){
                 return true;
             }else {
@@ -1375,46 +1375,46 @@ public class NotAmazon extends Application{
                 alert.setHeaderText(null);
                 alert.setContentText("Password must contain at least one digit with a length of 6-15 characters.");
                 alert.showAndWait();
-
+                
                 return false;
             }
         }
-
+        
         private boolean validateFields() {
             if (newPass_field.getText().isEmpty() | confirmPass_field.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("An empty field has been detected.");
                 warnUsr.setContentText("Please fill in the empty field and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public EditPasswordPage() {
             super(new GridPane(), 400, 230);
             layout = (GridPane) this.getRoot();
             personalInfo = DataManager.getPersonalInfo(thisUser);
-
+            
             sceneTitle = new Text("Update Information: Password");
             newPass = new Text("New password ");
             confirmPass = new Text("Confirm new password ");
-
+            
             newPass_field = new TextField();
             newPass_field.setPromptText("Enter new password.");
             confirmPass_field = new TextField();
             confirmPass_field.setPromptText("Enter again.");
-
+            
             t1 = new Tooltip("Must contain at least 1 digit and have a length of 6-15 characters.");
             t1.setFont(Font.font("Segoe UI Bold",12));
             newPass_field.setTooltip(t1);
-
+            
             updateBtn = new Button("Update");
             cancelBtn = new Button("Cancel");
-
+            
             updateBtn.setOnAction(event -> {
                 if (validateFields() && validatePassword()) {
                     String newPass1 = newPass_field.getText();
@@ -1424,7 +1424,7 @@ public class NotAmazon extends Application{
                         warnUsr.setTitle("Error");
                         warnUsr.setHeaderText("An incorrect field has been detected.");
                         warnUsr.setContentText("Password must contain at least 1 digit and have a length of 6-15 " +
-                                "characters. Please fill in the field correctly and try again.");
+                                               "characters. Please fill in the field correctly and try again.");
                         warnUsr.showAndWait();
                     }else {
                         DataManager.updateUserPass(thisUser, newPass_field.getText());
@@ -1433,20 +1433,20 @@ public class NotAmazon extends Application{
                     }
                 }
             });
-
+            
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             updateBtn.setAlignment(Pos.BOTTOM_RIGHT);
             cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(newPass, 0, 3);
             layout.add(confirmPass, 0, 4);
@@ -1456,7 +1456,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn, 0, 5);
         }
     }
-
+    
     class EditPhoneNum extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1465,11 +1465,11 @@ public class NotAmazon extends Application{
         Button updateBtn;
         Button cancelBtn;
         Tooltip t1;
-
+        
         private boolean validatePhoneNum() {
             Pattern p = Pattern.compile("((?=.*\\d).{10})");
             Matcher m = p.matcher(newPhone_field.getText());
-
+            
             if(m.matches()){
                 return true;
             }else {
@@ -1478,42 +1478,42 @@ public class NotAmazon extends Application{
                 alert.setHeaderText(null);
                 alert.setContentText("Invalid input of phone number. Please try again.");
                 alert.showAndWait();
-
+                
                 return false;
             }
         }
-
+        
         private boolean validateFields() {
             if (newPhone_field.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("An empty field has been detected.");
                 warnUsr.setContentText("Please fill in the empty field and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public EditPhoneNum() {
             super(new GridPane(), 400, 230);
             layout = (GridPane) this.getRoot();
-
+            
             sceneTitle = new Text("Update Information: Phone Number");
             newPhone = new Text("New phone number ");
-
+            
             newPhone_field = new TextField();
             newPhone_field.setPromptText("e.g. 1112223333");
-
+            
             t1 = new Tooltip("Input your 10-digit phone number without the country, spaces, or dashes.");
             t1.setFont(Font.font("Segoe UI Bold",12));
             newPhone_field.setTooltip(t1);
-
+            
             updateBtn = new Button("Update");
             cancelBtn = new Button("Cancel");
-
+            
             updateBtn.setOnAction(event -> {
                 if (validateFields() && validatePhoneNum()) {
                     DataManager.updateUserPhoneNum(thisUser, newPhone_field.getText());
@@ -1521,20 +1521,20 @@ public class NotAmazon extends Application{
                     window.setScene(myAccountScene);
                 }
             });
-
+            
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             updateBtn.setAlignment(Pos.BOTTOM_RIGHT);
             cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(newPhone,0,3);
             layout.add(newPhone_field,1,3,2,1);
@@ -1542,7 +1542,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,4);
         }
     }
-
+    
     class EditCCNum extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1551,11 +1551,11 @@ public class NotAmazon extends Application{
         Button updateBtn;
         Button cancelBtn;
         Tooltip t1;
-
+        
         private boolean validateCCNum() {
             Pattern p = Pattern.compile("((?=.*\\d).{10})");
             Matcher m = p.matcher(newCC_field.getText());
-
+            
             if(m.matches()){
                 return true;
             }else {
@@ -1564,42 +1564,42 @@ public class NotAmazon extends Application{
                 alert.setHeaderText(null);
                 alert.setContentText("Invalid input of phone number. Please try again.");
                 alert.showAndWait();
-
+                
                 return false;
             }
         }
-
+        
         private boolean validateFields() {
             if (newCC_field.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("An empty field has been detected.");
                 warnUsr.setContentText("Please fill in the empty field and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public EditCCNum() {
             super(new GridPane(), 400, 230);
             layout = (GridPane) this.getRoot();
-
+            
             sceneTitle = new Text("Update Information: Credt Card");
             newCC = new Text("New phone number ");
-
+            
             newCC_field = new TextField();
             newCC_field.setPromptText("e.g. 1111222233334444");
-
+            
             t1 = new Tooltip("Input your 16-digit credit card number without spaces or dashes.");
             t1.setFont(Font.font("Segoe UI Bold",12));
             newCC_field.setTooltip(t1);
-
+            
             updateBtn = new Button("Update");
             cancelBtn = new Button("Cancel");
-
+            
             updateBtn.setOnAction(event -> {
                 if (validateFields() && validateCCNum()) {
                     DataManager.updateUserCCNum(thisUser, newCC_field.getText());
@@ -1607,20 +1607,20 @@ public class NotAmazon extends Application{
                     window.setScene(myAccountScene);
                 }
             });
-
+            
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             updateBtn.setAlignment(Pos.BOTTOM_RIGHT);
             cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.CENTER);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(newCC,0,3);
             layout.add(newCC_field,1,3,2,1);
@@ -1628,7 +1628,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,4);
         }
     }
-
+    
     class ReportAppPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -1640,52 +1640,52 @@ public class NotAmazon extends Application{
         TextField reasonTextField;
         Button submitBtn;
         Button cancelBtn;
-
+        
         private boolean validateFields() {
             if (reportUser_TextField.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("No user being reported.");
                 warnUsr.setContentText("Please fill in the empty field and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             else if (mainReason_TextField.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("A reason for reporting the user has not been selected.");
                 warnUsr.setContentText("Please select a reason and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public ReportAppPage() {
             super(new GridPane(),500,500);
             layout = (GridPane)this.getRoot();
-
+            
             sceneTitle = new Text("Report User");
-
+            
             reportUser = new Text("User to report: ");
             reasonForReport = new Text("Reason: ");
             reasonDetails = new Text("If possible, provide an explanation as to your reason. More details in your " +
-                    "explanation\nmay help aid the administrators in their decision.");
-
+                                     "explanation\nmay help aid the administrators in their decision.");
+            
             mainReason_TextField = new TextField();
             mainReason_TextField.setPromptText("e.g. User misconduct");
             reasonTextField = new TextField();
             reasonTextField.setPrefSize(450,200);
             reportUser_TextField = new TextField();
-
-
+            
+            
             submitBtn = new Button("Submit");
             cancelBtn = new Button("Cancel");
-
+            
             submitBtn.setOnAction(event -> {
                 if(validateFields()) {
                     String reportThisUser = reportUser_TextField.getText();
@@ -1695,20 +1695,20 @@ public class NotAmazon extends Application{
                     window.setScene(ouMainScene);
                 }
             });
-
+            
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
             cancelBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(reportUser,0,1);
             layout.add(reportUser_TextField,1,1);
@@ -1720,7 +1720,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,10);
         }
     }
-
+    
     class RateUserPage extends Scene{
         GridPane layout;
         Text rateUser;
@@ -1730,32 +1730,32 @@ public class NotAmazon extends Application{
         Button submitBtn;
         Button cancelBtn;
         Slider ratingsBar;
-
+        
         private boolean validateFields() {
             if (commnt_TextField.getText().isEmpty()){
-
+                
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
                 warnUsr.setHeaderText("No user being reported.");
                 warnUsr.setContentText("Please fill in the empty field and try again.");
                 warnUsr.showAndWait();
-
+                
                 return false;
             }
             return true;
         }
-
+        
         public RateUserPage() {
             super(new GridPane(),500,350);
             layout = (GridPane)this.getRoot();
-
+            
             rateUser = new Text("User being rated: ");
             commnt = new Text("Comment");
             rateUser_TextField = new TextField();
             commnt_TextField = new TextField();
-
+            
             commnt_TextField.setPrefSize(525,150);
-
+            
             ratingsBar = new Slider(1, 5, 3);
             ratingsBar.setShowTickMarks(true);
             ratingsBar.setShowTickLabels(true);
@@ -1763,10 +1763,10 @@ public class NotAmazon extends Application{
             ratingsBar.setMinorTickCount(0);
             ratingsBar.setBlockIncrement(0.5);
             ratingsBar.setSnapToTicks(true);
-
+            
             submitBtn = new Button("Submit");
             cancelBtn = new Button("Cancel");
-
+            
             submitBtn.setOnAction(event -> {
                 if(validateFields()){
                     String whichUser = rateUser_TextField.getText();
@@ -1778,19 +1778,19 @@ public class NotAmazon extends Application{
                     commnt_TextField.setText("");
                 }
             });
-
+            
             cancelBtn.setOnAction(event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             });
-
+            
             submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.BASELINE_LEFT);
             layout.setHgap(10);
             layout.setVgap(5);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(rateUser,0,1);
             layout.add(rateUser_TextField,1,2);
             layout.add(ratingsBar,1,4);
@@ -1800,7 +1800,7 @@ public class NotAmazon extends Application{
             layout.add(cancelBtn,0,14);
         }
     }
-
+    
     class ViewItemPage extends Scene{
         GridPane layout;
         Text itemLabel;
@@ -1828,23 +1828,23 @@ public class NotAmazon extends Application{
         Object [] itemInfo;
         String [] userInfo;
         double placedBidPrice;
-    	double currentBidPrice;
-    	ObservableList searchResultList;
-    	ListView searchResultListView;
-
+        double currentBidPrice;
+        ObservableList searchResultList;
+        ListView searchResultListView;
+        
         public ViewItemPage(){
             super(new GridPane(),500,500);
             layout = (GridPane)this.getRoot();
-
+            
             sceneTitle = new Text("<NotAmazon logo>");
             sceneTitle.setFont(Font.font("Segoe UI Bold",20));
-
+            
             searchBar = new TextField();
-
+            
             searchBtn = new Button("Search");
             backBtn = new Button("Back");
             rateBtn = new Button("Rate");
-
+            
             sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
                 @Override
                 public void handle(MouseEvent click) {
@@ -1862,107 +1862,107 @@ public class NotAmazon extends Application{
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
             menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
-
+            
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
                 window.setScene(myProfileScene);
             });
-
+            
             myAcc.setOnAction((event -> {
                 myAccountScene = new MyAccountPage();
                 window.setScene(myAccountScene);
             }));
-
+            
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
             });
-
+            
             signOut.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
             });
-
+            
             searchBtn.setOnAction(event -> {
-            if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
-                searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
-                searchResultListView = new ListView<>(searchResultList);
-
-                GridPane ouSearchResults = new GridPane();
-                Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
-
-                sceneTitle = new Text("<banner>NotAmazon logo<banner>");
-
-                sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent click) {
-                        if (click.getClickCount() == 2) {
-                            ouMainScene = new OUMainPage();
-                            window.setScene(guMainScene);
+                if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+                    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                    searchResultListView = new ListView<>(searchResultList);
+                    
+                    GridPane ouSearchResults = new GridPane();
+                    Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
+                    
+                    sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+                    
+                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                ouMainScene = new OUMainPage();
+                                window.setScene(guMainScene);
+                            }
                         }
-                    }
-                });
-
-                searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent click) {
-                        if (click.getClickCount() == 2) {
-                            thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
-                            viewItemScene = new ViewItemPage();
-                            window.setScene(viewItemScene);
+                    });
+                    
+                    searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
+                                viewItemScene = new ViewItemPage();
+                                window.setScene(viewItemScene);
+                            }
                         }
-                    }
-                });
-
-                Button backBtn = new Button("Back");
-
-                backBtn.setOnAction(e -> {
-                    guMainScene = new GUMainPage();
-                    window.setScene(guMainScene);
-                });
-
-                searchResultListView.setPrefWidth(600);
-                searchResultListView.setPrefHeight(600);
-                searchResultListView.setOrientation(Orientation.VERTICAL);
-                ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
-
-                // New window (Stage)
-                Stage resultsWindow = new Stage();
-                resultsWindow.setScene(ouSearchResultScene);
-
-                ouSearchResults.setHgap(10);
-                ouSearchResults.setVgap(10);
-                ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
-                ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
-                ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
-                ouSearchResults.add(backBtn, 0, 2);
-
-                resultsWindow.show();
-            }else {
-                Alert fail = new Alert(AlertType.ERROR);
-                fail.setTitle("Error");
-                fail.setHeaderText(null);
-                fail.setContentText("Invalid input. Please try again.");
-                fail.showAndWait();
-            }
-        });
-
+                    });
+                    
+                    Button backBtn = new Button("Back");
+                    
+                    backBtn.setOnAction(e -> {
+                        guMainScene = new GUMainPage();
+                        window.setScene(guMainScene);
+                    });
+                    
+                    searchResultListView.setPrefWidth(600);
+                    searchResultListView.setPrefHeight(600);
+                    searchResultListView.setOrientation(Orientation.VERTICAL);
+                    ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
+                    
+                    // New window (Stage)
+                    Stage resultsWindow = new Stage();
+                    resultsWindow.setScene(ouSearchResultScene);
+                    
+                    ouSearchResults.setHgap(10);
+                    ouSearchResults.setVgap(10);
+                    ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
+                    ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
+                    ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
+                    ouSearchResults.add(backBtn, 0, 2);
+                    
+                    resultsWindow.show();
+                }else {
+                    Alert fail = new Alert(AlertType.ERROR);
+                    fail.setTitle("Error");
+                    fail.setHeaderText(null);
+                    fail.setContentText("Invalid input. Please try again.");
+                    fail.showAndWait();
+                }
+            });
+            
             backBtn.setOnAction(event -> {
                 ouMainScene = new OUMainPage();
                 window.setScene(ouMainScene);
             });
-
+            
             rateBtn.setOnAction(event -> {
                 rateUserScene = new RateUserPage();
                 window.setScene(rateUserScene);
             });
-
+            
             reportBtn = new Button("Report?");
             reportBtn.setOnAction(event -> {
                 reportAppScene = new ReportAppPage();
                 window.setScene(reportAppScene);
             });
-
+            
             itemInfo = DataManager.getItemInfo(thisItem);
             userInfo = DataManager.getPersonalInfo(thisUser);
             
@@ -1970,18 +1970,18 @@ public class NotAmazon extends Application{
             seller = new Text("Seller: " + itemInfo[1]);
             displayCondition = new Text((String) itemInfo[4]);
             itemCondition = new Text("Condition:  "); //itemInfo[4]
-            itemPrice = new Text("Price: " + itemInfo[2]);
-
+            itemPrice = new Text("Original Price: " + itemInfo[2]);
+            
             if(itemInfo[3].equals("1") && (userInfo[0] != itemInfo[1])) {
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  "+ itemInfo[6]); //itemInfo[2]
                 myBid = new TextField();
-
+                
                 Tooltip t1 = new Tooltip("Input a price higher than the current bid.");
                 t1.setFont(Font.font("Segoe UI Bold",10));
                 myBid.setTooltip(t1);
-
+                
                 myBid.textProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -1990,7 +1990,7 @@ public class NotAmazon extends Application{
                         }
                     }
                 });
-
+                
                 placeBidBtn = new Button("Place bid");
                 
                 placeBidBtn.setOnAction(event -> {
@@ -2008,25 +2008,25 @@ public class NotAmazon extends Application{
                         window.setScene(viewItemScene);
                     }
                 });
-				
+                
                 timeLeft.setFont(Font.font("Segoe UI",13));
                 currentBid.setFont(Font.font("Segoe UI",13));
-
+                
                 layout.add(timeLeft,0,9);
                 layout.add(displayTime, 1, 9);
                 layout.add(currentBid,0,10);
                 layout.add(myBid,0,11,2,1);
                 layout.add(placeBidBtn,0,12);
-
+                
                 itemLabel.setFont(Font.font("Segoe UI Bold",15));
                 seller.setFont(Font.font("Segoe UI Bold",15));
                 itemCondition.setFont(Font.font("Segoe UI Bold",13));
                 itemPrice.setFont(Font.font("Segoe UI Bold", 13));
-
+                
                 layout.setVgap(5);
                 layout.setHgap(10);
                 layout.setPadding(new Insets(25, 25, 25, 25));
-
+                
                 layout.add(sceneTitle,0,0,2,1);
                 layout.add(searchBar, 0, 2, 2, 1);
                 layout.add(searchBtn, 2, 2, 2, 1);
@@ -2038,28 +2038,28 @@ public class NotAmazon extends Application{
                 layout.add(itemPrice,0,8,2,1);
                 layout.add(reportBtn,1,13);
                 layout.add(rateBtn,0,13);
-
+                
             }else if(itemInfo[3].equals("1") && userInfo[0].equals(itemInfo[1])){
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  " + itemInfo[6]); //itemInfo[2]
-
+                
                 timeLeft.setFont(Font.font("Segoe UI",13));
                 currentBid.setFont(Font.font("Segoe UI",13));
-
+                
                 layout.add(timeLeft,0,9);
                 layout.add(displayTime, 1, 9);
                 layout.add(currentBid,0,10);
-
+                
                 itemLabel.setFont(Font.font("Segoe UI Bold",15));
                 seller.setFont(Font.font("Segoe UI Bold",15));
                 itemCondition.setFont(Font.font("Segoe UI Bold",13));
                 itemPrice.setFont(Font.font("Segoe UI Bold", 13));
-
+                
                 layout.setVgap(5);
                 layout.setHgap(10);
                 layout.setPadding(new Insets(25, 25, 25, 25));
-
+                
                 layout.add(sceneTitle,0,0,2,1);
                 layout.add(searchBar, 0, 2, 2, 1);
                 layout.add(searchBtn, 2, 2, 2, 1);
@@ -2073,21 +2073,21 @@ public class NotAmazon extends Application{
                 layout.add(rateBtn,0,13);
             }else if(itemInfo[3].equals("0") && (userInfo[0] != itemInfo[1])){
                 purchaseBtn = new Button("Purchase");
-
+                
                 purchaseBtn.setOnAction(event -> {
                     Alert confirm = new Alert(AlertType.CONFIRMATION,"Are you sure you want to make this purchase?",
-                    ButtonType.YES,ButtonType.NO);
+                                              ButtonType.YES,ButtonType.NO);
                     confirm.setTitle("Confirming Purchase");
                     confirm.showAndWait();
                     if(confirm.getResult() == ButtonType.YES){
                         Alert address = new Alert(AlertType.CONFIRMATION,"Please confirm your address: " +
-                                userInfo[3],ButtonType.OK,ButtonType.CANCEL);
+                                                  userInfo[3],ButtonType.OK,ButtonType.CANCEL);
                         address.setTitle("Confirming Purchase");
                         address.showAndWait();
                         if(address.getResult() == ButtonType.OK){
                             DataManager.addTransaction(itemInfo[0],itemInfo[1],itemInfo[2],thisUser);
                             Text thankyou = new Text("Thank you for your purchase of " + itemInfo[0] + ", " + userInfo[1]
-                            + "!");
+                                                     + "!");
                             Alert thankyouAlert = new Alert(AlertType.CONFIRMATION, thankyou.getText(), ButtonType.FINISH);
                             thankyouAlert.showAndWait();
                         }else if(address.getResult() == ButtonType.CANCEL){
@@ -2099,18 +2099,18 @@ public class NotAmazon extends Application{
                         window.setScene(ouMainScene);
                     }
                 });
-
+                
                 layout.add(purchaseBtn,0,9);
-
+                
                 itemLabel.setFont(Font.font("Segoe UI Bold",15));
                 seller.setFont(Font.font("Segoe UI Bold",15));
                 itemCondition.setFont(Font.font("Segoe UI Bold",13));
                 itemPrice.setFont(Font.font("Segoe UI Bold", 13));
-
+                
                 layout.setVgap(5);
                 layout.setHgap(10);
                 layout.setPadding(new Insets(25, 25, 25, 25));
-
+                
                 layout.add(sceneTitle,0,0,2,1);
                 layout.add(searchBar, 0, 2, 2, 1);
                 layout.add(searchBtn, 2, 2, 2, 1);
@@ -2123,16 +2123,16 @@ public class NotAmazon extends Application{
                 layout.add(reportBtn,1,13);
                 layout.add(rateBtn,0,13);
             }else if(itemInfo[3].equals("0") && (userInfo[0].equals(itemInfo[1]))){
-
+                
                 itemLabel.setFont(Font.font("Segoe UI Bold",15));
                 seller.setFont(Font.font("Segoe UI Bold",15));
                 itemCondition.setFont(Font.font("Segoe UI Bold",13));
                 itemPrice.setFont(Font.font("Segoe UI Bold", 13));
-
+                
                 layout.setVgap(5);
                 layout.setHgap(10);
                 layout.setPadding(new Insets(25, 25, 25, 25));
-
+                
                 layout.add(sceneTitle,0,0,2,1);
                 layout.add(searchBar, 0, 2, 2, 1);
                 layout.add(searchBtn, 2, 2, 2, 1);
@@ -2145,7 +2145,7 @@ public class NotAmazon extends Application{
             }
         }
     }
-
+    
     class SUMainPage extends Scene{
         GridPane layout;
         Text sceneTitle;
@@ -2166,7 +2166,7 @@ public class NotAmazon extends Application{
         ImageView bListView;
         ObservableList searchResultList;
         ListView searchResultListView;
-
+        
         public SUMainPage() {
             super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
@@ -2175,14 +2175,14 @@ public class NotAmazon extends Application{
             reportTitle = new Text("Report/Warnings");
             pendItemAppTitle = new Text("Pending Items Apps");
             blackListTitle = new Text("Blacklisted Item");
-
+            
             searchBar = new TextField();
-
+            
             pendAppTitle.setFont(Font.font("Segoe UI Bold",25));
             reportTitle.setFont(Font.font("Segoe UI Bold",25));
             pendItemAppTitle.setFont(Font.font("Segoe UI Bold",25));
             blackListTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            
             userAppImage = new Image("appImage.jpg");
             userAppView = new ImageView();
             userAppView.setImage(userAppImage);
@@ -2192,7 +2192,7 @@ public class NotAmazon extends Application{
                 pendAppScene = new PendAppPage();
                 window.setScene(pendAppScene);
             });
-
+            
             itemAppImage = new Image("itemApp.png");
             itemAppView = new ImageView();
             itemAppView.setImage(itemAppImage);
@@ -2200,42 +2200,42 @@ public class NotAmazon extends Application{
             itemAppView.setFitWidth(200);
             itemAppView.setPickOnBounds(true);
             itemAppView.setOnMouseClicked((MouseEvent) -> {
-            	pendItemScene = new PendItemPage();
-            	window.setScene(pendItemScene);
+                pendItemScene = new PendItemPage();
+                window.setScene(pendItemScene);
             });
-
+            
             reportImage = new Image("reportImage.png");
             reportView = new ImageView();
             reportView.setImage(reportImage);
             reportView.setFitHeight(200);
             reportView.setFitWidth(200);
             reportView.setOnMouseClicked((MouseEvent) -> {
-            	pendReportScene = new ReportPage();
-            	window.setScene(pendReportScene);
+                pendReportScene = new ReportPage();
+                window.setScene(pendReportScene);
             });
-
+            
             bListImage = new Image("blackListImage.png");
             bListView = new ImageView();
             bListView.setImage(bListImage);
             bListView.setFitHeight(200);
             bListView.setFitWidth(200);
             bListView.setOnMouseClicked((MouseEvent) -> {
-            	bListScene = new BlackListPage();
-            	window.setScene(bListScene);
+                bListScene = new BlackListPage();
+                window.setScene(bListScene);
             });
-
-
+            
+            
             searchBtn = new Button("Search");
             searchBtn.setOnAction(event -> {
                 if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
                     searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
                     searchResultListView = new ListView<>(searchResultList);
-
+                    
                     GridPane ouSearchResults = new GridPane();
                     Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
-
+                    
                     sceneTitle = new Text("<banner>NotAmazon logo<banner>");
-
+                    
                     sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -2245,7 +2245,7 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -2256,42 +2256,42 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-
+                    
                     Button backBtn = new Button("Back");
-
+                    
                     backBtn.setOnAction(e -> {
                         guMainScene = new GUMainPage();
                         window.setScene(guMainScene);
                     });
-
+                    
                     searchResultListView.setPrefWidth(600);
                     searchResultListView.setPrefHeight(600);
                     searchResultListView.setOrientation(Orientation.VERTICAL);
                     ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
-
+                    
                     // New window (Stage)
                     Stage resultsWindow = new Stage();
                     resultsWindow.setScene(ouSearchResultScene);
-
+                    
                     ouSearchResults.setHgap(10);
                     ouSearchResults.setVgap(10);
                     ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
                     ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
                     ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
                     ouSearchResults.add(backBtn, 0, 2);
-
+                    
                     resultsWindow.show();
                 }
             });
-
+            
             signOutBtn = new Button("Sign Out");
             signOutBtn.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
             });
-
-
-
+            
+            
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
@@ -2311,13 +2311,13 @@ public class NotAmazon extends Application{
             layout.add(bListView, 2, 13, 2, 1);
         }
     }
-
+    
     class PendAppPage extends Scene{
-    	GridPane layout;
-    	Text sceneTitle;
-    	Button backBtn;
-    	Button viewBtn;
-    	ObservableList<String> listOfApp;
+        GridPane layout;
+        Text sceneTitle;
+        Button backBtn;
+        Button viewBtn;
+        ObservableList<String> listOfApp;
         ListView<String> appListView;
         Alert confirm;
         String [] userInfo;
@@ -2327,81 +2327,81 @@ public class NotAmazon extends Application{
         String addr;
         String phone;
         String cc;
-
-    	public PendAppPage() {
-    		super(new GridPane(),700,700);
+        
+        public PendAppPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             listOfApp = FXCollections.observableArrayList(DataManager.getListOfApp());
             appListView = new ListView<>(listOfApp);
             sceneTitle = new Text("Pending User Applications");
-
+            
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            
             viewBtn = new Button("View");
             viewBtn.setOnAction(e -> {
-            	currentApp = appListView.getSelectionModel().getSelectedItem().toString();
-            	userInfo = DataManager.getUserApp(currentApp);
+                currentApp = appListView.getSelectionModel().getSelectedItem().toString();
+                userInfo = DataManager.getUserApp(currentApp);
                 user = userInfo[0];
                 first = userInfo[1];
                 last = userInfo[2];
                 addr = userInfo[3];
                 phone = userInfo[4];
                 cc = userInfo[5];
-
+                
                 confirm = new Alert(AlertType.CONFIRMATION,
-                		"Username: "+user
-                		+"\nFirst Name: "+first
-                		+"\nLast Name: "+last
-                		+"\nAddress: "+addr
-                		+"\nPhone Number: "+phone
-                		+"\nCredit Card Number: "+cc
-                		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-
-            	if(appListView.getSelectionModel().getSelectedItem() != null){
-            		confirm.showAndWait();
-            		if(confirm.getResult() == ButtonType.YES) {
-            			DataManager.addNewUser(currentApp);
-            			DataManager.defaultUserPass(currentApp);
-                		DataManager.deleteUserApp(currentApp);
-                		pendAppScene = new PendAppPage();
-                		window.setScene(pendAppScene);
-            		}
-            		else if(confirm.getResult() == ButtonType.NO) {
-            			DataManager.deleteUserApp(currentApp);
-                    	pendAppScene = new PendAppPage();
-                    	window.setScene(pendAppScene);
-            		}
-            	}
+                                    "Username: "+user
+                                    +"\nFirst Name: "+first
+                                    +"\nLast Name: "+last
+                                    +"\nAddress: "+addr
+                                    +"\nPhone Number: "+phone
+                                    +"\nCredit Card Number: "+cc
+                                    +"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                
+                if(appListView.getSelectionModel().getSelectedItem() != null){
+                    confirm.showAndWait();
+                    if(confirm.getResult() == ButtonType.YES) {
+                        DataManager.addNewUser(currentApp);
+                        DataManager.defaultUserPass(currentApp);
+                        DataManager.deleteUserApp(currentApp);
+                        pendAppScene = new PendAppPage();
+                        window.setScene(pendAppScene);
+                    }
+                    else if(confirm.getResult() == ButtonType.NO) {
+                        DataManager.deleteUserApp(currentApp);
+                        pendAppScene = new PendAppPage();
+                        window.setScene(pendAppScene);
+                    }
+                }
             });
             
             backBtn = new Button("Back");
             backBtn.setOnAction(event -> {
-            	suMainScene = new SUMainPage();
-            	window.setScene(suMainScene);
+                suMainScene = new SUMainPage();
+                window.setScene(suMainScene);
             });
             
             appListView.setPrefWidth(300);
             appListView.setPrefHeight(400);
             appListView.setOrientation(Orientation.VERTICAL);
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(appListView, 0, 1, 2, 1);
             layout.add(backBtn,0,2,2,1);
             layout.add(viewBtn, 2, 2, 2, 1);
-    	}
+        }
     }
-
+    
     class PendItemPage extends Scene{
-    	GridPane layout;
-    	Text sceneTitle;
-    	Button backBtn;
-    	Button viewBtn;
-    	ObservableList<String> listOfItem;
+        GridPane layout;
+        Text sceneTitle;
+        Button backBtn;
+        Button viewBtn;
+        ObservableList<String> listOfItem;
         ListView<String> itemListView;
         Alert confirm;
         String [] itemInfo;
@@ -2409,52 +2409,52 @@ public class NotAmazon extends Application{
         String itemName;
         String price;
         String itemCondition;
-
-    	public PendItemPage() {
-    		super(new GridPane(),700,700);
+        
+        public PendItemPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             listOfItem = FXCollections.observableArrayList(DataManager.getListOfItemApp());
             itemListView = new ListView<>(listOfItem);
             sceneTitle = new Text("Pending Item Applications");
-
+            
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            
             viewBtn = new Button("View");
             viewBtn.setOnAction(e -> {
-            	currentApp = itemListView.getSelectionModel().getSelectedItem().toString();
-            	itemInfo = DataManager.getItemAppInfo(currentApp);
-            	itemName = itemInfo[0];
+                currentApp = itemListView.getSelectionModel().getSelectedItem().toString();
+                itemInfo = DataManager.getItemAppInfo(currentApp);
+                itemName = itemInfo[0];
                 price = itemInfo[1];
                 itemCondition = itemInfo[2];
                 seller = itemInfo[3];
-
+                
                 confirm = new Alert(AlertType.CONFIRMATION,
-                		"Item Name: "+itemName
-                		+"\nSeller: "+seller
-                		+"\nPrice: $"+price
-                		+"\nItem Condition: "+itemCondition
-                		+"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-            	if(itemListView.getSelectionModel().getSelectedItem() != null){
-            		confirm.showAndWait();
-            		if(confirm.getResult() == ButtonType.YES) {
-            			DataManager.addNewItem(itemName);
-            			DataManager.defaultBidPrice(itemName);
-                		DataManager.deleteItemApp(itemName);
-                		pendItemScene = new PendItemPage();
-                		window.setScene(pendItemScene);
-            		}
-            		else if(confirm.getResult() == ButtonType.NO) {
-            			DataManager.deleteItemApp(currentApp);
-                    	pendItemScene = new PendItemPage();
-                    	window.setScene(pendItemScene);
-            		}
-            	}
+                                    "Item Name: "+itemName
+                                    +"\nSeller: "+seller
+                                    +"\nPrice: $"+price
+                                    +"\nItem Condition: "+itemCondition
+                                    +"\nApprove application?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                if(itemListView.getSelectionModel().getSelectedItem() != null){
+                    confirm.showAndWait();
+                    if(confirm.getResult() == ButtonType.YES) {
+                        DataManager.addNewItem(itemName);
+                        DataManager.defaultBidPrice(itemName);
+                        DataManager.deleteItemApp(itemName);
+                        pendItemScene = new PendItemPage();
+                        window.setScene(pendItemScene);
+                    }
+                    else if(confirm.getResult() == ButtonType.NO) {
+                        DataManager.deleteItemApp(currentApp);
+                        pendItemScene = new PendItemPage();
+                        window.setScene(pendItemScene);
+                    }
+                }
             });
-
+            
             backBtn = new Button("Back");
             backBtn.setOnAction(event -> {
-            	suMainScene = new SUMainPage();
-            	window.setScene(suMainScene);
+                suMainScene = new SUMainPage();
+                window.setScene(suMainScene);
             });
             
             layout.setAlignment(Pos.BASELINE_CENTER);
@@ -2466,67 +2466,67 @@ public class NotAmazon extends Application{
             layout.add(itemListView, 0, 1, 2, 1);
             layout.add(backBtn, 0, 2, 2, 1);
             layout.add(viewBtn, 2, 2, 2, 1);
-
-    	}
+            
+        }
     }
-
+    
     class ReportPage extends Scene{
-    	GridPane layout;
-    	Text sceneTitle;
-    	Button backBtn;
-    	ObservableList<String> listOfReport;
+        GridPane layout;
+        Text sceneTitle;
+        Button backBtn;
+        ObservableList<String> listOfReport;
         ListView<String> reportListView;
-
-    	public ReportPage() {
-    		super(new GridPane(),700,700);
+        
+        public ReportPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             listOfReport = FXCollections.observableArrayList();
             reportListView = new ListView<>(listOfReport);
             sceneTitle = new Text("Report Page");
-
+            
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
-
+            
             backBtn = new Button("Back");
             backBtn.setOnAction(event -> {
-            	suMainScene = new SUMainPage();
-            	window.setScene(suMainScene);
+                suMainScene = new SUMainPage();
+                window.setScene(suMainScene);
             });
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(reportListView, 0, 1, 2, 1);
             layout.add(backBtn, 0, 2, 2, 1);
-
-    	}
+            
+        }
     }
-
+    
     class BlackListPage extends Scene{
-    	GridPane layout;
-    	Text sceneTitle;
-    	Text addTabooTitle;
-    	Text bListWord;
-    	TextField bListField;
-    	Button backBtn;
-    	Button addBtn;
-    	Button addWordBtn;
-    	Button removeBtn;
-    	ObservableList<String> blackList;
+        GridPane layout;
+        Text sceneTitle;
+        Text addTabooTitle;
+        Text bListWord;
+        TextField bListField;
+        Button backBtn;
+        Button addBtn;
+        Button addWordBtn;
+        Button removeBtn;
+        ObservableList<String> blackList;
         ListView<String> blackListView;
         String currentWord;
-
-    	public BlackListPage() {
-    		super(new GridPane(),700,700);
+        
+        public BlackListPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             blackList = FXCollections.observableArrayList(DataManager.getListOfBListWords());
             blackListView = new ListView<>(blackList);
             sceneTitle = new Text("Black List Page");
             addTabooTitle = new Text("Add to List");
             bListWord = new Text("Blacklist Word: ");
-
+            
             sceneTitle.setFont(Font.font("Segoe UI Bold",25));
             addTabooTitle.setFont(Font.font("Segoe UI Bold",25));
             
@@ -2538,14 +2538,14 @@ public class NotAmazon extends Application{
             addWordBtn = new Button("Add");
             
             backBtn.setOnAction(event -> {
-            	suMainScene = new SUMainPage();
-            	window.setScene(suMainScene);
+                suMainScene = new SUMainPage();
+                window.setScene(suMainScene);
             });
             
             addBtn.setOnAction(event -> {
-            	GridPane tabooLayout = new GridPane();
+                GridPane tabooLayout = new GridPane();
                 Scene tabooScene = new Scene(tabooLayout, 400, 200);
- 
+                
                 Stage tabooWindow = new Stage();
                 tabooWindow.setTitle("Blacklisting Word");
                 tabooWindow.setScene(tabooScene);
@@ -2563,119 +2563,119 @@ public class NotAmazon extends Application{
             });
             
             removeBtn.setOnAction(event -> {
-            	currentWord = blackListView.getSelectionModel().getSelectedItem().toString();
-            	DataManager.deleteBListWord(currentWord);
-            	bListScene = new BlackListPage();
-            	window.setScene(bListScene);
+                currentWord = blackListView.getSelectionModel().getSelectedItem().toString();
+                DataManager.deleteBListWord(currentWord);
+                bListScene = new BlackListPage();
+                window.setScene(bListScene);
             });
             
             addWordBtn.setOnAction(event -> {
-            	if(DataManager.checkValidBListWord(bListField.getText())) {
-            		DataManager.addBListWord(bListField.getText());
-            		Alert success = new Alert(AlertType.INFORMATION);
-            		success.setTitle("Valid Word");
-            		success.setHeaderText(null);
-            		success.setContentText("Valid word.");
-            		success.showAndWait();
-            	}
-            	else {
-            		Alert fail = new Alert(AlertType.ERROR);
-            		fail.setTitle("Error");
-            		fail.setHeaderText(null);
-            		fail.setContentText("Error! Word not added.");
-            		fail.showAndWait();
-            	}
+                if(DataManager.checkValidBListWord(bListField.getText())) {
+                    DataManager.addBListWord(bListField.getText());
+                    Alert success = new Alert(AlertType.INFORMATION);
+                    success.setTitle("Valid Word");
+                    success.setHeaderText(null);
+                    success.setContentText("Valid word.");
+                    success.showAndWait();
+                }
+                else {
+                    Alert fail = new Alert(AlertType.ERROR);
+                    fail.setTitle("Error");
+                    fail.setHeaderText(null);
+                    fail.setContentText("Error! Word not added.");
+                    fail.showAndWait();
+                }
             });
-
+            
             addBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
             layout.setPadding(new Insets(25, 25, 25, 25));
-
+            
             layout.add(sceneTitle, 0, 0, 2, 1);
             layout.add(blackListView, 0, 1, 2, 1);
             layout.add(backBtn, 0, 3, 2, 1);
             layout.add(removeBtn, 0, 2, 2, 1);
             layout.add(addBtn, 3, 2, 2, 1);
-    	}
+        }
     }
-
+    
     class SellItemAppPage extends Scene{
-    	GridPane layout;
-    	Text sellTitle;
-    	Button browseBtn;
-    	Button backBtn;
-    	Button submitBtn;
-    	FileChooser fileChooser;
-    	File upload;
-    	Image item;
-    	ImageView itemupload;
-    	Label itemLabel;
-    	Label item_typeLabel;
-    	Label priceLabel;
-    	Label item_conditionLabel;
-    	Label timeLabel;
-    	Label attachImageLabel;
-    	TextField itemTF;
-    	TextField item_typeTF;
-    	TextField priceTF;
-    	TextField item_conditionTF;
-    	TextField timeTF;
-    	DecimalFormat money;
-    	DecimalFormat time;
-    	Alert confirm;
-    	Alert error;
-    	String imageAddr;
-
-    	public SellItemAppPage() {
-    		super(new GridPane(),700,700);
+        GridPane layout;
+        Text sellTitle;
+        Button browseBtn;
+        Button backBtn;
+        Button submitBtn;
+        FileChooser fileChooser;
+        File upload;
+        Image item;
+        ImageView itemupload;
+        Label itemLabel;
+        Label item_typeLabel;
+        Label priceLabel;
+        Label item_conditionLabel;
+        Label timeLabel;
+        Label attachImageLabel;
+        TextField itemTF;
+        TextField item_typeTF;
+        TextField priceTF;
+        TextField item_conditionTF;
+        TextField timeTF;
+        DecimalFormat money;
+        DecimalFormat time;
+        Alert confirm;
+        Alert error;
+        String imageAddr;
+        
+        public SellItemAppPage() {
+            super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             sellTitle = new Text("Sell/Auction");
             sellTitle.setFont(Font.font("Segoe UI Bold",25));
             browseBtn = new Button("Upload");
             backBtn = new Button("Back");
             submitBtn = new Button("Submit");
-
+            
             attachImageLabel = new Label("Attach image of item:");
             itemLabel = new Label("Item Name:");
             item_typeLabel = new Label("Sell/Auction?");
             priceLabel = new Label("Price:");
             item_conditionLabel = new Label("Item Condition:");
             timeLabel = new Label("Time (in minutes):");
-
+            
             itemTF = new TextField();
             item_typeTF = new TextField();
             item_typeTF.setPromptText("Type \"Sell\" or \"Auction\"");
             priceTF = new TextField();
             item_conditionTF = new TextField();
             timeTF = new TextField();
-
+            
             money = new DecimalFormat("0.00");
             money.setMinimumFractionDigits(2);
             money.setMaximumFractionDigits(2);
             money.setRoundingMode(RoundingMode.DOWN);
-
+            
             time = new DecimalFormat("#0");
-
+            
             //fileChooser
             fileChooser = new FileChooser();
             fileChooser.setTitle("Uploading image...");
             fileChooser.getExtensionFilters().addAll(
-            		new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
-            		new FileChooser.ExtensionFilter("PNG Files", "*.png")
-            );
+                                                     new FileChooser.ExtensionFilter("JPG Files", "*.jpg"),
+                                                     new FileChooser.ExtensionFilter("PNG Files", "*.png")
+                                                     );
             //fileChooser
             timeTF.setTextFormatter(new TextFormatter<>(c ->{
-            	if ( c.getControlNewText().isEmpty() )
+                if ( c.getControlNewText().isEmpty() )
                 {
                     return c;
                 }
-
+                
                 ParsePosition parsePosition = new ParsePosition( 0 );
                 Object object = time.parse( c.getControlNewText(), parsePosition );
-
+                
                 if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
                 {
                     return null;
@@ -2685,16 +2685,16 @@ public class NotAmazon extends Application{
                     return c;
                 }
             }));
-
+            
             priceTF.setTextFormatter(new TextFormatter<>(c ->{
-            	if ( c.getControlNewText().isEmpty() )
+                if ( c.getControlNewText().isEmpty() )
                 {
                     return c;
                 }
-
+                
                 ParsePosition parsePosition = new ParsePosition( 0 );
                 Object object = money.parse( c.getControlNewText(), parsePosition );
-
+                
                 if ( object == null || parsePosition.getIndex() < c.getControlNewText().length() )
                 {
                     return null;
@@ -2704,81 +2704,81 @@ public class NotAmazon extends Application{
                     return c;
                 }
             }));
-
+            
             browseBtn.setOnAction(e->{
-            	upload = fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
-            	if(upload != null) {
-            		imageAddr = upload.toURI().toString();
-            		item = new Image(imageAddr);
-            		itemupload = new ImageView();
-            		itemupload.setImage(item);
-            		itemupload.setFitHeight(200);
+                upload = fileChooser.showOpenDialog(browseBtn.getScene().getWindow());
+                if(upload != null) {
+                    imageAddr = upload.toURI().toString();
+                    item = new Image(imageAddr);
+                    itemupload = new ImageView();
+                    itemupload.setImage(item);
+                    itemupload.setFitHeight(200);
                     itemupload.setFitWidth(200);
                     layout.add(itemupload, 0, 2, 2, 1);
-            	}
+                }
             });
             
             backBtn.setOnAction(e->{
-            	window.setScene(ouMainScene);
+                window.setScene(ouMainScene);
             });
-
+            
             submitBtn.setOnAction(e->{
-            	if(upload == null) {
-            		error = new Alert(AlertType.WARNING,"Please upload an image of your item.",ButtonType.OK);
-            		error.showAndWait();
-            	}
-            	else if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
-            			priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
-            			timeTF.getText().isEmpty()) {
-            		error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
+                if(upload == null) {
+                    error = new Alert(AlertType.WARNING,"Please upload an image of your item.",ButtonType.OK);
+                    error.showAndWait();
+                }
+                else if(itemTF.getText().isEmpty() || item_typeTF.getText().isEmpty() ||
+                        priceTF.getText().isEmpty() || item_conditionTF.getText().isEmpty() ||
+                        timeTF.getText().isEmpty()) {
+                    error = new Alert(AlertType.WARNING,"An empty field has been detected. Please try again.",ButtonType.OK);
                     error.setTitle("Empty Field Error");
                     error.showAndWait();
-            	}
-            	else if(!item_typeTF.getText().toLowerCase().equals("sell")
-            			&& !item_typeTF.getText().toLowerCase().equals("auction")) {
-
-            		error = new Alert(AlertType.WARNING,"Invalid input, must be either \"Sell\" or \"Auction\"",ButtonType.OK);
-            		error.setTitle("Invalid Input");
-            		error.showAndWait();
-            	}
-            	else {
-            		double priceDouble=0;
-            		int timeInt=0;
-            		try {
-            			priceDouble = Double.parseDouble(priceTF.getText());
-            			priceDouble = Double.parseDouble(money.format(priceDouble));
-            			timeInt= Integer.parseInt(timeTF.getText());
-            		}catch(NumberFormatException x){
-            			x.printStackTrace();
-            		}
-            		confirm = new Alert(AlertType.CONFIRMATION,
-                    		"Please confirm your item application."
-            				+"\nItem Name: "+itemTF.getText()
-            				+"\nSeller: "+thisUser
-            				+"\nItem Type: "+item_typeTF.getText()
-            				+"\nPrice: $"+money.format(priceDouble)
-            				+"\nItem Condition: "+item_conditionTF.getText()
-            				+"\nTime: "+timeTF.getText()
-            				+"\nItem Image Location: "+imageAddr
-            				+"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-            		confirm.showAndWait();
-            		if(confirm.getResult() == ButtonType.YES){
-            			if(item_typeTF.getText().toLowerCase().equals("sell")) {
-            				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,0,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
-            			}
-            			if(item_typeTF.getText().toLowerCase().equals("auction")) {
-            				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,1,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
-            			}
-                		ouMainScene = new OUMainPage();
-                		window.setScene(ouMainScene);
-            		}
-            	}
+                }
+                else if(!item_typeTF.getText().toLowerCase().equals("sell")
+                        && !item_typeTF.getText().toLowerCase().equals("auction")) {
+                    
+                    error = new Alert(AlertType.WARNING,"Invalid input, must be either \"Sell\" or \"Auction\"",ButtonType.OK);
+                    error.setTitle("Invalid Input");
+                    error.showAndWait();
+                }
+                else {
+                    double priceDouble=0;
+                    int timeInt=0;
+                    try {
+                        priceDouble = Double.parseDouble(priceTF.getText());
+                        priceDouble = Double.parseDouble(money.format(priceDouble));
+                        timeInt= Integer.parseInt(timeTF.getText());
+                    }catch(NumberFormatException x){
+                        x.printStackTrace();
+                    }
+                    confirm = new Alert(AlertType.CONFIRMATION,
+                                        "Please confirm your item application."
+                                        +"\nItem Name: "+itemTF.getText()
+                                        +"\nSeller: "+thisUser
+                                        +"\nItem Type: "+item_typeTF.getText()
+                                        +"\nPrice: $"+money.format(priceDouble)
+                                        +"\nItem Condition: "+item_conditionTF.getText()
+                                        +"\nTime: "+timeTF.getText()
+                                        +"\nItem Image Location: "+imageAddr
+                                        +"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
+                    confirm.showAndWait();
+                    if(confirm.getResult() == ButtonType.YES){
+                        if(item_typeTF.getText().toLowerCase().equals("sell")) {
+                            DataManager.itemApplication(thisUser, itemTF.getText()
+                                                        ,0,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
+                        }
+                        if(item_typeTF.getText().toLowerCase().equals("auction")) {
+                            DataManager.itemApplication(thisUser, itemTF.getText()
+                                                        ,1,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
+                        }
+                        ouMainScene = new OUMainPage();
+                        window.setScene(ouMainScene);
+                    }
+                }
             });
-
+            
             submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
-
+            
             layout.setAlignment(Pos.BASELINE_CENTER);
             layout.setHgap(10);
             layout.setVgap(10);
@@ -2799,6 +2799,6 @@ public class NotAmazon extends Application{
             layout.add(timeTF, 1, 7);
             layout.add(submitBtn, 1, 8);
             layout.add(backBtn, 0, 8);
-            }
+        }
     }
 }
