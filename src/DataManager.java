@@ -67,6 +67,7 @@ public class DataManager{
             String createFriendReqTable = "CREATE TABLE IF NOT EXISTS friend("
             + "username VARCHAR(30),"
             + "friend_request VARCHAR(30) NOT NULL,"
+            + "messages VARCHAR(128),"
             + "PRIMARY KEY(username,friend_request));";
 
             String createReportsTable = "CREATE TABLE IF NOT EXISTS reports("
