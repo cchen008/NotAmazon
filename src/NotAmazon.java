@@ -1762,6 +1762,8 @@ public class NotAmazon extends Application{
         MenuItem signOut;
         Object [] itemInfo;
         String [] userInfo;
+        double placedBidPrice;
+    	double currentBidPrice;
 
         public ViewItemPage(){
             super(new GridPane(),500,500);
@@ -1856,7 +1858,7 @@ public class NotAmazon extends Application{
             if(itemInfo[3].equals("1") && (itemInfo[1] == userInfo[0])) {
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
-                currentBid = new Text("Current bid:  "); //itemInfo[2]
+                currentBid = new Text("Current bid:  "+ itemInfo[6]); //itemInfo[2]
                 myBid = new TextField();
 
                 Tooltip t1 = new Tooltip("Input a price higher than the current bid.");
@@ -1873,8 +1875,10 @@ public class NotAmazon extends Application{
                  });
 
                 placeBidBtn = new Button("Place bid");
-
-                /*placeBidBtn.setOnAction(event -> {
+                
+                placeBidBtn.setOnAction(event -> {
+                	placedBidPrice = Double.parseDouble(myBid.getText());
+                	currentBidPrice = Double.parseDouble(itemInfo[5]);
                     if(placedBidPrice < currentBidPrice) {
                         Alert alert = new Alert(AlertType.ERROR);
                         alert.setTitle("Invalid Input");
@@ -1882,12 +1886,12 @@ public class NotAmazon extends Application{
                         alert.setContentText("ERROR: Invalid input. Please try again.");
                         alert.showAndWait();
                     }else{
-                        DataManager.updateItemBid(thisItem, placedBidPrice);
+                        //DataManager.updateItemBid(thisItem, placedBidPrice);
                         viewItemScene = new ViewItemPage();
                         window.setScene(viewItemScene);
                     }
-                });*/
-
+                });
+				
                 timeLeft.setFont(Font.font("Segoe UI",13));
                 currentBid.setFont(Font.font("Segoe UI",13));
 
