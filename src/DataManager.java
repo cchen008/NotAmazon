@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "@Fcrt39jiv9";
+            String password = "cody1234";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -294,10 +294,10 @@ public class DataManager{
     }
 
     public static String [] getItemInfo(String item){
-        String [] itemInfo = {"","","","","",""};
+        String [] itemInfo = {"","","","","","",""};
 
         try{
-            String selectItemInfo = "SELECT item_name, seller_id, price, item_type, item_condition, time FROM item " +
+            String selectItemInfo = "SELECT item_name, seller_id, price, item_type, item_condition, time, bidding_price FROM item " +
                     "WHERE item_name=\"" +item+ "\";";
 
             ResultSet thisItem = statement.executeQuery(selectItemInfo);
@@ -308,6 +308,7 @@ public class DataManager{
                  itemInfo[3] = thisItem.getString("item_type");
                  itemInfo[4] = thisItem.getString("item_condition");
                  itemInfo[5] = thisItem.getString("time");
+                 itemInfo[6] = thisItem.getString("bidding_price");
 
                  thisItem.close();
 
@@ -322,8 +323,9 @@ public class DataManager{
 
     public static void addNewItem(String item) {
     	try {
-    		String addItem = "INSERT INTO item (item_name, seller_id, item_type, price, item_condition, time) "
-    				+ "SELECT * FROM item_application WHERE item_name = \"" +item+ "\";";
+    		String addItem = "INSERT INTO item (item_name,seller_id,item_type,price,bidding_price,item_condition,time) "
+    						+ "SELECT item_name, seller, item_type, price, price, item_condition, time "
+    						+ "FROM item_application WHERE item_name = \"" +item+ "\";";
     		statement.executeUpdate(addItem);
     	}catch(Exception expt) {
     		expt.printStackTrace();
