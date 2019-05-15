@@ -1972,7 +1972,7 @@ public class NotAmazon extends Application{
             itemCondition = new Text("Condition:  "); //itemInfo[4]
             itemPrice = new Text("Price: " + itemInfo[2]);
 
-            if(itemInfo[3].equals("1") && (itemInfo[1] == userInfo[0])) {
+            if(itemInfo[3].equals("1") && (userInfo[0] != itemInfo[1])) {
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  "+ itemInfo[6]); //itemInfo[2]
@@ -2016,7 +2016,7 @@ public class NotAmazon extends Application{
                 layout.add(displayTime, 1, 9);
                 layout.add(currentBid,0,10);
                 layout.add(myBid,0,11,2,1);
-                //layout.add(placeBidBtn,0,12);
+                layout.add(placeBidBtn,0,12);
 
                 itemLabel.setFont(Font.font("Segoe UI Bold",15));
                 seller.setFont(Font.font("Segoe UI Bold",15));
@@ -2039,7 +2039,7 @@ public class NotAmazon extends Application{
                 layout.add(reportBtn,1,13);
                 layout.add(rateBtn,0,13);
 
-            }else if(itemInfo[3].equals("1") && (itemInfo[1] != userInfo[0])){
+            }else if(itemInfo[3].equals("1") && userInfo[0].equals(itemInfo[1])){
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  " + itemInfo[6]); //itemInfo[2]
@@ -2071,7 +2071,7 @@ public class NotAmazon extends Application{
                 layout.add(itemPrice,0,8,2,1);
                 layout.add(reportBtn,1,13);
                 layout.add(rateBtn,0,13);
-            }else if(itemInfo[3].equals("0") && (itemInfo[1] == userInfo[0])){
+            }else if(itemInfo[3].equals("0") && (userInfo[0] != itemInfo[1])){
                 purchaseBtn = new Button("Purchase");
 
                 purchaseBtn.setOnAction(event -> {
@@ -2122,7 +2122,7 @@ public class NotAmazon extends Application{
                 layout.add(itemPrice,0,8,2,1);
                 layout.add(reportBtn,1,13);
                 layout.add(rateBtn,0,13);
-            }else if(itemInfo[3].equals("0") && (itemInfo[1] != userInfo[0])){
+            }else if(itemInfo[3].equals("0") && (userInfo[0].equals(itemInfo[1]))){
 
                 itemLabel.setFont(Font.font("Segoe UI Bold",15));
                 seller.setFont(Font.font("Segoe UI Bold",15));
