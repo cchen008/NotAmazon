@@ -1838,6 +1838,12 @@ public class NotAmazon extends Application{
                 window.setScene(rateUserScene);
             });
 
+            reportBtn = new Button("Report?");
+            reportBtn.setOnAction(event -> {
+                reportAppScene = new ReportAppPage();
+                window.setScene(reportAppScene);
+            });
+
             itemInfo = DataManager.getItemInfo(thisItem);
             userInfo = DataManager.getPersonalInfo(thisUser);
             
@@ -1847,7 +1853,7 @@ public class NotAmazon extends Application{
             itemCondition = new Text("Condition:  "); //itemInfo[4]
             itemPrice = new Text("Price: " + itemInfo[2]);
 
-            if(itemInfo[3].equals("1") && (itemInfo[1] != userInfo[0])) {
+            if(itemInfo[3].equals("1") && (itemInfo[1] == userInfo[0])) {
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  "); //itemInfo[2]
@@ -1890,7 +1896,29 @@ public class NotAmazon extends Application{
                 layout.add(currentBid,0,10);
                 layout.add(myBid,0,11,2,1);
                 //layout.add(placeBidBtn,0,12);
-            }else if(itemInfo[3].equals("1") && (itemInfo[1] == userInfo[0])){
+
+                itemLabel.setFont(Font.font("Segoe UI Bold",15));
+                seller.setFont(Font.font("Segoe UI Bold",15));
+                itemCondition.setFont(Font.font("Segoe UI Bold",13));
+                itemPrice.setFont(Font.font("Segoe UI Bold", 13));
+
+                layout.setVgap(5);
+                layout.setHgap(10);
+                layout.setPadding(new Insets(25, 25, 25, 25));
+
+                layout.add(sceneTitle,0,0,2,1);
+                layout.add(searchBar, 0, 2, 2, 1);
+                layout.add(searchBtn, 2, 2, 2, 1);
+                layout.add(menu, 4, 2);
+                layout.add(itemLabel,0,5,2,1);
+                layout.add(seller,0,6,2,1);
+                layout.add(itemCondition,0,7);
+                layout.add(displayCondition, 1, 7);
+                layout.add(itemPrice,0,8,2,1);
+                layout.add(reportBtn,1,13);
+                layout.add(rateBtn,0,13);
+
+            }else if(itemInfo[3].equals("1") && (itemInfo[1] != userInfo[0])){
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  "); //itemInfo[2]
@@ -1901,7 +1929,28 @@ public class NotAmazon extends Application{
                 layout.add(timeLeft,0,9);
                 layout.add(displayTime, 1, 9);
                 layout.add(currentBid,0,10);
-            }else if(itemInfo[3].equals("0") && (itemInfo[1] != userInfo[0])){
+
+                itemLabel.setFont(Font.font("Segoe UI Bold",15));
+                seller.setFont(Font.font("Segoe UI Bold",15));
+                itemCondition.setFont(Font.font("Segoe UI Bold",13));
+                itemPrice.setFont(Font.font("Segoe UI Bold", 13));
+
+                layout.setVgap(5);
+                layout.setHgap(10);
+                layout.setPadding(new Insets(25, 25, 25, 25));
+
+                layout.add(sceneTitle,0,0,2,1);
+                layout.add(searchBar, 0, 2, 2, 1);
+                layout.add(searchBtn, 2, 2, 2, 1);
+                layout.add(menu, 4, 2);
+                layout.add(itemLabel,0,5,2,1);
+                layout.add(seller,0,6,2,1);
+                layout.add(itemCondition,0,7);
+                layout.add(displayCondition, 1, 7);
+                layout.add(itemPrice,0,8,2,1);
+                layout.add(reportBtn,1,13);
+                layout.add(rateBtn,0,13);
+            }else if(itemInfo[3].equals("0") && (itemInfo[1] == userInfo[0])){
                 purchaseBtn = new Button("Purchase");
 
                 purchaseBtn.setOnAction(event -> {
@@ -1931,34 +1980,48 @@ public class NotAmazon extends Application{
                 });
 
                 layout.add(purchaseBtn,0,9);
+
+                itemLabel.setFont(Font.font("Segoe UI Bold",15));
+                seller.setFont(Font.font("Segoe UI Bold",15));
+                itemCondition.setFont(Font.font("Segoe UI Bold",13));
+                itemPrice.setFont(Font.font("Segoe UI Bold", 13));
+
+                layout.setVgap(5);
+                layout.setHgap(10);
+                layout.setPadding(new Insets(25, 25, 25, 25));
+
+                layout.add(sceneTitle,0,0,2,1);
+                layout.add(searchBar, 0, 2, 2, 1);
+                layout.add(searchBtn, 2, 2, 2, 1);
+                layout.add(menu, 4, 2);
+                layout.add(itemLabel,0,5,2,1);
+                layout.add(seller,0,6,2,1);
+                layout.add(itemCondition,0,7);
+                layout.add(displayCondition, 1, 7);
+                layout.add(itemPrice,0,8,2,1);
+                layout.add(reportBtn,1,13);
+                layout.add(rateBtn,0,13);
+            }else if(itemInfo[3].equals("0") && (itemInfo[1] != userInfo[0])){
+
+                itemLabel.setFont(Font.font("Segoe UI Bold",15));
+                seller.setFont(Font.font("Segoe UI Bold",15));
+                itemCondition.setFont(Font.font("Segoe UI Bold",13));
+                itemPrice.setFont(Font.font("Segoe UI Bold", 13));
+
+                layout.setVgap(5);
+                layout.setHgap(10);
+                layout.setPadding(new Insets(25, 25, 25, 25));
+
+                layout.add(sceneTitle,0,0,2,1);
+                layout.add(searchBar, 0, 2, 2, 1);
+                layout.add(searchBtn, 2, 2, 2, 1);
+                layout.add(menu, 4, 2);
+                layout.add(itemLabel,0,5,2,1);
+                layout.add(seller,0,6,2,1);
+                layout.add(itemCondition,0,7);
+                layout.add(displayCondition, 1, 7);
+                layout.add(itemPrice,0,8,2,1);
             }
-
-            reportBtn = new Button("Report?");
-            reportBtn.setOnAction(event -> {
-                reportAppScene = new ReportAppPage();
-                window.setScene(reportAppScene);
-            });
-
-            itemLabel.setFont(Font.font("Segoe UI Bold",15));
-            seller.setFont(Font.font("Segoe UI Bold",15));
-            itemCondition.setFont(Font.font("Segoe UI Bold",13));
-            itemPrice.setFont(Font.font("Segoe UI Bold", 13));
-
-            layout.setVgap(5);
-            layout.setHgap(10);
-            layout.setPadding(new Insets(25, 25, 25, 25));
-
-            layout.add(sceneTitle,0,0,2,1);
-            layout.add(searchBar, 0, 2, 2, 1);
-            layout.add(searchBtn, 2, 2, 2, 1);
-            layout.add(menu, 4, 2);
-            layout.add(itemLabel,0,5,2,1);
-            layout.add(seller,0,6,2,1);
-            layout.add(itemCondition,0,7);
-            layout.add(displayCondition, 1, 7);
-            layout.add(itemPrice,0,8,2,1);
-            layout.add(reportBtn,1,13);
-            layout.add(rateBtn,0,13);
         }
     }
 
