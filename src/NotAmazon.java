@@ -44,7 +44,7 @@ public class NotAmazon extends Application{
     private ReportAppPage reportAppScene;
     private ReportPage pendReportScene;
     private BlackListPage bListScene;
-    private SellPage sellScene;
+    private SellItemAppPage sellItemAppScene;
     private ViewItemPage viewItemScene;
     private RateUserPage rateUserScene;
     private MyAccountPage myAccountScene;
@@ -593,8 +593,8 @@ public class NotAmazon extends Application{
             });
             
             sellBtn.setOnAction(event -> {
-            	sellScene = new SellPage();
-            	window.setScene(sellScene);
+            	sellItemAppScene = new SellItemAppPage();
+            	window.setScene(sellItemAppScene);
             });
             
             addFriendBtn.setOnAction(e->{
@@ -1839,7 +1839,7 @@ public class NotAmazon extends Application{
             itemInfo = DataManager.getItemInfo(thisItem);
             
             itemLabel = new Text(itemInfo[0]);
-            seller = new Text(itemInfo[1]);
+            seller = new Text("Seller: " + itemInfo[1]);
             displayCondition = new Text(itemInfo[4]);
             displayTime = new Text(itemInfo[5]);
             itemCondition = new Text("Condition:  "); //itemInfo[4]
@@ -1896,7 +1896,8 @@ public class NotAmazon extends Application{
             layout.add(searchBar, 0, 2, 2, 1);
             layout.add(searchBtn, 2, 2, 2, 1);
             layout.add(menu, 4, 2);
-            //layout.add(itemLabel,0,5,2,1);
+            layout.add(itemLabel,0,5,2,1);
+            layout.add(seller,0,6,2,1);
             layout.add(itemCondition,0,7);
             layout.add(displayCondition, 1, 7);
             layout.add(timeLeft,0,8);
@@ -2319,7 +2320,7 @@ public class NotAmazon extends Application{
     	}
     }
 
-    class SellPage extends Scene{
+    class SellItemAppPage extends Scene{
     	GridPane layout;
     	Text sellTitle;
     	Button browseBtn;
@@ -2346,7 +2347,7 @@ public class NotAmazon extends Application{
     	Alert error;
     	String imageAddr;
 
-    	public SellPage() {
+    	public SellItemAppPage() {
     		super(new GridPane(),700,700);
             layout = (GridPane)this.getRoot();
             sellTitle = new Text("Sell/Auction");
@@ -2487,8 +2488,8 @@ public class NotAmazon extends Application{
             				DataManager.itemApplication(thisUser, itemTF.getText()
                 					,1,priceDouble,item_conditionTF.getText(),timeInt);
             			}
-                		sellScene = new SellPage();
-                		window.setScene(sellScene);
+                		ouMainScene = new OUMainPage();
+                		window.setScene(ouMainScene);
             		}
             	}
             });
