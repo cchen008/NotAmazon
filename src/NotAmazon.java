@@ -1553,16 +1553,16 @@ public class NotAmazon extends Application{
         Tooltip t1;
         
         private boolean validateCCNum() {
-            Pattern p = Pattern.compile("((?=.*\\d).{10})");
+            Pattern p = Pattern.compile("((?=.*\\d).{16})");
             Matcher m = p.matcher(newCC_field.getText());
             
             if(m.matches()){
                 return true;
             }else {
                 Alert alert = new Alert(AlertType.WARNING);
-                alert.setTitle("Validate Phone Number");
+                alert.setTitle("Validate Credit Card Number");
                 alert.setHeaderText(null);
-                alert.setContentText("Invalid input of phone number. Please try again.");
+                alert.setContentText("Invalid input of credit card number. Please try again.");
                 alert.showAndWait();
                 
                 return false;
