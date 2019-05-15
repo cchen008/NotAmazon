@@ -323,6 +323,14 @@ public class DataManager{
     	}
     }
 
+    public static void defaultBidPrice(String item) {
+    	try {
+    		String defaultBid = "UPDATE item SET bidding_price = price WHERE item_name = \"" +item+ "\" and item_type = 1;";
+    		statement.executeUpdate(defaultBid);
+    	}catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
     //create new user
     public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum,
                                      String creditNum){
@@ -459,7 +467,7 @@ public class DataManager{
 
         return false;
     }
-
+    
     public static void updateUserName(String username, String newFirst, String newLast){
         try{
             String updateQuery = "UPDATE User SET first_name=\"" +newFirst+ "\", last_name=\"" +newLast+ "\" WHERE user_id=\"" +username+ "\";";
@@ -510,9 +518,9 @@ public class DataManager{
         }
     }
 
-    public static void updateItemBid(String item, double bidPrice){
+    public static void updateItemBid(String username, String item, double bidPrice){
         try{
-            String updateQuery = "UPDATE item SET price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\";";
+            String updateQuery = "UPDATE item SET price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\" AND seller_id = \"" +username+ "\" ;";
             statement.executeUpdate(updateQuery);
         }catch(Exception expt){
             expt.printStackTrace();
@@ -668,6 +676,7 @@ public class DataManager{
     	return false;
     }
 
+    
     public static void shutdown(){
         try{
             if(connection!= null)
