@@ -519,7 +519,6 @@ public class NotAmazon extends Application{
         ObservableList<String> friendList;
         ListView<String> friendListView;
         String friend;
-        String itemName;
 
         public OUMainPage() {
             super(new GridPane(),900,800);
@@ -581,6 +580,7 @@ public class NotAmazon extends Application{
 
             searchBtn.setOnAction(event -> {
             	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+
             		ouSearchItemScene = new OUSearchItemPage();
                     window.setScene(ouSearchItemScene);
             	}
@@ -1664,6 +1664,8 @@ public class NotAmazon extends Application{
         MenuItem signOut;
         TextField searchBar;
         Button searchBtn;
+        ObservableList<String> searchResultList;
+        ListView<String> searchResultListView;
 
         public OUSearchItemPage() {
             super(new GridPane(),700,700);
@@ -1676,6 +1678,9 @@ public class NotAmazon extends Application{
             searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
 
             searchBtn = new Button("Search");
+
+            //searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems());
+            //searchResultListView = new ListView<>(searchResultList);
 
             sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
             	@Override
@@ -1842,7 +1847,7 @@ public class NotAmazon extends Application{
             itemCondition = new Text("Condition:  "); //itemInfo[4]
             itemPrice = new Text("Price: " + itemInfo[2]);
 
-            if(itemInfo[3].equals("0")) {
+            if(itemInfo[3].equals("1") && (itemInfo[1] != userInfo[0])) {
                 displayTime = new Text(itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  "); //itemInfo[2]
@@ -1885,7 +1890,18 @@ public class NotAmazon extends Application{
                 layout.add(currentBid,0,10);
                 layout.add(myBid,0,11,2,1);
                 //layout.add(placeBidBtn,0,12);
-            }else if(itemInfo[3].equals("0")){
+            }else if(itemInfo[3].equals("1") && (itemInfo[1] == userInfo[0])){
+                displayTime = new Text(itemInfo[5]);
+                timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
+                currentBid = new Text("Current bid:  "); //itemInfo[2]
+
+                timeLeft.setFont(Font.font("Segoe UI",13));
+                currentBid.setFont(Font.font("Segoe UI",13));
+
+                layout.add(timeLeft,0,9);
+                layout.add(displayTime, 1, 9);
+                layout.add(currentBid,0,10);
+            }else if(itemInfo[3].equals("0") && (itemInfo[1] != userInfo[0])){
                 purchaseBtn = new Button("Purchase");
 
                 purchaseBtn.setOnAction(event -> {
@@ -1897,8 +1913,13 @@ public class NotAmazon extends Application{
                         Alert address = new Alert(AlertType.CONFIRMATION,"Please confirm your address: " +
                                 userInfo[3],ButtonType.OK,ButtonType.CANCEL);
                         address.setTitle("Confirming Purchase");
+                        address.showAndWait();
                         if(address.getResult() == ButtonType.OK){
-
+                            //Insert transaction to transactions table
+                            Text thankyou = new Text("Thank you for your purchase of " + itemInfo[0] + ", " + userInfo[1]
+                            + "!");
+                            Alert thankyouAlert = new Alert(AlertType.CONFIRMATION, thankyou.getText(), ButtonType.FINISH);
+                            thankyouAlert.showAndWait();
                         }else if(address.getResult() == ButtonType.CANCEL){
                             ouMainScene = new OUMainPage();
                             window.setScene(ouMainScene);

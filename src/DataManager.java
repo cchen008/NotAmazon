@@ -608,6 +608,22 @@ public class DataManager{
         return listOfItems;
     }
 
+    public static ArrayList<String> getListofSearchItems(String searchTerm){
+        ArrayList<String> listOfSearchItems = new ArrayList<>();
+        try{
+            String selectSearch = "SELECT item_name FROM item WHERE item_name = \"" + searchTerm + "\";";
+            ResultSet itemResults = statement.executeQuery(selectSearch);
+
+            while(itemResults.next()){
+                listOfSearchItems.add(itemResults.getString("item_name"));
+            }
+            itemResults.close();
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return listOfSearchItems;
+    }
+
     public static void addNewFriend(String username, String friend) {
         try {
             String addFriend = "INSERT INTO friend (username, friend_request) VALUES(\""+username+"\", \"" +friend+"\");";
