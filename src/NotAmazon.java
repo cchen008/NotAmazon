@@ -1760,7 +1760,7 @@ public class NotAmazon extends Application{
         MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem signOut;
-        String [] itemInfo;
+        Object [] itemInfo;
         String [] userInfo;
 
         public ViewItemPage(){
@@ -1841,14 +1841,14 @@ public class NotAmazon extends Application{
             itemInfo = DataManager.getItemInfo(thisItem);
             userInfo = DataManager.getPersonalInfo(thisUser);
             
-            itemLabel = new Text(itemInfo[0]);
+            itemLabel = new Text((String) itemInfo[0]);
             seller = new Text("Seller: " + itemInfo[1]);
-            displayCondition = new Text(itemInfo[4]);
+            displayCondition = new Text((String) itemInfo[4]);
             itemCondition = new Text("Condition:  "); //itemInfo[4]
             itemPrice = new Text("Price: " + itemInfo[2]);
 
             if(itemInfo[3].equals("1") && (itemInfo[1] != userInfo[0])) {
-                displayTime = new Text(itemInfo[5]);
+                displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  "); //itemInfo[2]
                 myBid = new TextField();
@@ -1891,7 +1891,7 @@ public class NotAmazon extends Application{
                 layout.add(myBid,0,11,2,1);
                 //layout.add(placeBidBtn,0,12);
             }else if(itemInfo[3].equals("1") && (itemInfo[1] == userInfo[0])){
-                displayTime = new Text(itemInfo[5]);
+                displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
                 currentBid = new Text("Current bid:  "); //itemInfo[2]
 
@@ -1915,7 +1915,7 @@ public class NotAmazon extends Application{
                         address.setTitle("Confirming Purchase");
                         address.showAndWait();
                         if(address.getResult() == ButtonType.OK){
-                            //Insert transaction to transactions table
+                            DataManager.addTransaction(itemInfo[0],itemInfo[1],itemInfo[2],thisUser);
                             Text thankyou = new Text("Thank you for your purchase of " + itemInfo[0] + ", " + userInfo[1]
                             + "!");
                             Alert thankyouAlert = new Alert(AlertType.CONFIRMATION, thankyou.getText(), ButtonType.FINISH);

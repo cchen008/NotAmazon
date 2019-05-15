@@ -120,7 +120,7 @@ public class DataManager{
         
     }
     //setup
-    public static void addTransaction(String item_name, String seller_id, Double price, String buyer_id) {
+    public static void addTransaction(Object item_name, Object seller_id, Object price, String buyer_id) {
     	try {
     		String addTransaction = "INSERT INTO transactions VALUES(\""
     				+item_name+"\",\""
@@ -132,7 +132,7 @@ public class DataManager{
     		expt.printStackTrace();
     	}
     }
-    
+
     public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time, String imageAddr) {
     	try {
     		String insertItemApp = "INSERT INTO item_application VALUES(\""
@@ -293,8 +293,8 @@ public class DataManager{
         return (ratings);
     }
 
-    public static String [] getItemInfo(String item){
-        String [] itemInfo = {"","","","","","",""};
+    public static Object[] getItemInfo(String item){
+        Object [] itemInfo = {"","","","","","",""};
 
         try{
             String selectItemInfo = "SELECT item_name, seller_id, price, item_type, item_condition, time, bidding_price FROM item " +
@@ -304,7 +304,7 @@ public class DataManager{
              if(thisItem.next()){
                  itemInfo[0] = thisItem.getString("item_name");
                  itemInfo[1] = thisItem.getString("seller_id");
-                 itemInfo[2] = thisItem.getString("price");
+                 itemInfo[2] = thisItem.getDouble("price");
                  itemInfo[3] = thisItem.getString("item_type");
                  itemInfo[4] = thisItem.getString("item_condition");
                  itemInfo[5] = thisItem.getString("time");
@@ -485,7 +485,7 @@ public class DataManager{
 
         return false;
     }
-    
+
     public static void updateUserName(String username, String newFirst, String newLast){
         try{
             String updateQuery = "UPDATE User SET first_name=\"" +newFirst+ "\", last_name=\"" +newLast+ "\" WHERE user_id=\"" +username+ "\";";
@@ -710,7 +710,6 @@ public class DataManager{
     	return false;
     }
 
-    
     public static void shutdown(){
         try{
             if(connection!= null)
