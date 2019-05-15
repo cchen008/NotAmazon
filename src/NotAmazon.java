@@ -1849,6 +1849,7 @@ public class NotAmazon extends Application{
 
             Tooltip t1 = new Tooltip("Input an price higher than the current bid.");
             t1.setFont(Font.font("Seogoe UI Bold",10));
+            myBid.setTooltip(t1);
 
             myBid.textProperty().addListener(new ChangeListener<String>() {
                  @Override
