@@ -1875,6 +1875,9 @@ public class NotAmazon extends Application{
                     }
                 });*/
 
+                timeLeft.setFont(Font.font("Segoe UI",13));
+                currentBid.setFont(Font.font("Segoe UI",13));
+
                 layout.add(timeLeft,0,9);
                 layout.add(displayTime, 1, 9);
                 layout.add(currentBid,0,10);
@@ -1913,10 +1916,10 @@ public class NotAmazon extends Application{
                 window.setScene(reportAppScene);
             });
 
-            //itemLabel.setFont(Font.font("Segoe UI Bold",15));
-            itemCondition.setFont(Font.font("Segoe UI",13));
-            timeLeft.setFont(Font.font("Segoe UI",13));
-            currentBid.setFont(Font.font("Segoe UI",13));
+            itemLabel.setFont(Font.font("Segoe UI Bold",15));
+            seller.setFont(Font.font("Segoe UI Bold",15));
+            itemCondition.setFont(Font.font("Segoe UI Bold",13));
+            itemPrice.setFont(Font.font("Segoe UI Bold", 13));
 
             layout.setVgap(5);
             layout.setHgap(10);
