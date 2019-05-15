@@ -518,6 +518,8 @@ public class NotAmazon extends Application{
         ListView<String> bidListView;
         ObservableList<String> friendList;
         ListView<String> friendListView;
+        ObservableList<String> searchResultList;
+        ListView<String> searchResultListView;
         String friend;
 
         public OUMainPage() {
@@ -580,9 +582,38 @@ public class NotAmazon extends Application{
 
             searchBtn.setOnAction(event -> {
             	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+            	    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                    searchResultListView = new ListView<>(searchResultList);
 
-            		ouSearchItemScene = new OUSearchItemPage();
-                    window.setScene(ouSearchItemScene);
+                    GridPane ouSearchResults = new GridPane();
+                    Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
+
+                    sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+
+                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount()==2) {
+                                ouMainScene = new OUMainPage();
+                                window.setScene(ouMainScene);
+                            }
+                        }
+                    });
+
+                    searchResultListView.setPrefWidth(300);
+                    searchResultListView.setPrefHeight(400);
+                    searchResultListView.setOrientation(Orientation.VERTICAL);
+
+                    // New window (Stage)
+                    Stage resultsWindow = new Stage();
+                    resultsWindow.setScene(ouSearchResultScene);
+
+                    ouSearchResults.setHgap(10);
+                    ouSearchResults.setVgap(10);
+                    ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
+                    ouSearchResults.add(searchResultListView, 2, 0, 2, 1);
+
+                    resultsWindow.show();
             	}
                 else {
                 	Alert fail = new Alert(AlertType.ERROR);
