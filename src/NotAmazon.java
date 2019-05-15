@@ -505,7 +505,6 @@ public class NotAmazon extends Application{
         MenuItem myAcc;
         MenuItem myTranHist;
         MenuItem signOut;
-        MenuItem item;
         TextField searchBar;
         TextField friendTextField;
         Button searchBtn;
@@ -634,8 +633,7 @@ public class NotAmazon extends Application{
             myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
             signOut = new MenuItem("Sign Out");
-            item = new MenuItem("Item");
-            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
 
 
             profile.setOnAction(event -> {
@@ -651,11 +649,6 @@ public class NotAmazon extends Application{
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
-            });
-            
-            item.setOnAction(event -> {
-            	viewItemScene = new ViewItemPage();
-            	window.setScene(viewItemScene);
             });
             
             signOut.setOnAction(event -> {
@@ -762,6 +755,16 @@ public class NotAmazon extends Application{
             itemsSale.setFont(Font.font("Segoe UI Bold",25));
             ratings.setFont(Font.font("Segoe UI Bold",25));
 
+            sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            	@Override
+            	public void handle(MouseEvent click) {
+            		if (click.getClickCount()==2) {
+            			ouMainScene = new OUMainPage();
+            			window.setScene(ouMainScene);
+            		}
+            	}
+            });
+            
             DropShadow dropShadow = new DropShadow();
             dropShadow.setOffsetX(2);
             dropShadow.setOffsetY(2);
@@ -900,6 +903,16 @@ public class NotAmazon extends Application{
             address.setFont(Font.font("Segoe UI Bold",13));
             phonenum.setFont(Font.font("Segoe UI Bold",13));
 
+            sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            	@Override
+            	public void handle(MouseEvent click) {
+            		if (click.getClickCount()==2) {
+            			ouMainScene = new OUMainPage();
+            			window.setScene(ouMainScene);
+            		}
+            	}
+            });
+            
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
@@ -1594,6 +1607,16 @@ public class NotAmazon extends Application{
             loginBtn = new Button("Login");
             signupBtn = new Button("Sign Up");
 
+            sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            	@Override
+            	public void handle(MouseEvent click) {
+            		if (click.getClickCount()==2) {
+            			guMainScene = new GUMainPage();
+            			window.setScene(guMainScene);
+            		}
+            	}
+            });
+            
             loginBtn.setOnAction(event -> {
                 loginScene = new LoginPage();
                 window.setScene(loginScene);
@@ -1642,6 +1665,16 @@ public class NotAmazon extends Application{
 
             searchBtn = new Button("Search");
 
+            sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            	@Override
+            	public void handle(MouseEvent click) {
+            		if (click.getClickCount()==2) {
+            			ouMainScene = new OUMainPage();
+            			window.setScene(ouMainScene);
+            		}
+            	}
+            });
+            
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
