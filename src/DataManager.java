@@ -11,7 +11,7 @@ public class DataManager{
         try{
             String hostLoc = "jdbc:mysql://localhost:3306/";
             String user = "root";
-            String password = "@Fcrt39jiv9";
+            String password = "cody1234";
 
             String createDatabase = "CREATE DATABASE IF NOT EXISTS NAserver;";
 
@@ -120,6 +120,19 @@ public class DataManager{
         
     }
     //setup
+    public static void addTransaction(String item_name, String seller_id, Double price, String buyer_id) {
+    	try {
+    		String addTransaction = "INSERT INTO transactions VALUES(\""
+    				+item_name+"\",\""
+    				+seller_id+"\",\""
+    				+price+"\",\""
+    				+buyer_id+"\");";
+    		statement.executeUpdate(addTransaction);
+    	}catch(Exception expt) {
+    		expt.printStackTrace();
+    	}
+    }
+    
     public static void itemApplication(String username, String item_name, int item_type, double price, String item_condition, int time, String imageAddr) {
     	try {
     		String insertItemApp = "INSERT INTO item_application VALUES(\""
@@ -281,10 +294,10 @@ public class DataManager{
     }
 
     public static String [] getItemInfo(String item){
-        String [] itemInfo = {"","","","","",""};
+        String [] itemInfo = {"","","","","","",""};
 
         try{
-            String selectItemInfo = "SELECT item_name, seller_id, price, item_type, item_condition, time FROM item " +
+            String selectItemInfo = "SELECT item_name, seller_id, price, item_type, item_condition, time, bidding_price FROM item " +
                     "WHERE item_name=\"" +item+ "\";";
 
             ResultSet thisItem = statement.executeQuery(selectItemInfo);
@@ -295,6 +308,7 @@ public class DataManager{
                  itemInfo[3] = thisItem.getString("item_type");
                  itemInfo[4] = thisItem.getString("item_condition");
                  itemInfo[5] = thisItem.getString("time");
+                 itemInfo[6] = thisItem.getString("bidding_price");
 
                  thisItem.close();
 
@@ -309,8 +323,9 @@ public class DataManager{
 
     public static void addNewItem(String item) {
     	try {
-    		String addItem = "INSERT INTO item (item_name, seller_id, item_type, price, item_condition, time) "
-    				+ "SELECT * FROM item_application WHERE item_name = \"" +item+ "\";";
+    		String addItem = "INSERT INTO item (item_name,seller_id,item_type,price,bidding_price,item_condition,time) "
+    						+ "SELECT item_name, seller, item_type, price, price, item_condition, time "
+    						+ "FROM item_application WHERE item_name = \"" +item+ "\";";
     		statement.executeUpdate(addItem);
     	}catch(Exception expt) {
     		expt.printStackTrace();
@@ -326,6 +341,14 @@ public class DataManager{
     	}
     }
 
+    public static void defaultBidPrice(String item) {
+    	try {
+    		String defaultBid = "UPDATE item SET bidding_price = price WHERE item_name = \"" +item+ "\" and item_type = 1;";
+    		statement.executeUpdate(defaultBid);
+    	}catch(Exception expt){
+            expt.printStackTrace();
+        }
+    }
     //create new user
     public static void createNewUser(String username, String firstName, String lastName, String address, String phoneNum,
                                      String creditNum){
@@ -462,7 +485,7 @@ public class DataManager{
 
         return false;
     }
-
+    
     public static void updateUserName(String username, String newFirst, String newLast){
         try{
             String updateQuery = "UPDATE User SET first_name=\"" +newFirst+ "\", last_name=\"" +newLast+ "\" WHERE user_id=\"" +username+ "\";";
@@ -513,9 +536,9 @@ public class DataManager{
         }
     }
 
-    public static void updateItemBid(String item, double bidPrice){
+    public static void updateItemBid(String username, String item, double bidPrice){
         try{
-            String updateQuery = "UPDATE item SET price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\";";
+            String updateQuery = "UPDATE item SET price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\" AND seller_id = \"" +username+ "\" ;";
             statement.executeUpdate(updateQuery);
         }catch(Exception expt){
             expt.printStackTrace();
@@ -687,6 +710,7 @@ public class DataManager{
     	return false;
     }
 
+    
     public static void shutdown(){
         try{
             if(connection!= null)
