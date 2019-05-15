@@ -538,7 +538,7 @@ public class DataManager{
     
     public static void updateItemBid(String username, String item, double bidPrice){
         try{
-            String updateQuery = "UPDATE item SET bidding_price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\" AND seller_id = \"" +username+ "\" ;";
+            String updateQuery = "UPDATE item SET bidding_price = \"" +bidPrice+ "\" ,bidder =\"" +username+ "\" WHERE item_name =\"" +item+ "\" AND seller_id = \"" +username+ "\" ;";
             statement.executeUpdate(updateQuery);
         }catch(Exception expt){
             expt.printStackTrace();
@@ -578,6 +578,23 @@ public class DataManager{
             expt.printStackTrace();
         }
         return listOfItemApp;
+    }
+    
+    public static ArrayList<String> getListOfBids(String username, String item){
+        ArrayList<String> listOfBidApp = new ArrayList<>();
+        try{
+            String selectItem = "SELECT item_name FROM item WHERE bidder = \"" +username+ "\" AND item_name= \"" +item+ "\";";
+            ResultSet itemBidInfo = statement.executeQuery(selectItem);
+            
+            while(itemBidInfo.next()){
+                listOfBidApp.add(itemBidInfo.getString("item_name"));
+            }
+            itemBidInfo.close();
+            
+        }catch(Exception expt){
+            expt.printStackTrace();
+        }
+        return listOfBidApp;
     }
     
     public static ArrayList<String> getListOfFriends(String username){
