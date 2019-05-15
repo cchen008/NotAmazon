@@ -35,8 +35,6 @@ public class NotAmazon extends Application{
     private OUMainPage ouMainScene;
     private TransactionPage transScene;
     private MyProfilePage myProfileScene;
-    private GUSearchItemPage guSearchItemScene;
-    private OUSearchItemPage ouSearchItemScene;
     private SUMainPage suMainScene;
     private PendAppPage pendAppScene;
     private PendItemPage pendItemScene;
