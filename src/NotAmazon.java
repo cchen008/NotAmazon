@@ -1909,7 +1909,7 @@ public class NotAmazon extends Application{
                 
                 placeBidBtn.setOnAction(event -> {
                 	placedBidPrice = Double.parseDouble(myBid.getText());
-                	currentBidPrice = Double.parseDouble(itemInfo[5]);
+                	currentBidPrice = Double.parseDouble(String.valueOf(itemInfo[5]));
                     if(placedBidPrice < currentBidPrice) {
                         Alert alert = new Alert(AlertType.ERROR);
                         alert.setTitle("Invalid Input");
@@ -1956,7 +1956,7 @@ public class NotAmazon extends Application{
             }else if(itemInfo[3].equals("1") && (itemInfo[1] != userInfo[0])){
                 displayTime = new Text((String) itemInfo[5]);
                 timeLeft = new Text("Time left (minutes):  "); //itemInfo[5]
-                currentBid = new Text("Current bid:  "); //itemInfo[2]
+                currentBid = new Text("Current bid:  " + itemInfo[6]); //itemInfo[2]
 
                 timeLeft.setFont(Font.font("Segoe UI",13));
                 currentBid.setFont(Font.font("Segoe UI",13));
