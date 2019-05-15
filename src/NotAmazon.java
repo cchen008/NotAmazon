@@ -35,8 +35,6 @@ public class NotAmazon extends Application{
     private OUMainPage ouMainScene;
     private TransactionPage transScene;
     private MyProfilePage myProfileScene;
-    private GUSearchItemPage guSearchItemScene;
-    private OUSearchItemPage ouSearchItemScene;
     private SUMainPage suMainScene;
     private PendAppPage pendAppScene;
     private PendItemPage pendItemScene;
@@ -82,8 +80,6 @@ public class NotAmazon extends Application{
         ouMainScene = new OUMainPage();
         transScene = new TransactionPage();
         myProfileScene = new MyProfilePage();
-        guSearchItemScene = new GUSearchItemPage();
-        ouSearchItemScene = new OUSearchItemPage();
         suMainScene = new SUMainPage();
         pendAppScene = new PendAppPage();
         pendItemScene = new PendItemPage();
@@ -121,6 +117,8 @@ public class NotAmazon extends Application{
         ImageView temp2View;
         ImageView temp3View;
         ImageView temp4View;
+        ObservableList searchResultList;
+        ListView searchResultListView;
         
 
         public GUMainPage() {
@@ -175,17 +173,68 @@ public class NotAmazon extends Application{
             loginBtn = new Button("Login");
             signUpBtn = new Button("Sign Up");
 
-            searchBtn.setOnAction(event ->{
-            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
-            		guSearchItemScene = new GUSearchItemPage();
-                    window.setScene(guSearchItemScene);
-            	}
+            searchBtn.setOnAction(event -> {
+                if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+                    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                    searchResultListView = new ListView<>(searchResultList);
+
+                    GridPane ouSearchResults = new GridPane();
+                    Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
+
+                    sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+
+                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount()==2) {
+                                guMainScene = new GUMainPage();
+                                window.setScene(guMainScene);
+                            }
+                        }
+                    });
+
+                    searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount()==2) {
+                                thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
+                                viewItemScene = new ViewItemPage();
+                                window.setScene(viewItemScene);
+                            }
+                        }
+                    });
+
+                    Button backBtn = new Button("Back");
+
+                    backBtn.setOnAction(e -> {
+                        guMainScene = new GUMainPage();
+                        window.setScene(guMainScene);
+                    });
+
+                    searchResultListView.setPrefWidth(600);
+                    searchResultListView.setPrefHeight(600);
+                    searchResultListView.setOrientation(Orientation.VERTICAL);
+                    ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
+
+                    // New window (Stage)
+                    Stage resultsWindow = new Stage();
+                    resultsWindow.setScene(ouSearchResultScene);
+
+                    ouSearchResults.setHgap(10);
+                    ouSearchResults.setVgap(10);
+                    ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
+                    ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
+                    ouSearchResults.add(sceneTitle,0,0,2,1);
+                    ouSearchResults.add(backBtn,0,2);
+
+                    resultsWindow.show();
+                }
                 else {
-                	Alert fail = new Alert(AlertType.ERROR);
-            		fail.setTitle("Error");
-            		fail.setHeaderText(null);
-            		fail.setContentText("Invalid input. Please try again.");
-            		fail.showAndWait();
+                    Alert fail = new Alert(AlertType.ERROR);
+                    fail.setTitle("Error");
+                    fail.setHeaderText(null);
+                    fail.setContentText("Invalid input. Please try again.");
+                    fail.showAndWait();
                 }
             });
 
@@ -581,8 +630,8 @@ public class NotAmazon extends Application{
             addFriendBtn = new Button("Add");
 
             searchBtn.setOnAction(event -> {
-            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
-            	    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+                    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
                     searchResultListView = new ListView<>(searchResultList);
 
                     GridPane ouSearchResults = new GridPane();
@@ -590,19 +639,38 @@ public class NotAmazon extends Application{
 
                     sceneTitle = new Text("<banner>NotAmazon logo<banner>");
 
-                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
-                            if (click.getClickCount()==2) {
-                                ouMainScene = new OUMainPage();
-                                window.setScene(ouMainScene);
+                            if (click.getClickCount() == 2) {
+                                guMainScene = new GUMainPage();
+                                window.setScene(guMainScene);
                             }
                         }
                     });
 
-                    searchResultListView.setPrefWidth(300);
-                    searchResultListView.setPrefHeight(400);
+                    searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
+                                viewItemScene = new ViewItemPage();
+                                window.setScene(viewItemScene);
+                            }
+                        }
+                    });
+
+                    Button backBtn = new Button("Back");
+
+                    backBtn.setOnAction(e -> {
+                        guMainScene = new GUMainPage();
+                        window.setScene(guMainScene);
+                    });
+
+                    searchResultListView.setPrefWidth(600);
+                    searchResultListView.setPrefHeight(600);
                     searchResultListView.setOrientation(Orientation.VERTICAL);
+                    ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
 
                     // New window (Stage)
                     Stage resultsWindow = new Stage();
@@ -611,16 +679,17 @@ public class NotAmazon extends Application{
                     ouSearchResults.setHgap(10);
                     ouSearchResults.setVgap(10);
                     ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
-                    ouSearchResults.add(searchResultListView, 2, 0, 2, 1);
+                    ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
+                    ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
+                    ouSearchResults.add(backBtn, 0, 2);
 
                     resultsWindow.show();
-            	}
-                else {
-                	Alert fail = new Alert(AlertType.ERROR);
-            		fail.setTitle("Error");
-            		fail.setHeaderText(null);
-            		fail.setContentText("Invalid input. Please try again.");
-            		fail.showAndWait();
+                } else {
+                    Alert fail = new Alert(AlertType.ERROR);
+                    fail.setTitle("Error");
+                    fail.setHeaderText(null);
+                    fail.setContentText("Invalid input. Please try again.");
+                    fail.showAndWait();
                 }
             });
             
@@ -778,7 +847,8 @@ public class NotAmazon extends Application{
         MenuItem myTranHist;
         MenuItem signOut;
         String [] personalInfo;
-        MenuItem item; //TEMP FOR TESTING
+        ObservableList searchResultList;
+        ListView searchResultListView;
 
 
         public MyProfilePage() {
@@ -817,9 +887,8 @@ public class NotAmazon extends Application{
             profile = new MenuItem("Profile");
             myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
-            item = new MenuItem("Item"); //TEMP FOR TESTING
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
@@ -836,28 +905,72 @@ public class NotAmazon extends Application{
                 window.setScene(transScene);
             });
 
-            //TEMP FOR TESTING
-            item.setOnAction(event -> {
-                viewItemScene = new ViewItemPage();
-                window.setScene(viewItemScene);
-            });
-
             signOut.setOnAction(event -> {
                 guMainScene = new GUMainPage();
                 window.setScene(guMainScene);
             });
 
-            searchBtn.setOnAction(event ->{
-            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
-            		ouSearchItemScene = new OUSearchItemPage();
-                    window.setScene(ouSearchItemScene);
-            	}
-                else {
-                	Alert fail = new Alert(AlertType.ERROR);
-            		fail.setTitle("Error");
-            		fail.setHeaderText(null);
-            		fail.setContentText("Invalid input. Please try again.");
-            		fail.showAndWait();
+            searchBtn.setOnAction(event -> {
+                if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+                    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                    searchResultListView = new ListView<>(searchResultList);
+
+                    GridPane ouSearchResults = new GridPane();
+                    Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
+
+                    sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+
+                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                ouMainScene = new OUMainPage();
+                                window.setScene(ouMainScene);
+                            }
+                        }
+                    });
+
+                    searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
+                                viewItemScene = new ViewItemPage();
+                                window.setScene(viewItemScene);
+                            }
+                        }
+                    });
+
+                    Button backBtn = new Button("Back");
+
+                    backBtn.setOnAction(e -> {
+                        guMainScene = new GUMainPage();
+                        window.setScene(guMainScene);
+                    });
+
+                    searchResultListView.setPrefWidth(600);
+                    searchResultListView.setPrefHeight(600);
+                    searchResultListView.setOrientation(Orientation.VERTICAL);
+                    ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
+
+                    // New window (Stage)
+                    Stage resultsWindow = new Stage();
+                    resultsWindow.setScene(ouSearchResultScene);
+
+                    ouSearchResults.setHgap(10);
+                    ouSearchResults.setVgap(10);
+                    ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
+                    ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
+                    ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
+                    ouSearchResults.add(backBtn, 0, 2);
+
+                    resultsWindow.show();
+                }else {
+                    Alert fail = new Alert(AlertType.ERROR);
+                    fail.setTitle("Error");
+                    fail.setHeaderText(null);
+                    fail.setContentText("Invalid input. Please try again.");
+                    fail.showAndWait();
                 }
             });
 
@@ -918,6 +1031,8 @@ public class NotAmazon extends Application{
         MenuItem myTranHist;
         MenuItem signOut;
         String [] personalInfo;
+        ObservableList searchResultList;
+        ListView searchResultListView;
 
         public MyAccountPage(){
             super(new GridPane(), 700, 350);
@@ -984,9 +1099,68 @@ public class NotAmazon extends Application{
                 window.setScene(guMainScene);
             });
 
-            searchBtn.setOnAction(event ->{
-                ouSearchItemScene = new OUSearchItemPage();
-                window.setScene(ouSearchItemScene);
+            searchBtn.setOnAction(event -> {
+                if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+                    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                    searchResultListView = new ListView<>(searchResultList);
+
+                    GridPane ouSearchResults = new GridPane();
+                    Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
+
+                    sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+
+                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                guMainScene = new GUMainPage();
+                                window.setScene(guMainScene);
+                            }
+                        }
+                    });
+
+                    searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
+                                viewItemScene = new ViewItemPage();
+                                window.setScene(viewItemScene);
+                            }
+                        }
+                    });
+
+                    Button backBtn = new Button("Back");
+
+                    backBtn.setOnAction(e -> {
+                        guMainScene = new GUMainPage();
+                        window.setScene(guMainScene);
+                    });
+
+                    searchResultListView.setPrefWidth(600);
+                    searchResultListView.setPrefHeight(600);
+                    searchResultListView.setOrientation(Orientation.VERTICAL);
+                    ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
+
+                    // New window (Stage)
+                    Stage resultsWindow = new Stage();
+                    resultsWindow.setScene(ouSearchResultScene);
+
+                    ouSearchResults.setHgap(10);
+                    ouSearchResults.setVgap(10);
+                    ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
+                    ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
+                    ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
+                    ouSearchResults.add(backBtn, 0, 2);
+
+                    resultsWindow.show();
+                }else {
+                    Alert fail = new Alert(AlertType.ERROR);
+                    fail.setTitle("Error");
+                    fail.setHeaderText(null);
+                    fail.setContentText("Invalid input. Please try again.");
+                    fail.showAndWait();
+                }
             });
 
             backBtn.setOnAction(event -> {
@@ -1627,146 +1801,6 @@ public class NotAmazon extends Application{
         }
     }
 
-    class GUSearchItemPage extends Scene{
-        GridPane layout;
-        Text sceneTitle;
-        Text searchResultTitle;
-        Button loginBtn;
-        Button signupBtn;
-        TextField searchBar;
-        Button searchBtn;
-
-        public GUSearchItemPage() {
-            super(new GridPane(),700,700);
-            layout = (GridPane)this.getRoot();
-
-            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
-            searchResultTitle = new Text("Search Results:");
-            searchBar = new TextField();
-
-            searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
-
-            searchBtn = new Button("Search");
-            loginBtn = new Button("Login");
-            signupBtn = new Button("Sign Up");
-
-            sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            	@Override
-            	public void handle(MouseEvent click) {
-            		if (click.getClickCount()==2) {
-            			guMainScene = new GUMainPage();
-            			window.setScene(guMainScene);
-            		}
-            	}
-            });
-            
-            loginBtn.setOnAction(event -> {
-                loginScene = new LoginPage();
-                window.setScene(loginScene);
-            });
-
-            signupBtn.setOnAction(event -> {
-                signupScene = new SignupPage();
-                window.setScene(signupScene);
-            });
-
-            layout.setAlignment(Pos.BASELINE_CENTER);
-            layout.setHgap(10);
-            layout.setVgap(10);
-            layout.setPadding(new Insets(25, 25, 25, 25));
-            //placing objects into scene
-            layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(searchBar, 0, 1, 2, 1);
-            layout.add(searchResultTitle, 0, 3, 2, 1);
-            layout.add(searchBtn, 2, 1, 2, 1);
-            layout.add(loginBtn,4,1,2,1);
-            layout.add(signupBtn,6,1,2,1);
-        }
-    }
-
-    class OUSearchItemPage extends Scene{
-        GridPane layout;
-        Text sceneTitle;
-        Text searchResultTitle;
-        MenuButton menu;
-        MenuItem profile;
-        MenuItem myAcc;
-        MenuItem myTranHist;
-        MenuItem signOut;
-        TextField searchBar;
-        Button searchBtn;
-        ObservableList<String> searchResultList;
-        ListView<String> searchResultListView;
-
-        public OUSearchItemPage() {
-            super(new GridPane(),700,700);
-            layout = (GridPane)this.getRoot();
-
-            sceneTitle = new Text("<banner>This is the main page of Not Amazon<banner>");
-            searchResultTitle = new Text("Search Results:");
-            searchBar = new TextField();
-
-            searchResultTitle.setFont(Font.font("Segoe UI Bold",25));
-
-            searchBtn = new Button("Search");
-
-            //searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems());
-            //searchResultListView = new ListView<>(searchResultList);
-
-            sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            	@Override
-            	public void handle(MouseEvent click) {
-            		if (click.getClickCount()==2) {
-            			ouMainScene = new OUMainPage();
-            			window.setScene(ouMainScene);
-            		}
-            	}
-            });
-            
-            //dropdown menu
-            menu = new MenuButton("My NotAmazon");
-            profile = new MenuItem("Profile");
-            myAcc = new MenuItem("My Account");
-            myTranHist = new MenuItem("My Transaction History");
-            signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
-
-
-            profile.setOnAction(event -> {
-                myProfileScene = new MyProfilePage();
-                window.setScene(myProfileScene);
-            });
-
-            myAcc.setOnAction(event -> {
-                myAccountScene = new MyAccountPage();
-                window.setScene(myAccountScene);
-            });
-
-            myTranHist.setOnAction(event -> {
-                transScene = new TransactionPage();
-                window.setScene(transScene);
-            });
-
-            signOut.setOnAction(event -> {
-                guMainScene = new GUMainPage();
-                window.setScene(guMainScene);
-            });
-            //dropdown menu
-
-            layout.setAlignment(Pos.BASELINE_CENTER);
-            layout.setHgap(10);
-            layout.setVgap(10);
-            layout.setPadding(new Insets(25, 25, 25, 25));
-            //placing objects into scene
-            layout.add(sceneTitle, 0, 0, 2, 1);
-            layout.add(menu, 4, 1, 2, 1);
-            layout.add(searchBar, 0, 1, 2, 1);
-            layout.add(searchResultTitle, 0, 3, 2, 1);
-            layout.add(searchBtn, 2, 1, 2, 1);
-
-        }
-    }
-
     class ViewItemPage extends Scene{
         GridPane layout;
         Text itemLabel;
@@ -1795,6 +1829,8 @@ public class NotAmazon extends Application{
         String [] userInfo;
         double placedBidPrice;
     	double currentBidPrice;
+    	ObservableList searchResultList;
+    	ListView searchResultListView;
 
         public ViewItemPage(){
             super(new GridPane(),500,500);
@@ -1847,19 +1883,69 @@ public class NotAmazon extends Application{
                 window.setScene(guMainScene);
             });
 
-            searchBtn.setOnAction(event ->{
-            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
-            		ouSearchItemScene = new OUSearchItemPage();
-                    window.setScene(ouSearchItemScene);
-            	}
-                else {
-                	Alert fail = new Alert(AlertType.ERROR);
-            		fail.setTitle("Error");
-            		fail.setHeaderText(null);
-            		fail.setContentText("Invalid input. Please try again.");
-            		fail.showAndWait();
-                }
-            });
+            searchBtn.setOnAction(event -> {
+            if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+                searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                searchResultListView = new ListView<>(searchResultList);
+
+                GridPane ouSearchResults = new GridPane();
+                Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
+
+                sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+
+                sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent click) {
+                        if (click.getClickCount() == 2) {
+                            ouMainScene = new OUMainPage();
+                            window.setScene(guMainScene);
+                        }
+                    }
+                });
+
+                searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent click) {
+                        if (click.getClickCount() == 2) {
+                            thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
+                            viewItemScene = new ViewItemPage();
+                            window.setScene(viewItemScene);
+                        }
+                    }
+                });
+
+                Button backBtn = new Button("Back");
+
+                backBtn.setOnAction(e -> {
+                    guMainScene = new GUMainPage();
+                    window.setScene(guMainScene);
+                });
+
+                searchResultListView.setPrefWidth(600);
+                searchResultListView.setPrefHeight(600);
+                searchResultListView.setOrientation(Orientation.VERTICAL);
+                ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
+
+                // New window (Stage)
+                Stage resultsWindow = new Stage();
+                resultsWindow.setScene(ouSearchResultScene);
+
+                ouSearchResults.setHgap(10);
+                ouSearchResults.setVgap(10);
+                ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
+                ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
+                ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
+                ouSearchResults.add(backBtn, 0, 2);
+
+                resultsWindow.show();
+            }else {
+                Alert fail = new Alert(AlertType.ERROR);
+                fail.setTitle("Error");
+                fail.setHeaderText(null);
+                fail.setContentText("Invalid input. Please try again.");
+                fail.showAndWait();
+            }
+        });
 
             backBtn.setOnAction(event -> {
                 ouMainScene = new OUMainPage();
@@ -2078,6 +2164,8 @@ public class NotAmazon extends Application{
         ImageView itemAppView;
         ImageView reportView;
         ImageView bListView;
+        ObservableList searchResultList;
+        ListView searchResultListView;
 
         public SUMainPage() {
             super(new GridPane(),700,700);
@@ -2139,16 +2227,60 @@ public class NotAmazon extends Application{
 
             searchBtn = new Button("Search");
             searchBtn.setOnAction(event -> {
-            	if(DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
-            		ouSearchItemScene = new OUSearchItemPage();
-                    window.setScene(ouSearchItemScene);
-            	}
-                else {
-                	Alert fail = new Alert(AlertType.ERROR);
-            		fail.setTitle("Error");
-            		fail.setHeaderText(null);
-            		fail.setContentText("Invalid input. Please try again.");
-            		fail.showAndWait();
+                if (DataManager.checkValidBListWord(searchBar.getText()) && !searchBar.getText().contentEquals("")) {
+                    searchResultList = FXCollections.observableArrayList(DataManager.getListofSearchItems(searchBar.getText()));
+                    searchResultListView = new ListView<>(searchResultList);
+
+                    GridPane ouSearchResults = new GridPane();
+                    Scene ouSearchResultScene = new Scene(ouSearchResults, 700, 700);
+
+                    sceneTitle = new Text("<banner>NotAmazon logo<banner>");
+
+                    sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                guMainScene = new GUMainPage();
+                                window.setScene(guMainScene);
+                            }
+                        }
+                    });
+
+                    searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent click) {
+                            if (click.getClickCount() == 2) {
+                                thisItem = searchResultListView.getSelectionModel().getSelectedItem().toString();
+                                viewItemScene = new ViewItemPage();
+                                window.setScene(viewItemScene);
+                            }
+                        }
+                    });
+
+                    Button backBtn = new Button("Back");
+
+                    backBtn.setOnAction(e -> {
+                        guMainScene = new GUMainPage();
+                        window.setScene(guMainScene);
+                    });
+
+                    searchResultListView.setPrefWidth(600);
+                    searchResultListView.setPrefHeight(600);
+                    searchResultListView.setOrientation(Orientation.VERTICAL);
+                    ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
+
+                    // New window (Stage)
+                    Stage resultsWindow = new Stage();
+                    resultsWindow.setScene(ouSearchResultScene);
+
+                    ouSearchResults.setHgap(10);
+                    ouSearchResults.setVgap(10);
+                    ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
+                    ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
+                    ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
+                    ouSearchResults.add(backBtn, 0, 2);
+
+                    resultsWindow.show();
                 }
             });
 
