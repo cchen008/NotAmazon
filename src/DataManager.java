@@ -54,6 +54,7 @@ public class DataManager{
             + "bidding_price DECIMAL(10,2),"
             + "item_condition VARCHAR(30) NOT NULL,"
             + "time INT(10),"
+            + "bidder VARCHAR(30),"
             + "FOREIGN KEY (seller_id) REFERENCES user(user_id));";
             
             String createtransactionTable = "CREATE TABLE IF NOT EXISTS transactions("
@@ -228,7 +229,7 @@ public class DataManager{
     }
 
     public static String [] getReportApp(String reportedUser){
-        String [] reportApp = {"","",""};
+        String [] reportApp = {"","","",""};
 
         try {
             String getReportApp = "SELECT reported_user, reported_by, reason, commnt FROM reports WHERE report_user=\"" +reportedUser+ "\";";
@@ -253,7 +254,7 @@ public class DataManager{
     }
 
     public static String [] getRatingsOf(String ratedUser){
-        String [] ratings = {"","",""};
+        String [] ratings = {"","","",""};
 
         try {
             String getRatings = "SELECT rated_user, rated_by, rating, commnt FROM ratings WHERE rated_user=\"" +ratedUser+ "\";";
@@ -306,7 +307,8 @@ public class DataManager{
 
     public static void addNewItem(String item) {
     	try {
-    		String addItem = "INSERT INTO item SELECT * FROM item_application WHERE item_name = \"" +item+ "\";";
+    		String addItem = "INSERT INTO item (item_name, seller_id, item_type, price, item_condition, time) "
+    				+ "SELECT * FROM item_application WHERE item_name = \"" +item+ "\";";
     		statement.executeUpdate(addItem);
     	}catch(Exception expt) {
     		expt.printStackTrace();
@@ -511,7 +513,7 @@ public class DataManager{
 
     public static void updateItemBid(String item, double bidPrice){
         try{
-            String updateQuery = "UPDATE items SET price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\";";
+            String updateQuery = "UPDATE item SET price = \"" +bidPrice+ "\" WHERE item_name =\"" +item+ "\";";
             statement.executeUpdate(updateQuery);
         }catch(Exception expt){
             expt.printStackTrace();

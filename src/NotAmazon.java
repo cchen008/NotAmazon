@@ -562,6 +562,17 @@ public class NotAmazon extends Application{
             	}
             });
             
+            bidListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            	@Override
+            	public void handle(MouseEvent click) {
+            		if (click.getClickCount()==2) {
+            			thisItem = bidListView.getSelectionModel().getSelectedItem().toString();
+            			viewItemScene = new ViewItemPage();
+            			window.setScene(viewItemScene);
+            		}
+            	}
+            });
+            
             searchBtn = new Button("Search");
             sellBtn = new Button("+");
             friendBtn = new Button("+");
@@ -1757,6 +1768,16 @@ public class NotAmazon extends Application{
             backBtn = new Button("Back");
             rateBtn = new Button("Rate");
 
+            sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            	@Override
+            	public void handle(MouseEvent click) {
+            		if (click.getClickCount()==2) {
+            			ouMainScene = new OUMainPage();
+            			window.setScene(ouMainScene);
+            		}
+            	}
+            });
+            
             //dropdown menu
             menu = new MenuButton("My NotAmazon");
             profile = new MenuItem("Profile");
