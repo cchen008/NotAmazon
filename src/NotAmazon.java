@@ -315,7 +315,9 @@ public class NotAmazon extends Application{
                             thisUser = tempUsername;
                             usr_TextField.setText("");
                             pass_TextField.setText("");
-                            suMainScene = new SUMainPage();
+                            //suMainScene = new SUMainPage();
+                            //REMOVED, NOT INITIALIZING CORRECT SCENE
+                            ouMainScene = new OUMainPage();
                             window.setScene(ouMainScene);
                         }else {
                             pass_TextField.setText("");
@@ -700,7 +702,7 @@ public class NotAmazon extends Application{
             layout.add(friendBtn, 3, 7, 2, 1);
         }
     }
-
+    
     class TransactionPage extends Scene{
         GridPane layout;
         Text transTitle;
