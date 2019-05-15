@@ -1697,8 +1697,8 @@ public class NotAmazon extends Application{
             });
             
             cancelBtn.setOnAction(event -> {
-                myAccountScene = new MyAccountPage();
-                window.setScene(myAccountScene);
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
             });
             
             submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -1780,8 +1780,8 @@ public class NotAmazon extends Application{
             });
             
             cancelBtn.setOnAction(event -> {
-                myAccountScene = new MyAccountPage();
-                window.setScene(myAccountScene);
+                ouMainScene = new OUMainPage();
+                window.setScene(ouMainScene);
             });
             
             submitBtn.setAlignment(Pos.BOTTOM_RIGHT);
@@ -1792,7 +1792,7 @@ public class NotAmazon extends Application{
             layout.setPadding(new Insets(25, 25, 25, 25));
             
             layout.add(rateUser,0,1);
-            layout.add(rateUser_TextField,1,2);
+            layout.add(rateUser_TextField,1,1);
             layout.add(ratingsBar,1,4);
             layout.add(commnt,0,6);
             layout.add(commnt_TextField,0,7,3,3);
@@ -1831,7 +1831,7 @@ public class NotAmazon extends Application{
         double currentBidPrice;
         ObservableList searchResultList;
         ListView searchResultListView;
-        
+
         public ViewItemPage(){
             super(new GridPane(),500,500);
             layout = (GridPane)this.getRoot();
