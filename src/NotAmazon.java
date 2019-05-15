@@ -132,43 +132,6 @@ public class NotAmazon extends Application{
             
             popItemTitle.setFont(Font.font("Segoe UI Bold",25));
             
-            temp1 = new Image("itemApp.png");
-            temp1View = new ImageView();
-            temp1View.setImage(temp1);
-            temp1View.setFitHeight(200);
-            temp1View.setFitWidth(200);
-            temp1View.setOnMouseClicked((MouseEvent) -> {
-                
-            });
-            
-            temp2 = new Image("itemApp.png");
-            temp2View = new ImageView();
-            temp2View.setImage(temp1);
-            temp2View.setFitHeight(200);
-            temp2View.setFitWidth(200);
-            temp2View.setOnMouseClicked((MouseEvent) -> {
-                
-            });
-            
-            temp3 = new Image("itemApp.png");
-            temp3View = new ImageView();
-            temp3View.setImage(temp1);
-            temp3View.setFitHeight(200);
-            temp3View.setFitWidth(200);
-            temp3View.setOnMouseClicked((MouseEvent) -> {
-                
-            });
-            
-            temp4 = new Image("itemApp.png");
-            temp4View = new ImageView();
-            temp4View.setImage(temp1);
-            temp4View.setFitHeight(200);
-            temp4View.setFitWidth(200);
-            temp4View.setOnMouseClicked((MouseEvent) -> {
-                
-            });
-            
-            
             searchBtn = new Button("Search");
             loginBtn = new Button("Login");
             signUpBtn = new Button("Sign Up");
@@ -259,10 +222,6 @@ public class NotAmazon extends Application{
             layout.add(loginBtn,4,1,2,1);
             layout.add(signUpBtn,6,1,2,1);
             layout.add(popItemTitle, 0, 3, 2, 1);
-            layout.add(temp1View, 0, 4, 2, 1);
-            layout.add(temp2View, 0, 8, 2, 1);
-            layout.add(temp3View, 2, 4, 2, 1);
-            layout.add(temp4View, 2, 8, 2, 1);
         }
     }
     
@@ -1921,7 +1880,7 @@ public class NotAmazon extends Application{
                             }
                         }
                     });
-                    
+
                     searchResultListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent click) {
@@ -1939,23 +1898,23 @@ public class NotAmazon extends Application{
                         guMainScene = new GUMainPage();
                         window.setScene(guMainScene);
                     });
-                    
+
                     searchResultListView.setPrefWidth(600);
                     searchResultListView.setPrefHeight(600);
                     searchResultListView.setOrientation(Orientation.VERTICAL);
                     ouSearchResults.setAlignment(Pos.BASELINE_CENTER);
-                    
+
                     // New window (Stage)
                     Stage resultsWindow = new Stage();
                     resultsWindow.setScene(ouSearchResultScene);
-                    
+
                     ouSearchResults.setHgap(10);
                     ouSearchResults.setVgap(10);
                     ouSearchResults.setPadding(new Insets(25, 25, 25, 25));
                     ouSearchResults.add(searchResultListView, 0, 1, 2, 1);
                     ouSearchResults.add(sceneTitle, 0, 0, 2, 1);
                     ouSearchResults.add(backBtn, 0, 2);
-                    
+
                     resultsWindow.show();
                 }else {
                     Alert fail = new Alert(AlertType.ERROR);
@@ -2000,7 +1959,7 @@ public class NotAmazon extends Application{
                 Tooltip t1 = new Tooltip("Input a price higher than the current bid.");
                 t1.setFont(Font.font("Segoe UI Bold",10));
                 myBid.setTooltip(t1);
-                
+
                 myBid.textProperty().addListener(new ChangeListener<String>() {
                     @Override
                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
@@ -2014,12 +1973,13 @@ public class NotAmazon extends Application{
                 
                 placeBidBtn.setOnAction(event -> {
                     placedBidPrice = Double.parseDouble(myBid.getText());
-                    currentBidPrice = Double.parseDouble(String.valueOf(itemInfo[5]));
-                    if(placedBidPrice < currentBidPrice) {
+                    currentBidPrice = Double.parseDouble(String.valueOf(itemInfo[6]));
+                    if(placedBidPrice <= currentBidPrice) {
                         Alert alert = new Alert(AlertType.ERROR);
                         alert.setTitle("Invalid Input");
                         alert.setHeaderText(null);
-                        alert.setContentText("ERROR: Invalid input. Please try again.");
+                        alert.setContentText("ERROR: Invalid input. Please input a price that is higher than the " +
+                                "current bidding price.");
                         alert.showAndWait();
                     }else{
                         DataManager.updateItemBid(thisUser, thisItem, placedBidPrice, String.valueOf(itemInfo[1]));

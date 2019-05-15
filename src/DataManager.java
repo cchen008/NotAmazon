@@ -118,6 +118,8 @@ public class DataManager{
             statement.executeUpdate(insertSecondAdmin);
             statement.executeUpdate(createFriendReqTable);
             statement.executeUpdate(createBlackListTable);
+            statement.executeUpdate(createRatingsTable);
+            statement.executeUpdate(createReportsTable);
         }
         
         catch(Exception e){
