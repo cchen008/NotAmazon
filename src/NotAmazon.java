@@ -2478,16 +2478,17 @@ public class NotAmazon extends Application{
             				+"\nPrice: $"+money.format(priceDouble)
             				+"\nItem Condition: "+item_conditionTF.getText()
             				+"\nTime: "+timeTF.getText()
+            				+"\nItem Image Location: "+imageAddr
             				+"\nAre you sure?", ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
             		confirm.showAndWait();
             		if(confirm.getResult() == ButtonType.YES){
             			if(item_typeTF.getText().toLowerCase().equals("sell")) {
             				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,0,priceDouble,item_conditionTF.getText(),timeInt);
+                					,0,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
             			}
             			if(item_typeTF.getText().toLowerCase().equals("auction")) {
             				DataManager.itemApplication(thisUser, itemTF.getText()
-                					,1,priceDouble,item_conditionTF.getText(),timeInt);
+                					,1,priceDouble,item_conditionTF.getText(),timeInt,imageAddr);
             			}
                 		ouMainScene = new OUMainPage();
                 		window.setScene(ouMainScene);
