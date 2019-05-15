@@ -1783,9 +1783,8 @@ public class NotAmazon extends Application{
             profile = new MenuItem("Profile");
             myAcc = new MenuItem("My Account");
             myTranHist = new MenuItem("My Transaction History");
-            item = new MenuItem("Item");
             signOut = new MenuItem("Sign Out");
-            menu.getItems().addAll(profile, myAcc, myTranHist, item, signOut);
+            menu.getItems().addAll(profile, myAcc, myTranHist, signOut);
 
             profile.setOnAction(event -> {
                 myProfileScene = new MyProfilePage();
@@ -1800,11 +1799,6 @@ public class NotAmazon extends Application{
             myTranHist.setOnAction(event -> {
                 transScene = new TransactionPage();
                 window.setScene(transScene);
-            });
-
-            item.setOnAction(event -> {
-                viewItemScene = new ViewItemPage();
-                window.setScene(viewItemScene);
             });
 
             signOut.setOnAction(event -> {
