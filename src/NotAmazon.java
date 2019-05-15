@@ -35,6 +35,8 @@ public class NotAmazon extends Application{
     private OUMainPage ouMainScene;
     private TransactionPage transScene;
     private MyProfilePage myProfileScene;
+    private GUSearchItemPage guSearchItemScene;
+    private OUSearchItemPage ouSearchItemScene;
     private SUMainPage suMainScene;
     private PendAppPage pendAppScene;
     private PendItemPage pendItemScene;
@@ -119,7 +121,7 @@ public class NotAmazon extends Application{
         ImageView temp4View;
         ObservableList searchResultList;
         ListView searchResultListView;
-        
+
 
         public GUMainPage() {
             super(new GridPane(),1000,800);
@@ -138,7 +140,7 @@ public class NotAmazon extends Application{
             temp1View.setFitHeight(200);
             temp1View.setFitWidth(200);
             temp1View.setOnMouseClicked((MouseEvent) -> {
-            	
+
             });
             
             temp2 = new Image("itemApp.png");
@@ -147,7 +149,7 @@ public class NotAmazon extends Application{
             temp2View.setFitHeight(200);
             temp2View.setFitWidth(200);
             temp2View.setOnMouseClicked((MouseEvent) -> {
-            	
+
             });
             
             temp3 = new Image("itemApp.png");
@@ -156,7 +158,7 @@ public class NotAmazon extends Application{
             temp3View.setFitHeight(200);
             temp3View.setFitWidth(200);
             temp3View.setOnMouseClicked((MouseEvent) -> {
-            	
+
             });
             
             temp4 = new Image("itemApp.png");
@@ -165,7 +167,7 @@ public class NotAmazon extends Application{
             temp4View.setFitHeight(200);
             temp4View.setFitWidth(200);
             temp4View.setOnMouseClicked((MouseEvent) -> {
-            	
+
             });
             
             
@@ -426,7 +428,7 @@ public class NotAmazon extends Application{
 
         private boolean validateFields(){
             if(usr_TextField.getText().isEmpty() | first_TextField.getText().isEmpty() | last_TextField.getText().isEmpty() |
-            addr_TextField.getText().isEmpty() | phone_TextField.getText().isEmpty() | cc_TextField.getText().isEmpty()){
+               addr_TextField.getText().isEmpty() | phone_TextField.getText().isEmpty() | cc_TextField.getText().isEmpty()){
 
                 Alert warnUsr = new Alert(AlertType.WARNING);
                 warnUsr.setTitle("Warning");
@@ -603,25 +605,25 @@ public class NotAmazon extends Application{
             addFriendTitle.setFont(Font.font("Segoe UI Bold",25));
 
             sellListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            	@Override
-            	public void handle(MouseEvent click) {
-            		if (click.getClickCount()==2) {
-            			thisItem = sellListView.getSelectionModel().getSelectedItem().toString();
-            			viewItemScene = new ViewItemPage();
-            			window.setScene(viewItemScene);
-            		}
-            	}
+                @Override
+                public void handle(MouseEvent click) {
+                    if (click.getClickCount()==2) {
+                        thisItem = sellListView.getSelectionModel().getSelectedItem().toString();
+                        viewItemScene = new ViewItemPage();
+                        window.setScene(viewItemScene);
+                    }
+                }
             });
             
             bidListView.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            	@Override
-            	public void handle(MouseEvent click) {
-            		if (click.getClickCount()==2) {
-            			thisItem = bidListView.getSelectionModel().getSelectedItem().toString();
-            			viewItemScene = new ViewItemPage();
-            			window.setScene(viewItemScene);
-            		}
-            	}
+                @Override
+                public void handle(MouseEvent click) {
+                    if (click.getClickCount()==2) {
+                        thisItem = bidListView.getSelectionModel().getSelectedItem().toString();
+                        viewItemScene = new ViewItemPage();
+                        window.setScene(viewItemScene);
+                    }
+                }
             });
             
             searchBtn = new Button("Search");
@@ -694,34 +696,34 @@ public class NotAmazon extends Application{
             });
             
             sellBtn.setOnAction(event -> {
-            	sellItemAppScene = new SellItemAppPage();
-            	window.setScene(sellItemAppScene);
+                sellItemAppScene = new SellItemAppPage();
+                window.setScene(sellItemAppScene);
             });
             
             addFriendBtn.setOnAction(e->{
-            	friend = friendTextField.getText();
-            	if(DataManager.isValidUsername(friend) && !(friend.equals(thisUser)) && DataManager.checkValidFriend(thisUser,friend)) {
-            		DataManager.addNewFriend(thisUser, friend);
-            		Alert success = new Alert(AlertType.INFORMATION);
+                friend = friendTextField.getText();
+                if(DataManager.isValidUsername(friend) && !(friend.equals(thisUser)) && DataManager.checkValidFriend(thisUser,friend)) {
+                    DataManager.addNewFriend(thisUser, friend);
+                    Alert success = new Alert(AlertType.INFORMATION);
                     success.setTitle("Valid Username");
                     success.setHeaderText(null);
                     success.setContentText("Valid username. The user has been added.");
                     success.showAndWait();
-            		friendTextField = new TextField();
-            	}
-            	else {
-            		Alert warning = new Alert(AlertType.WARNING);
+                    friendTextField = new TextField();
+                }
+                else {
+                    Alert warning = new Alert(AlertType.WARNING);
                     warning.setTitle("Invalid Username");
                     warning.setHeaderText(null);
                     warning.setContentText("Invalid username. Please try again.");
                     warning.showAndWait();
-            	}
+                }
             });
             
             friendBtn.setOnAction(event -> {
                 GridPane friendLayout = new GridPane();
                 Scene friendScene = new Scene(friendLayout, 400, 200);
- 
+
                 // New window (Stage)
                 Stage friendWindow = new Stage();
                 friendWindow.setTitle("Add Friend");
@@ -869,13 +871,13 @@ public class NotAmazon extends Application{
             ratings.setFont(Font.font("Segoe UI Bold",25));
 
             sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            	@Override
-            	public void handle(MouseEvent click) {
-            		if (click.getClickCount()==2) {
-            			ouMainScene = new OUMainPage();
-            			window.setScene(ouMainScene);
-            		}
-            	}
+                @Override
+                public void handle(MouseEvent click) {
+                    if (click.getClickCount()==2) {
+                        ouMainScene = new OUMainPage();
+                        window.setScene(ouMainScene);
+                    }
+                }
             });
             
             DropShadow dropShadow = new DropShadow();
@@ -1062,13 +1064,13 @@ public class NotAmazon extends Application{
             phonenum.setFont(Font.font("Segoe UI Bold",13));
 
             sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            	@Override
-            	public void handle(MouseEvent click) {
-            		if (click.getClickCount()==2) {
-            			ouMainScene = new OUMainPage();
-            			window.setScene(ouMainScene);
-            		}
-            	}
+                @Override
+                public void handle(MouseEvent click) {
+                    if (click.getClickCount()==2) {
+                        ouMainScene = new OUMainPage();
+                        window.setScene(ouMainScene);
+                    }
+                }
             });
             
             //dropdown menu
@@ -1846,13 +1848,13 @@ public class NotAmazon extends Application{
             rateBtn = new Button("Rate");
 
             sceneTitle.setOnMouseClicked(new EventHandler<MouseEvent>(){
-            	@Override
-            	public void handle(MouseEvent click) {
-            		if (click.getClickCount()==2) {
-            			ouMainScene = new OUMainPage();
-            			window.setScene(ouMainScene);
-            		}
-            	}
+                @Override
+                public void handle(MouseEvent click) {
+                    if (click.getClickCount()==2) {
+                        ouMainScene = new OUMainPage();
+                        window.setScene(ouMainScene);
+                    }
+                }
             });
             
             //dropdown menu
@@ -1983,19 +1985,19 @@ public class NotAmazon extends Application{
                 myBid.setTooltip(t1);
 
                 myBid.textProperty().addListener(new ChangeListener<String>() {
-                     @Override
-                     public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                         if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
-                             myBid.setText(oldValue);
-                         }
-                     }
-                 });
+                    @Override
+                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                        if (!newValue.matches("\\d{0,8}([\\.]\\d{0,2})?")) {
+                            myBid.setText(oldValue);
+                        }
+                    }
+                });
 
                 placeBidBtn = new Button("Place bid");
                 
                 placeBidBtn.setOnAction(event -> {
-                	placedBidPrice = Double.parseDouble(myBid.getText());
-                	currentBidPrice = Double.parseDouble(String.valueOf(itemInfo[5]));
+                    placedBidPrice = Double.parseDouble(myBid.getText());
+                    currentBidPrice = Double.parseDouble(String.valueOf(itemInfo[5]));
                     if(placedBidPrice < currentBidPrice) {
                         Alert alert = new Alert(AlertType.ERROR);
                         alert.setTitle("Invalid Input");
@@ -2003,7 +2005,7 @@ public class NotAmazon extends Application{
                         alert.setContentText("ERROR: Invalid input. Please try again.");
                         alert.showAndWait();
                     }else{
-                        //DataManager.updateItemBid(thisItem, placedBidPrice);
+                        DataManager.updateItemBid(thisUser, thisItem, placedBidPrice);
                         viewItemScene = new ViewItemPage();
                         window.setScene(viewItemScene);
                     }
@@ -2189,8 +2191,8 @@ public class NotAmazon extends Application{
             userAppView.setFitHeight(200);
             userAppView.setFitWidth(200);
             userAppView.setOnMouseClicked((MouseEvent e) -> {
-            	pendAppScene = new PendAppPage();
-            	window.setScene(pendAppScene);
+                pendAppScene = new PendAppPage();
+                window.setScene(pendAppScene);
             });
 
             itemAppImage = new Image("itemApp.png");
